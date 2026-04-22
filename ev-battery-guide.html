@@ -909,10 +909,18 @@
             transform: translateY(0);
         }
         
-        /* 响应式 */
+        /* 移动端适配 - 全面优化 */
         @media (max-width: 768px) {
             nav {
-                padding: 15px 20px;
+                padding: 12px 16px;
+            }
+            
+            .logo {
+                font-size: 18px;
+            }
+            
+            .logo-icon {
+                font-size: 22px;
             }
             
             .nav-links {
@@ -920,26 +928,213 @@
             }
             
             section {
-                padding: 80px 20px;
+                padding: 60px 16px;
+                min-height: auto;
+            }
+            
+            .hero-title {
+                font-size: 28px;
+            }
+            
+            .hero-subtitle {
+                font-size: 14px;
+                padding: 0 10px;
             }
             
             .hero-stats {
                 flex-direction: column;
+                gap: 25px;
+                margin-top: 40px;
+            }
+            
+            .stat-number {
+                font-size: 36px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .section-desc {
+                font-size: 14px;
+            }
+            
+            /* 电池演示区域 */
+            .battery-demo {
+                flex-direction: column;
                 gap: 30px;
             }
             
-            .battery-demo {
-                flex-direction: column;
+            .battery-container {
+                width: 150px;
+                height: 270px;
             }
             
+            .battery-controls {
+                width: 100%;
+                gap: 12px;
+            }
+            
+            .control-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+            
+            /* 原理展示区域 - 移动端适配 */
+            .principle-showcase {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin: 40px 0;
+                padding: 24px 16px;
+            }
+            
+            .principle-showcase.reverse {
+                direction: ltr;
+            }
+            
+            .principle-text {
+                padding: 0;
+                order: 1;
+            }
+            
+            .principle-visual {
+                order: 2;
+                padding: 20px;
+            }
+            
+            .principle-number {
+                font-size: 48px;
+            }
+            
+            .principle-title-large {
+                font-size: 22px;
+            }
+            
+            .key-point {
+                padding: 16px;
+            }
+            
+            .key-point p {
+                font-size: 14px;
+            }
+            
+            .principle-detail {
+                font-size: 13px;
+            }
+            
+            .principle-svg {
+                max-width: 100%;
+            }
+            
+            /* 总结区域 */
+            .principle-summary {
+                margin-top: 40px;
+            }
+            
+            .summary-highlight-box {
+                padding: 24px 16px;
+            }
+            
+            .summary-highlight-box h3 {
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+            
+            .summary-points {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .sum-point {
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+            
+            /* 对比区域 */
+            .comparison-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .comparison-card {
+                padding: 24px;
+            }
+            
+            .comparison-title {
+                font-size: 20px;
+            }
+            
+            /* 时间线 */
             .tips-timeline::before {
                 left: 20px;
+            }
+            
+            .tip-item {
+                gap: 15px;
             }
             
             .tip-number {
                 width: 40px;
                 height: 40px;
                 font-size: 16px;
+            }
+            
+            .tip-content {
+                padding: 16px;
+            }
+            
+            .tip-title {
+                font-size: 15px;
+            }
+            
+            .tip-desc {
+                font-size: 13px;
+            }
+            
+            /* 电池类型卡片 */
+            .battery-types {
+                grid-template-columns: 1fr;
+            }
+            
+            .battery-type-card {
+                padding: 24px;
+            }
+            
+            .battery-specs {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            /* 总结区域 */
+            .summary-box {
+                padding: 30px 20px;
+            }
+            
+            .summary-title {
+                font-size: 22px;
+            }
+            
+            .summary-text {
+                font-size: 14px;
+            }
+        }
+        
+        /* 超小屏幕适配 */
+        @media (max-width: 375px) {
+            .hero-title {
+                font-size: 24px;
+            }
+            
+            .principle-title-large {
+                font-size: 20px;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .battery-container {
+                width: 120px;
+                height: 220px;
             }
         }
     </style>
