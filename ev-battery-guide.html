@@ -124,43 +124,164 @@
             width: 100%;
         }
         
-        /* SVG图解区域 */
-        .svg-diagrams {
+        /* 原理展示区新样式 */
+        .principle-showcase {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 40px;
-            margin: 50px 0;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin: 80px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(0,212,170,0.03) 0%, rgba(0,168,255,0.03) 100%);
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
         
-        .diagram-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s;
+        .principle-showcase.reverse {
+            direction: rtl;
         }
         
-        .diagram-container:hover {
-            border-color: var(--accent-green);
-            box-shadow: 0 10px 40px rgba(0,212,170,0.1);
+        .principle-showcase.reverse > * {
+            direction: ltr;
         }
         
-        .diagram-container.wide {
-            grid-column: 1 / -1;
+        @media (max-width: 900px) {
+            .principle-showcase {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .principle-showcase.reverse {
+                direction: ltr;
+            }
         }
         
-        .diagram-title {
-            font-size: 18px;
-            font-weight: 600;
+        .principle-text {
+            padding: 20px;
+        }
+        
+        .principle-number {
+            font-size: 72px;
+            font-weight: 900;
+            color: rgba(0,212,170,0.15);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .principle-title-large {
+            font-size: 28px;
+            font-weight: 700;
             margin-bottom: 20px;
             color: var(--text-primary);
         }
         
-        .battery-diagram, .compare-diagram, .sei-diagram {
+        .key-point {
+            background: linear-gradient(135deg, rgba(0,212,170,0.1) 0%, rgba(0,168,255,0.1) 100%);
+            border-left: 4px solid var(--accent-green);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+        }
+        
+        .key-point .highlight {
+            display: block;
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .key-point p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+        
+        .key-point .stress {
+            color: var(--accent-orange);
+            font-weight: 600;
+            background: rgba(245,158,11,0.15);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .principle-detail {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        .principle-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-dark);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .principle-svg {
             width: 100%;
-            max-width: 100%;
+            max-width: 400px;
             height: auto;
+        }
+        
+        /* 原理总结区 */
+        .principle-summary {
+            margin-top: 80px;
+        }
+        
+        .summary-highlight-box {
+            background: linear-gradient(135deg, rgba(0,212,170,0.08) 0%, rgba(168,85,247,0.08) 100%);
+            border: 1px solid rgba(0,212,170,0.2);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .summary-highlight-box h3 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+        
+        .summary-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            text-align: left;
+        }
+        
+        .sum-point {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+        
+        .sum-point:hover {
+            background: rgba(0,212,170,0.1);
+            transform: translateX(5px);
+        }
+        
+        .sum-point span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--accent-green);
+            color: #000;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
         }
         
         /* Hero区域 */
@@ -902,7 +1023,7 @@
         </div>
     </section>
     
-    <!-- 原理说明 -->
+    <!-- 原理说明 - 全新设计 -->
     <section id="principle">
         <div class="container">
             <div class="section-header">
@@ -911,278 +1032,341 @@
                 <p class="section-desc">了解为什么高电量会给电池带来压力</p>
             </div>
             
-            <!-- SVG图解说明区 -->
-            <div class="svg-diagrams">
-                <!-- 电池结构图 -->
-                <div class="diagram-container">
-                    <h3 class="diagram-title">🔋 锂电池内部结构</h3>
-                    <svg viewBox="0 0 400 500" class="battery-diagram">
-                        <!-- 外壳 -->
-                        <rect x="50" y="20" width="300" height="460" rx="20" fill="none" stroke="#333" stroke-width="4"/>
-                        <!-- 正极接头 -->
-                        <rect x="150" y="5" width="100" height="20" rx="5" fill="#00a8ff"/>
+            <!-- 原理1: 高电压应力 -->
+            <div class="principle-showcase">
+                <div class="principle-text">
+                    <div class="principle-number">01</div>
+                    <h3 class="principle-title-large">🧪 高电压应力</h3>
+                    <div class="key-point">
+                        <span class="highlight">💡 核心观点</span>
+                        <p>充到100%时，正极电压高达4.2V，这会<span class="stress">加速电解液分解</span>，产生气体，长期损害电池结构</p>
+                    </div>
+                    <p class="principle-detail">就像弹簧被拉到极限会变形一样，电池材料在高电压下也会产生不可逆的化学变化。</p>
+                </div>
+                <div class="principle-visual">
+                    <svg viewBox="0 0 400 300" class="principle-svg">
+                        <!-- 电压表 -->
+                        <rect x="100" y="50" width="200" height="180" rx="20" fill="#1a1a2e" stroke="#333" stroke-width="3"/>
+                        <text x="200" y="80" text-anchor="middle" fill="#666" font-size="14">电压表</text>
                         
-                        <!-- 正极 (铝箔) -->
-                        <rect x="60" y="50" width="280" height="60" rx="5" fill="#1a3a5c" stroke="#00a8ff" stroke-width="2"/>
-                        <text x="200" y="85" text-anchor="middle" fill="#00a8ff" font-size="16" font-weight="bold">正极 (铝箔+钴酸锂)</text>
+                        <!-- 刻度 -->
+                        <line x1="130" y1="180" x2="270" y2="180" stroke="#333" stroke-width="2"/>
+                        <text x="130" y="200" fill="#00d4aa" font-size="12">3.0V</text>
+                        <text x="200" y="200" fill="#f59e0b" font-size="12">3.7V</text>
+                        <text x="270" y="200" fill="#ff3366" font-size="12">4.2V</text>
                         
-                        <!-- 隔膜 -->
-                        <rect x="60" y="140" width="280" height="30" rx="3" fill="#2d4a3e" stroke="#00d4aa" stroke-width="2" stroke-dasharray="5,5"/>
-                        <text x="200" y="160" text-anchor="middle" fill="#00d4aa" font-size="12">隔膜 (聚乙烯/聚丙烯)</text>
+                        <!-- 指针 -->
+                        <g>
+                            <line x1="200" y1="180" x2="260" y2="120" stroke="#ff3366" stroke-width="4" stroke-linecap="round">
+                                <animateTransform attributeName="transform" type="rotate" values="0 200 180; 45 200 180; 0 200 180" dur="3s" repeatCount="indefinite"/>
+                            </line>
+                            <circle cx="200" cy="180" r="10" fill="#ff3366"/>
+                        </g>
                         
-                        <!-- 负极 (铜箔) -->
-                        <rect x="60" y="200" width="280" height="60" rx="5" fill="#1a3c2d" stroke="#00d4aa" stroke-width="2"/>
-                        <text x="200" y="235" text-anchor="middle" fill="#00d4aa" font-size="16" font-weight="bold">负极 (铜箔+石墨)</text>
-                        
-                        <!-- 电解液区域 -->
-                        <text x="200" y="310" text-anchor="middle" fill="#666" font-size="14">电解液 (锂盐+有机溶剂)</text>
-                        
-                        <!-- 锂离子 - 正极区域 -->
-                        <circle cx="100" cy="70" r="8" fill="#a855f7" opacity="0.8">
-                            <animate attributeName="cy" values="70;380;70" dur="4s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="150" cy="90" r="8" fill="#a855f7" opacity="0.8">
-                            <animate attributeName="cy" values="90;400;90" dur="3.5s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="250" cy="65" r="8" fill="#a855f7" opacity="0.8">
-                            <animate attributeName="cy" values="65;390;65" dur="4.5s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="300" cy="85" r="8" fill="#a855f7" opacity="0.8">
-                            <animate attributeName="cy" values="85;385;85" dur="3.8s" repeatCount="indefinite"/>
-                        </circle>
-                        
-                        <!-- 锂离子 - 负极区域 -->
-                        <circle cx="120" cy="220" r="8" fill="#a855f7" opacity="0.9"/>
-                        <circle cx="180" cy="240" r="8" fill="#a855f7" opacity="0.9"/>
-                        <circle cx="280" cy="225" r="8" fill="#a855f7" opacity="0.9"/>
-                        
-                        <!-- 电子流动示意 -->
-                        <path d="M 200 20 Q 350 250 200 480" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8,4" opacity="0.6">
-                            <animate attributeName="stroke-dashoffset" values="0;-24" dur="1s" repeatCount="indefinite"/>
+                        <!-- 危险区域 -->
+                        <path d="M 230 100 Q 200 80 170 100" fill="none" stroke="#ff3366" stroke-width="2" opacity="0.5">
+                            <animate attributeName="opacity" values="0.5;1;0.5" dur="1s" repeatCount="indefinite"/>
                         </path>
-                        <text x="360" y="250" fill="#f59e0b" font-size="12">电子流</text>
+                        <text x="200" y="95" text-anchor="middle" fill="#ff3366" font-size="12">⚠️ 危险区</text>
                         
-                        <!-- 图例 -->
-                        <g transform="translate(60, 420)">
-                            <circle cx="10" cy="10" r="8" fill="#a855f7"/>
-                            <text x="25" y="15" fill="#fff" font-size="12">锂离子 (Li+)</text>
-                            <circle cx="10" cy="35" r="5" fill="#f59e0b"/>
-                            <text x="25" y="40" fill="#fff" font-size="12">电子 (e-)</text>
-                        </g>
-                    </svg>
-                </div>
-                
-                <!-- 充电过程对比图 -->
-                <div class="diagram-container">
-                    <h3 class="diagram-title">⚡ 80% vs 100% 锂离子分布</h3>
-                    <svg viewBox="0 0 700 400" class="compare-diagram">
-                        <!-- 左侧: 80%健康状态 -->
-                        <g transform="translate(50, 50)">
-                            <text x="125" y="-20" text-anchor="middle" fill="#00d4aa" font-size="18" font-weight="bold">✅ 80% - 健康状态</text>
-                            
-                            <!-- 电池外壳 -->
-                            <rect x="0" y="0" width="250" height="320" rx="15" fill="none" stroke="#00d4aa" stroke-width="3"/>
-                            <rect x="75" y="-15" width="100" height="15" rx="5" fill="#00d4aa"/>
-                            
-                            <!-- 正极 -->
-                            <rect x="10" y="20" width="230" height="50" rx="3" fill="#1a3a5c" stroke="#00a8ff" stroke-width="1"/>
-                            <text x="125" y="50" text-anchor="middle" fill="#00a8ff" font-size="12">正极</text>
-                            
-                            <!-- 电解液区域 -->
-                            <rect x="10" y="80" width="230" height="160" fill="rgba(0,168,255,0.05)"/>
-                            
-                            <!-- 负极 -->
-                            <rect x="10" y="250" width="230" height="50" rx="3" fill="#1a3c2d" stroke="#00d4aa" stroke-width="1"/>
-                            <text x="125" y="280" text-anchor="middle" fill="#00d4aa" font-size="12">负极</text>
-                            
-                            <!-- 锂离子分布 - 分散均匀 -->
-                            <circle cx="50" cy="100" r="10" fill="#a855f7" opacity="0.8"/>
-                            <circle cx="100" cy="140" r="10" fill="#a855f7" opacity="0.8"/>
-                            <circle cx="150" cy="110" r="10" fill="#a855f7" opacity="0.8"/>
-                            <circle cx="200" cy="160" r="10" fill="#a855f7" opacity="0.8"/>
-                            <circle cx="80" cy="190" r="10" fill="#a855f7" opacity="0.8"/>
-                            <circle cx="180" cy="200" r="10" fill="#a855f7" opacity="0.8"/>
-                            
-                            <!-- 负极中的离子 -->
-                            <circle cx="40" cy="265" r="10" fill="#a855f7"/>
-                            <circle cx="90" cy="275" r="10" fill="#a855f7"/>
-                            <circle cx="140" cy="265" r="10" fill="#a855f7"/>
-                            <circle cx="190" cy="275" r="10" fill="#a855f7"/>
-                            <circle cx="210" cy="265" r="10" fill="#a855f7"/>
-                            
-                            <!-- 状态指示 -->
-                            <rect x="10" y="330" width="230" height="40" rx="8" fill="rgba(0,212,170,0.1)" stroke="#00d4aa" stroke-width="1"/>
-                            <text x="125" y="355" text-anchor="middle" fill="#00d4aa" font-size="14">✓ 离子分布均匀 | 压力适中</text>
-                        </g>
+                        <!-- 气泡动画 - 表示气体产生 -->
+                        <circle cx="150" cy="130" r="5" fill="#666" opacity="0">
+                            <animate attributeName="cy" values="130;100;80" dur="2s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="250" cy="140" r="4" fill="#666" opacity="0">
+                            <animate attributeName="cy" values="140;110;90" dur="2.5s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0;0.6;0" dur="2.5s" repeatCount="indefinite"/>
+                        </circle>
                         
-                        <!-- 右侧: 100%高压状态 -->
-                        <g transform="translate(400, 50)">
-                            <text x="125" y="-20" text-anchor="middle" fill="#ff3366" font-size="18" font-weight="bold">⚠️ 100% - 高压应力</text>
-                            
-                            <!-- 电池外壳 -->
-                            <rect x="0" y="0" width="250" height="320" rx="15" fill="none" stroke="#ff3366" stroke-width="3"/>
-                            <rect x="75" y="-15" width="100" height="15" rx="5" fill="#ff3366"/>
-                            
-                            <!-- 正极 (几乎空了) -->
-                            <rect x="10" y="20" width="230" height="50" rx="3" fill="#1a1a2e" stroke="#ff3366" stroke-width="1" opacity="0.5"/>
-                            <text x="125" y="50" text-anchor="middle" fill="#ff3366" font-size="12">正极 (空)</text>
-                            
-                            <!-- 电解液区域 -->
-                            <rect x="10" y="80" width="230" height="160" fill="rgba(255,51,102,0.05)"/>
-                            
-                            <!-- 负极 -->
-                            <rect x="10" y="250" width="230" height="50" rx="3" fill="#1a3c2d" stroke="#ff3366" stroke-width="2"/>
-                            <text x="125" y="280" text-anchor="middle" fill="#ff3366" font-size="12">负极 (拥堵)</text>
-                            
-                            <!-- 仅有的几个离子在电解液 -->
-                            <circle cx="100" cy="150" r="10" fill="#a855f7" opacity="0.6"/>
-                            <circle cx="180" cy="120" r="10" fill="#a855f7" opacity="0.6"/>
-                            
-                            <!-- 负极中拥挤的离子 -->
-                            <circle cx="25" cy="260" r="11" fill="#a855f7"/>
-                            <circle cx="55" cy="275" r="11" fill="#a855f7"/>
-                            <circle cx="85" cy="260" r="11" fill="#a855f7"/>
-                            <circle cx="115" cy="275" r="11" fill="#a855f7"/>
-                            <circle cx="145" cy="260" r="11" fill="#a855f7"/>
-                            <circle cx="175" cy="275" r="11" fill="#a855f7"/>
-                            <circle cx="205" cy="260" r="11" fill="#a855f7"/>
-                            <circle cx="235" cy="275" r="11" fill="#a855f7"/>
-                            
-                            <!-- 应力波纹效果 -->
-                            <ellipse cx="125" cy="275" rx="100" ry="25" fill="none" stroke="#ff3366" stroke-width="2" opacity="0.5">
-                                <animate attributeName="rx" values="100;120;100" dur="2s" repeatCount="indefinite"/>
-                                <animate attributeName="opacity" values="0.5;0;0.5" dur="2s" repeatCount="indefinite"/>
-                            </ellipse>
-                            
-                            <!-- 警告气泡 -->
-                            <circle cx="200" cy="220" r="15" fill="#ff3366" opacity="0.3">
-                                <animate attributeName="r" values="15;25;15" dur="1.5s" repeatCount="indefinite"/>
-                                <animate attributeName="opacity" values="0.3;0;0.3" dur="1.5s" repeatCount="indefinite"/>
-                            </circle>
-                            <text x="200" y="225" text-anchor="middle" fill="#ff3366" font-size="16">!</text>
-                            
-                            <!-- 状态指示 -->
-                            <rect x="10" y="330" width="230" height="40" rx="8" fill="rgba(255,51,102,0.1)" stroke="#ff3366" stroke-width="1"/>
-                            <text x="125" y="355" text-anchor="middle" fill="#ff3366" font-size="14">✗ 离子过度堆积 | 结构应力</text>
-                        </g>
-                    </svg>
-                </div>
-                
-                <!-- SEI膜形成示意图 -->
-                <div class="diagram-container wide">
-                    <h3 class="diagram-title">📉 SEI膜 (固体电解质界面膜) 的形成与增厚</h3>
-                    <svg viewBox="0 0 800 280" class="sei-diagram">
-                        <!-- 新电池状态 -->
-                        <g transform="translate(50, 40)">
-                            <text x="100" y="-10" text-anchor="middle" fill="#00d4aa" font-size="16" font-weight="bold">新电池</text>
-                            
-                            <!-- 负极 -->
-                            <rect x="0" y="0" width="200" height="180" rx="5" fill="#1a3c2d" stroke="#00d4aa" stroke-width="2"/>
-                            <text x="100" y="95" text-anchor="middle" fill="#00d4aa" font-size="14">石墨负极</text>
-                            
-                            <!-- 薄SEI膜 -->
-                            <rect x="0" y="0" width="200" height="15" rx="3" fill="#4a7c59" opacity="0.7"/>
-                            <text x="100" y="12" text-anchor="middle" fill="#fff" font-size="10">薄SEI膜</text>
-                            
-                            <!-- 锂离子 -->
-                            <circle cx="50" cy="50" r="8" fill="#a855f7"/>
-                            <circle cx="100" cy="80" r="8" fill="#a855f7"/>
-                            <circle cx="150" cy="60" r="8" fill="#a855f7"/>
-                            <circle cx="80" cy="120" r="8" fill="#a855f7"/>
-                            <circle cx="130" cy="140" r="8" fill="#a855f7"/>
-                            
-                            <!-- 可用锂 -->
-                            <text x="100" y="210" text-anchor="middle" fill="#00d4aa" font-size="14">✓ 可用锂充足</text>
-                        </g>
-                        
-                        <!-- 箭头 -->
-                        <g transform="translate(280, 130)">
-                            <text x="60" y="-30" text-anchor="middle" fill="#f59e0b" font-size="14">长期使用</text>
-                            <text x="60" y="-10" text-anchor="middle" fill="#f59e0b" font-size="12">高电压充电</text>
-                            <path d="M 0 0 L 100 0" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrowhead)"/>
-                        </g>
-                        
-                        <!-- 老化电池状态 -->
-                        <g transform="translate(420, 40)">
-                            <text x="100" y="-10" text-anchor="middle" fill="#ff6b35" font-size="16" font-weight="bold">老化电池</text>
-                            
-                            <!-- 负极 -->
-                            <rect x="0" y="0" width="200" height="180" rx="5" fill="#1a3c2d" stroke="#ff6b35" stroke-width="2"/>
-                            <text x="100" y="100" text-anchor="middle" fill="#ff6b35" font-size="12" opacity="0.7">石墨</text>
-                            
-                            <!-- 厚SEI膜 -->
-                            <rect x="0" y="0" width="200" height="45" rx="3" fill="#4a7c59" opacity="0.9"/>
-                            <rect x="0" y="0" width="200" height="20" rx="3" fill="#2d5a3d"/>
-                            <text x="100" y="18" text-anchor="middle" fill="#fff" font-size="10">厚SEI膜 (消耗锂)</text>
-                            <text x="100" y="35" text-anchor="middle" fill="#aaa" font-size="9">持续增长...</text>
-                            
-                            <!-- 减少的锂离子 -->
-                            <circle cx="80" cy="100" r="8" fill="#a855f7"/>
-                            <circle cx="140" cy="120" r="8" fill="#a855f7"/>
-                            <circle cx="110" cy="150" r="8" fill="#a855f7"/>
-                            
-                            <!-- 损失的锂 -->
-                            <text x="100" y="70" text-anchor="middle" fill="#666" font-size="10">部分锂被SEI膜锁定</text>
-                            
-                            <!-- 可用锂减少 -->
-                            <text x="100" y="210" text-anchor="middle" fill="#ff3366" font-size="14">✗ 可用锂减少 | 容量下降</text>
-                        </g>
-                        
-                        <!-- 说明文字 -->
-                        <g transform="translate(650, 80)">
-                            <rect x="0" y="0" width="130" height="120" rx="10" fill="rgba(255,255,255,0.05)" stroke="#666" stroke-width="1"/>
-                            <text x="65" y="25" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">SEI膜是什么?</text>
-                            <text x="10" y="50" fill="#aaa" font-size="10">首次充电时,电解液</text>
-                            <text x="10" y="68" fill="#aaa" font-size="10">在负极表面分解,</text>
-                            <text x="10" y="86" fill="#aaa" font-size="10">形成保护层。但会</text>
-                            <text x="10" y="104" fill="#aaa" font-size="10">消耗锂,且持续增厚</text>
-                        </g>
-                        
-                        <!-- 箭头定义 -->
-                        <defs>
-                            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                                <polygon points="0 0, 10 3, 0 6" fill="#f59e0b"/>
-                            </marker>
-                        </defs>
+                        <text x="200" y="250" text-anchor="middle" fill="#ff3366" font-size="14">100% = 4.2V 高压应力</text>
                     </svg>
                 </div>
             </div>
             
-            <div class="principle-grid">
-                <div class="principle-card">
-                    <div class="principle-icon">🧪</div>
-                    <h3 class="principle-title">高电压应力</h3>
-                    <p class="principle-desc">当电池充到100%时，正极材料处于高电压状态，这会加速电解液的分解，导致电池内部产生气体，长期会损害电池结构。</p>
+            <!-- 原理2: 锂离子堆积 -->
+            <div class="principle-showcase reverse">
+                <div class="principle-visual">
+                    <svg viewBox="0 0 400 300" class="principle-svg">
+                        <!-- 负极结构 -->
+                        <rect x="50" y="180" width="300" height="100" rx="10" fill="#1a3c2d" stroke="#00d4aa" stroke-width="2"/>
+                        <text x="200" y="235" text-anchor="middle" fill="#00d4aa" font-size="14">石墨负极层状结构</text>
+                        
+                        <!-- 80%状态 - 正常分布 -->
+                        <g transform="translate(0, -20)">
+                            <text x="100" y="60" text-anchor="middle" fill="#00d4aa" font-size="12">80% - 舒适</text>
+                            <circle cx="80" cy="100" r="12" fill="#a855f7" opacity="0.8"/>
+                            <circle cx="120" cy="130" r="12" fill="#a855f7" opacity="0.8"/>
+                            <circle cx="100" cy="160" r="12" fill="#a855f7" opacity="0.8"/>
+                        </g>
+                        
+                        <!-- 100%状态 - 拥挤 -->
+                        <g transform="translate(200, -20)">
+                            <text x="100" y="60" text-anchor="middle" fill="#ff3366" font-size="12">100% - 拥堵</text>
+                            <circle cx="60" cy="100" r="14" fill="#a855f7"/>
+                            <circle cx="100" cy="95" r="14" fill="#a855f7"/>
+                            <circle cx="140" cy="100" r="14" fill="#a855f7"/>
+                            <circle cx="80" cy="130" r="14" fill="#a855f7"/>
+                            <circle cx="120" cy="130" r="14" fill="#a855f7"/>
+                            <circle cx="100" cy="160" r="14" fill="#a855f7"/>
+                            
+                            <!-- 压力波纹 -->
+                            <ellipse cx="100" cy="120" rx="70" ry="40" fill="none" stroke="#ff3366" stroke-width="2" opacity="0.3">
+                                <animate attributeName="rx" values="70;90;70" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="ry" values="40;50;40" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" values="0.3;0.6;0.3" dur="2s" repeatCount="indefinite"/>
+                            </ellipse>
+                        </g>
+                        
+                        <!-- 应力指示 -->
+                        <text x="200" y="280" text-anchor="middle" fill="#ff6b35" font-size="12">⚠️ 过度拥挤 = 结构损伤</text>
+                    </svg>
                 </div>
-                
-                <div class="principle-card">
-                    <div class="principle-icon">⚡</div>
-                    <h3 class="principle-title">锂离子堆积</h3>
-                    <p class="principle-desc">满电时所有锂离子都挤在负极（石墨层间），造成物理应力。长期保持这种状态会导致负极结构损伤，容量下降。</p>
+                <div class="principle-text">
+                    <div class="principle-number">02</div>
+                    <h3 class="principle-title-large">⚡ 锂离子堆积</h3>
+                    <div class="key-point">
+                        <span class="highlight">💡 核心观点</span>
+                        <p>满电时所有锂离子<span class="stress">挤在负极石墨层间</span>，就像 overcrowded 的地铁，造成物理应力</p>
+                    </div>
+                    <p class="principle-detail">长期高压状态会导致负极结构损伤，就像被压变形的海绵，再也回不到原来的状态。</p>
                 </div>
-                
-                <div class="principle-card">
-                    <div class="principle-icon">🌡️</div>
-                    <h3 class="principle-title">热失控风险</h3>
-                    <p class="principle-desc">高电量状态下电池更不稳定，如果在高温环境停放，会加速副反应，甚至增加热失控（自燃）的风险。</p>
+            </div>
+            
+            <!-- 原理3: 热失控风险 -->
+            <div class="principle-showcase">
+                <div class="principle-text">
+                    <div class="principle-number">03</div>
+                    <h3 class="principle-title-large">🌡️ 热失控风险</h3>
+                    <div class="key-point">
+                        <span class="highlight">💡 核心观点</span>
+                        <p>高电量+高温=<span class="stress">危险组合</span>！满电状态更不稳定，高温下副反应加速</p>
+                    </div>
+                    <p class="principle-detail">夏天暴晒+满电停放 = 电池"脾气"变大。保持80%以下，给电池留点"喘息空间"。</p>
                 </div>
-                
-                <div class="principle-card">
-                    <div class="principle-icon">📉</div>
-                    <h3 class="principle-title">SEI膜增厚</h3>
-                    <p class="principle-desc">高电压会加速SEI（固体电解质界面膜）的生长，这层膜越厚，可用的锂就越少，电池容量随之衰减。</p>
+                <div class="principle-visual">
+                    <svg viewBox="0 0 400 300" class="principle-svg">
+                        <!-- 电池图标 -->
+                        <rect x="150" y="100" width="100" height="150" rx="10" fill="#1a1a2e" stroke="#333" stroke-width="3"/>
+                        <rect x="175" y="80" width="50" height="20" rx="5" fill="#333"/>
+                        
+                        <!-- 温度指示器 -->
+                        <rect x="170" y="120" width="60" height="100" rx="5" fill="#1a1a2e" stroke="#666" stroke-width="2"/>
+                        
+                        <!-- 温度填充 - 红色危险区 -->
+                        <rect x="175" y="140" width="50" height="70" rx="3" fill="#ff3366" opacity="0.6">
+                            <animate attributeName="opacity" values="0.4;0.8;0.4" dur="1.5s" repeatCount="indefinite"/>
+                        </rect>
+                        
+                        <!-- 热量波纹 -->
+                        <ellipse cx="200" cy="100" rx="40" ry="20" fill="none" stroke="#ff6b35" stroke-width="3" opacity="0">
+                            <animate attributeName="ry" values="20;40;60" dur="2s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0.8;0.4;0" dur="2s" repeatCount="indefinite"/>
+                        </ellipse>
+                        <ellipse cx="200" cy="100" rx="40" ry="20" fill="none" stroke="#ff6b35" stroke-width="3" opacity="0">
+                            <animate attributeName="ry" values="20;40;60" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0.8;0.4;0" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                        </ellipse>
+                        <ellipse cx="200" cy="100" rx="40" ry="20" fill="none" stroke="#ff6b35" stroke-width="3" opacity="0">
+                            <animate attributeName="ry" values="20;40;60" dur="2s" begin="1s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0.8;0.4;0" dur="2s" begin="1s" repeatCount="indefinite"/>
+                        </ellipse>
+                        
+                        <!-- 火焰警告 -->
+                        <text x="200" y="60" text-anchor="middle" font-size="24">🔥</text>
+                        
+                        <!-- 标签 -->
+                        <text x="200" y="270" text-anchor="middle" fill="#ff3366" font-size="14">满电 + 高温 = 危险</text>
+                        <text x="200" y="290" text-anchor="middle" fill="#666" font-size="12">建议: 夏天停在阴凉处</text>
+                    </svg>
                 </div>
-                
-                <div class="principle-card">
-                    <div class="principle-icon">🔄</div>
-                    <h3 class="principle-title">循环寿命</h3>
-                    <p class="principle-desc">研究表明，电池在30%-70%区间循环时寿命最长。浅充浅放（每天充到80%）比每次都充满更能延长使用寿命。</p>
+            </div>
+            
+            <!-- 原理4: SEI膜增厚 -->
+            <div class="principle-showcase reverse">
+                <div class="principle-visual">
+                    <svg viewBox="0 0 400 300" class="principle-svg">
+                        <!-- 时间轴 -->
+                        <line x1="50" y1="250" x2="350" y2="250" stroke="#333" stroke-width="2"/>
+                        <circle cx="50" cy="250" r="8" fill="#00d4aa"/>
+                        <circle cx="200" cy="250" r="8" fill="#f59e0b"/>
+                        <circle cx="350" cy="250" r="8" fill="#ff3366"/>
+                        <text x="50" y="280" text-anchor="middle" fill="#00d4aa" font-size="12">新电池</text>
+                        <text x="200" y="280" text-anchor="middle" fill="#f59e0b" font-size="12">使用1年</text>
+                        <text x="350" y="280" text-anchor="middle" fill="#ff3366" font-size="12">使用3年</text>
+                        
+                        <!-- 新电池 - 薄SEI -->
+                        <g transform="translate(25, 50)">
+                            <rect x="0" y="100" width="50" height="80" fill="#1a3c2d" stroke="#00d4aa" stroke-width="2"/>
+                            <rect x="0" y="100" width="50" height="8" fill="#4a7c59"/>
+                            <text x="25" y="90" text-anchor="middle" fill="#00d4aa" font-size="10">薄SEI</text>
+                            <circle cx="25" cy="130" r="6" fill="#a855f7"/>
+                            <circle cx="15" cy="150" r="6" fill="#a855f7"/>
+                            <circle cx="35" cy="160" r="6" fill="#a855f7"/>
+                        </g>
+                        
+                        <!-- 1年后 - SEI增厚 -->
+                        <g transform="translate(175, 50)">
+                            <rect x="0" y="100" width="50" height="80" fill="#1a3c2d" stroke="#f59e0b" stroke-width="2"/>
+                            <rect x="0" y="100" width="50" height="18" fill="#4a7c59"/>
+                            <text x="25" y="90" text-anchor="middle" fill="#f59e0b" font-size="10">SEI增厚</text>
+                            <circle cx="25" cy="140" r="6" fill="#a855f7"/>
+                            <circle cx="20" cy="165" r="6" fill="#a855f7"/>
+                        </g>
+                        
+                        <!-- 3年后 - 厚SEI -->
+                        <g transform="translate(325, 50)">
+                            <rect x="0" y="100" width="50" height="80" fill="#1a3c2d" stroke="#ff3366" stroke-width="2"/>
+                            <rect x="0" y="100" width="50" height="35" fill="#4a7c59"/>
+                            <text x="25" y="90" text-anchor="middle" fill="#ff3366" font-size="10">厚SEI</text>
+                            <circle cx="25" cy="155" r="6" fill="#a855f7"/>
+                            <text x="25" y="205" text-anchor="middle" fill="#ff3366" font-size="9">容量↓</text>
+                        </g>
+                        
+                        <!-- 箭头表示SEI增长 -->
+                        <path d="M 75 160 L 170 160" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowhead2)"/>
+                        <path d="M 225 160 L 320 160" stroke="#ff3366" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowhead3)"/>
+                        
+                        <defs>
+                            <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/>
+                            </marker>
+                            <marker id="arrowhead3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#ff3366"/>
+                            </marker>
+                        </defs>
+                    </svg>
                 </div>
-                
-                <div class="principle-card">
-                    <div class="principle-icon">⏰</div>
-                    <h3 class="principle-title">日历寿命</h3>
-                    <p class="principle-desc">即使不使用，长期保持100%电量也会加速电池老化。如果车辆要停放超过一周，建议保持50-60%电量。</p>
+                <div class="principle-text">
+                    <div class="principle-number">04</div>
+                    <h3 class="principle-title-large">📉 SEI膜增厚</h3>
+                    <div class="key-point">
+                        <span class="highlight">💡 核心观点</span>
+                        <p>高电压加速<span class="stress">SEI膜生长</span>，这层保护膜会不断增厚，锁定可用的锂</p>
+                    </div>
+                    <p class="principle-detail">就像水管内壁的水垢，SEI膜越厚，能通过的水（锂离子）就越少，电池容量随之下降。</p>
+                </div>
+            </div>
+            
+            <!-- 原理5: 循环寿命 -->
+            <div class="principle-showcase">
+                <div class="principle-text">
+                    <div class="principle-number">05</div>
+                    <h3 class="principle-title-large">🔄 循环寿命</h3>
+                    <div class="key-point">
+                        <span class="highlight">💡 核心观点</span>
+                        <p>浅充浅放(20%-80%)比深度循环(0%-100%)<span class="stress">寿命延长3-5倍</span></p>
+                    </div>
+                    <p class="principle-detail">就像橡皮筋，小幅拉伸可以反复使用，每次都拉到极限很快就会断。</p>
+                </div>
+                <div class="principle-visual">
+                    <svg viewBox="0 0 400 300" class="principle-svg">
+                        <!-- 深度循环示意 -->
+                        <g transform="translate(30, 20)">
+                            <text x="80" y="20" text-anchor="middle" fill="#ff3366" font-size="14">❌ 深度循环 (0%-100%)</text>
+                            
+                            <!-- 电池轮廓 -->
+                            <rect x="40" y="40" width="120" height="180" rx="10" fill="none" stroke="#333" stroke-width="2"/>
+                            <rect x="85" y="30" width="30" height="10" fill="#333"/>
+                            
+                            <!-- 深度充电动画 -->
+                            <rect x="50" y="200" width="100" height="10" fill="#00d4aa">
+                                <animate attributeName="height" values="10;150;10" dur="4s" repeatCount="indefinite"/>
+                                <animate attributeName="y" values="200;60;200" dur="4s" repeatCount="indefinite"/>
+                                <animate attributeName="fill" values="#ff3366;#00d4aa;#ff3366" dur="4s" repeatCount="indefinite"/>
+                            </rect>
+                            
+                            <text x="80" y="240" text-anchor="middle" fill="#666" font-size="12">约500次循环</text>
+                        </g>
+                        
+                        <!-- 浅充浅放示意 -->
+                        <g transform="translate(220, 20)">
+                            <text x="80" y="20" text-anchor="middle" fill="#00d4aa" font-size="14">✅ 浅充浅放 (20%-80%)</text>
+                            
+                            <!-- 电池轮廓 -->
+                            <rect x="40" y="40" width="120" height="180" rx="10" fill="none" stroke="#333" stroke-width="2"/>
+                            <rect x="85" y="30" width="30" height="10" fill="#333"/>
+                            
+                            <!-- 浅充电动画 -->
+                            <rect x="50" y="140" width="100" height="50" fill="#00d4aa" opacity="0.8">
+                                <animate attributeName="height" values="50;100;50" dur="3s" repeatCount="indefinite"/>
+                                <animate attributeName="y" values="140;90;140" dur="3s" repeatCount="indefinite"/>
+                            </rect>
+                            
+                            <text x="80" y="240" text-anchor="middle" fill="#00d4aa" font-size="12">约2000+次循环</text>
+                        </g>
+                        
+                        <!-- 对比箭头 -->
+                        <text x="200" y="270" text-anchor="middle" fill="#fff" font-size="14">浅充浅放 = 4倍寿命</text>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- 原理6: 日历寿命 -->
+            <div class="principle-showcase reverse">
+                <div class="principle-visual">
+                    <svg viewBox="0 0 400 300" class="principle-svg">
+                        <!-- 日历 -->
+                        <rect x="120" y="60" width="160" height="140" rx="10" fill="#1a1a2e" stroke="#666" stroke-width="2"/>
+                        <rect x="120" y="60" width="160" height="30" rx="10" fill="#333"/>
+                        <text x="200" y="82" text-anchor="middle" fill="#fff" font-size="16">日历老化</text>
+                        
+                        <!-- 日期格子 -->
+                        <g transform="translate(135, 105)">
+                            <rect x="0" y="0" width="25" height="20" fill="#00d4aa" opacity="0.3"/>
+                            <rect x="35" y="0" width="25" height="20" fill="#00d4aa" opacity="0.3"/>
+                            <rect x="70" y="0" width="25" height="20" fill="#00d4aa" opacity="0.3"/>
+                            <rect x="0" y="30" width="25" height="20" fill="#ff3366" opacity="0.5"/>
+                            <rect x="35" y="30" width="25" height="20" fill="#ff3366" opacity="0.5"/>
+                            <rect x="70" y="30" width="25" height="20" fill="#ff3366" opacity="0.5"/>
+                        </g>
+                        
+                        <!-- 电池图标和时钟 -->
+                        <g transform="translate(170, 220)">
+                            <rect x="0" y="0" width="40" height="60" rx="5" fill="none" stroke="#ff3366" stroke-width="2"/>
+                            <rect x="15" y="-8" width="10" height="8" fill="#ff3366"/>
+                            <text x="20" y="35" text-anchor="middle" fill="#ff3366" font-size="20">100%</text>
+                        </g>
+                        
+                        <!-- 时钟指针动画 -->
+                        <g transform="translate(300, 120)">
+                            <circle cx="0" cy="0" r="40" fill="none" stroke="#666" stroke-width="2"/>
+                            <line x1="0" y1="0" x2="0" y2="-25" stroke="#f59e0b" stroke-width="3" stroke-linecap="round">
+                                <animateTransform attributeName="transform" type="rotate" values="0;360" dur="4s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="0" y1="0" x2="20" y2="0" stroke="#666" stroke-width="2" stroke-linecap="round">
+                                <animateTransform attributeName="transform" type="rotate" values="0;360" dur="48s" repeatCount="indefinite"/>
+                            </line>
+                            <circle cx="0" cy="0" r="5" fill="#f59e0b"/>
+                        </g>
+                        
+                        <!-- 提示文字 -->
+                        <text x="200" y="280" text-anchor="middle" fill="#f59e0b" font-size="12">⚠️ 即使不用，满电停放也会老化</text>
+                    </svg>
+                </div>
+                <div class="principle-text">
+                    <div class="principle-number">06</div>
+                    <h3 class="principle-title-large">⏰ 日历寿命</h3>
+                    <div class="key-point">
+                        <span class="highlight">💡 核心观点</span>
+                        <p>即使不开车，长期<span class="stress">满电停放</span>也会加速老化！时间本身就会消耗电池寿命</p>
+                    </div>
+                    <p class="principle-detail">出差一周以上？把电量降到50-60%再停。满电停放就像绷紧的弹簧，会慢慢失去弹性。</p>
+                </div>
+            </div>
+            
+            <!-- 总结卡片 -->
+            <div class="principle-summary">
+                <div class="summary-highlight-box">
+                    <h3>🎯 记住这6个核心要点</h3>
+                    <div class="summary-points">
+                        <div class="sum-point"><span>1</span> 100% = 4.2V高压，电解液分解</div>
+                        <div class="sum-point"><span>2</span> 锂离子过度拥挤，负极受损</div>
+                        <div class="sum-point"><span>3</span> 满电+高温=危险组合</div>
+                        <div class="sum-point"><span>4</span> SEI膜增厚，容量下降</div>
+                        <div class="sum-point"><span>5</span> 浅充浅放，寿命延长4倍</div>
+                        <div class="sum-point"><span>6</span> 长期停放保持50-60%</div>
+                    </div>
                 </div>
             </div>
         </div>
