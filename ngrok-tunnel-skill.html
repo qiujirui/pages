@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ngrok-tunnel Skill v1.1.0</title>
+</head>
+<body>
+<h1>ngrok-tunnel Skill 更新 v1.1.0</h1>
+
+<h2>背景</h2>
+<p>之前使用 pyngrok 库调用 ngrok.connect()，显示"连接成功"但实际 ngrok 进程未启动，导致外部无法访问。多次排查后终于发现问题根源。</p>
+
+<h2>重要更新</h2>
+<p>⚠️ <strong>pyngrok 库有严重 bug</strong>：调用 ngrok.connect() 会返回成功消息但实际不启动 ngrok 进程！</p>
+<p><strong>正确方法</strong>：直接调用 ngrok.exe 本人，不要用 pyngrok 库。</p>
+
+<h2>前置依赖</h2>
+<ul>
+<li>ngrok.exe（已安装在 C:\Users\qiujirui\AppData\Local\ngrok\ngrok.exe）</li>
+<li>ngrok 账号 + authtoken（已配置在 config.env）</li>
+<li>本地 HTTP 服务器（默认端口 8099）</li>
+</ul>
+
+<h2>推荐启动方式</h2>
+<pre># 方法1：直接运行 ngrok.exe
+C:\Users\qiujirui\AppData\Local\ngrok\ngrok.exe http 8099
+
+# 方法2：使用启动脚本（推荐）
+python D:\WorkBuddyOutput\ngrok_fixed.py
+</pre>
+
+<h2>故障排查</h2>
+<table border="1">
+<tr><th>问题</th><th>原因</th><th>解决</th></tr>
+<tr><td>ngrok.connect()返回成功但外部无法访问</td><td>pyngrok库的bug</td><td>直接调用ngrok.exe</td></tr>
+<tr><td>本地8099正常但公网无法访问</td><td>ngrok进程未运行</td><td>检查tasklist是否有ngrok.exe</td></tr>
+<tr><td>ERR_NGROK_3200</td><td>隧道已离线</td><td>重新运行启动命令</td></tr>
+</table>
+
+<h2>如何判断问题</h2>
+<pre># 检查本地服务器
+curl http://localhost:8099/
+
+# 检查ngrok进程
+tasklist | findstr ngrok.exe
+
+# 检查ngrok API
+curl http://127.0.0.1:4040/api/tunnels
+</pre>
+
+<h2>踩坑经验</h2>
+<ul>
+<li>pyngrok ngrok.connect() / 连接成功但外部无法访问：pyngrok内部调用有bug，显示成功但实际未启动ngrok进程。必须直接调用ngrok.exe</li>
+<li>tasklist找不到ngrok.exe / 4040端口无响应：确认ngrok进程未运行，直接运行ngrok.exe即可</li>
+<li>本地正常但外部失败 / 无进程：问题在ngrok侧，不是本地服务器</li>
+</ul>
+</body>
+</html>
