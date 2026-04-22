@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五一嘉兴濮院镇旅游攻略 - 上海出发</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; line-height: 1.8; color: #333; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+        .container { max-width: 950px; margin: 0 auto; padding: 20px; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 40px; border-radius: 20px; text-align: center; margin-bottom: 30px; box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4); }
+        .hero h1 { font-size: 2.8em; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .hero .subtitle { font-size: 1.4em; opacity: 0.95; margin-bottom: 25px; }
+        .hero .route-info { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 20px; }
+        .route-item { background: rgba(255,255,255,0.2); padding: 15px 30px; border-radius: 12px; backdrop-filter: blur(10px); }
+        .route-item .label { font-size: 0.9em; opacity: 0.9; }
+        .route-item .value { font-size: 1.5em; font-weight: bold; }
+        
+        .section { background: white; padding: 35px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+        .section h2 { color: #667eea; font-size: 1.8em; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #667eea; display: flex; align-items: center; gap: 12px; }
+        .section h2 .icon { font-size: 1.2em; }
+        
+        .timeline { position: relative; padding-left: 30px; }
+        .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, #667eea, #764ba2); border-radius: 3px; }
+        .timeline-item { position: relative; margin-bottom: 25px; padding: 20px; background: #f8f9ff; border-radius: 12px; border-left: 4px solid #667eea; }
+        .timeline-item::before { content: ''; position: absolute; left: -26px; top: 25px; width: 14px; height: 14px; background: #667eea; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4); }
+        .timeline-item h3 { color: #333; margin-bottom: 10px; font-size: 1.2em; }
+        .timeline-item p { color: #666; font-size: 0.95em; }
+        
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .card { background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); padding: 25px; border-radius: 12px; border: 1px solid #e1e5eb; transition: transform 0.3s, box-shadow 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
+        .card h3 { color: #667eea; margin-bottom: 12px; font-size: 1.15em; display: flex; align-items: center; gap: 8px; }
+        .card p { color: #555; font-size: 0.9em; }
+        
+        .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .food-item { background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 0%); padding: 18px; border-radius: 10px; text-align: center; border: 2px solid #fc8181; }
+        .food-item .name { font-weight: bold; color: #c53030; margin-bottom: 5px; }
+        .food-item .desc { font-size: 0.85em; color: #666; }
+        
+        .hotel-card { background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%); padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid #4299e1; }
+        .hotel-card h3 { color: #2b6cb0; margin-bottom: 10px; font-size: 1.1em; }
+        .hotel-card .price { color: #e53e3e; font-weight: bold; font-size: 1.1em; }
+        .hotel-card .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .hotel-card .tag { background: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8em; color: #666; }
+        
+        .tips { background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%); padding: 25px; border-radius: 12px; border: 2px solid #68d391; }
+        .tips ul { list-style: none; padding: 0; }
+        .tips li { padding: 8px 0; padding-left: 30px; position: relative; }
+        .tips li::before { content: '✓'; position: absolute; left: 0; color: #38a169; font-weight: bold; }
+        
+        .shopping-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 15px; }
+        .shopping-item { background: #faf5ff; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #b794f4; }
+        .shopping-item .icon { font-size: 2em; margin-bottom: 10px; }
+        .shopping-item .name { font-weight: bold; color: #6b46c1; margin-bottom: 5px; }
+        .shopping-item .desc { font-size: 0.85em; color: #666; }
+        
+        .day-badge { display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85em; margin-bottom: 15px; }
+        
+        .footer { text-align: center; padding: 30px; color: #666; font-size: 0.9em; }
+        
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.8em; }
+            .hero .route-info { flex-direction: column; gap: 15px; }
+            .section { padding: 20px; }
+            .section h2 { font-size: 1.4em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>🏯 嘉兴濮院时尚古镇</h1>
+            <p class="subtitle">五一假期上海出发自驾游详尽攻略</p>
+            <div class="route-info">
+                <div class="route-item">
+                    <div class="label">🚗 上海 → 濮院</div>
+                    <div class="value">约100公里</div>
+                </div>
+                <div class="route-item">
+                    <div class="label">⏱️ 行车时间</div>
+                    <div class="value">约1.5小时</div>
+                </div>
+                <div class="route-item">
+                    <div class="label">💰 高速费用</div>
+                    <div class="value">约35元</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 景点推荐 -->
+        <div class="section">
+            <h2><span class="icon">🏛️</span> 必玩景点（详尽版）</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📍 濮院时尚古镇</h3>
+                    <p><strong>⭐ 必去！</strong>由乌镇团队耗时9年打造，比乌镇大3倍！白天夜景都超美，融合江南古韵与时尚元素，是近年来江浙沪最值得打卡的古镇之一。</p>
+                </div>
+                <div class="card">
+                    <h3>🛕 福善寺</h3>
+                    <p><strong>⭐ 必去！</strong>古镇标志性建筑，隋唐风格寺庙，香火旺盛。可以祈福许愿，寺庙建筑恢弘壮观，拍照超级出片！</p>
+                </div>
+                <div class="card">
+                    <h3>🌸 潄芳禅园</h3>
+                    <p><strong>⭐ 必去！</strong>古典园林景观，亭台楼阁、小桥流水、假山奇石。茶艺体验就在这里，超级适合拍照打卡！</p>
+                </div>
+                <div class="card">
+                    <h3>🏮 北更楼</h3>
+                    <p>古镇制高点，登上楼顶可俯瞰整个古镇全景。每晚有灯光秀，夜晚璀璨夺目，不容错过！</p>
+                </div>
+                <div class="card">
+                    <h3>💦 洗街</h3>
+                    <p><strong>⭐ 特色！</strong>濮院独有景观，每天定时放水，古镇街道秒变清澈水巷。可以脱鞋玩水纳凉，夏季超凉爽！</p>
+                </div>
+                <div class="card">
+                    <h3>🛶 夜游环河</h3>
+                    <p><strong>⭐ 必体验！</strong>乘摇橹船夜游，两岸灯火阑珊，灯光倒映水中，摇曳生姿。超级浪漫！建议傍晚6点后乘坐。</p>
+                </div>
+                <div class="card">
+                    <h3>🏠 濮驸马宅</h3>
+                    <p>明代古建筑，展示了古代官员宅邸的格局与风貌，建筑雕刻精美，历史感满满。</p>
+                </div>
+                <div class="card">
+                    <h3>🏛️ 岳家大宅</h3>
+                    <p>古镇内保存完整的古民居群，青砖黛瓦、马头墙，展现明清江南建筑风格。</p>
+                </div>
+                <div class="card">
+                    <h3>🏛️ 濮商会馆</h3>
+                    <p>了解濮院商业历史文化，展示了古代商人会馆的功能和布局，濮院"天下第一绸"的历史渊源。</p>
+                </div>
+                <div class="card">
+                    <h3>🌳 千年银杏</h3>
+                    <p>古镇内最古老的银杏树，秋冬季节金黄一片，是古镇标志性景观之一。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 行程安排 -->
+        <div class="section">
+            <h2><span class="icon">📅</span> 2天1夜详细行程</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="day-badge">Day 1</span>
+                    <h3>08:00 上海出发</h3>
+                    <p>从上海市区出发，沿<strong>申嘉湖高速</strong>或<strong>沪昆高速</strong>前往濮院（避开G60常拥堵路段）</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day-badge">Day 1</span>
+                    <h3>09:30 抵达濮院 → 入住酒店</h3>
+                    <p>导航至"濮院时尚古镇"，先办理酒店入住，寄存行李。建议入住古镇内酒店，无限次出入景区。</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day-badge">Day 1</span>
+                    <h3>10:00 上午游览：福善寺 → 潄芳禅园</h3>
+                    <p>早上人少，先打卡标志性景点。福善寺祈福，潄芳禅园拍照品茶。体验古镇慢生活。</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day-badge">Day 1</span>
+                    <h3>12:00 午餐：古镇内餐厅</h3>
+                    <p>推荐：梅泾中餐厅（环境好）、古镇小吃街（接地气）</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day-badge">Day 1</span>
+                    <h3>14:00 下午：深度漫游古镇</h3>
+                    <p>游览濮驸马宅、岳家大宅、濮商会馆、北更楼等景点。走累了找家茶馆休息，感受古镇悠闲时光。</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day-badge">Day 1</span>
+                    <h3>17:00 傍晚：洗街玩水 → 晚餐</h3>
+                    <p>体验独特的"洗街"景观，在水巷中纳凉消暑。晚餐推荐古镇外农家菜或当地特色餐馆。</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day-badge">Day 1</span>
+                    <h3>19:00 晚上：夜游环河 →古镇夜市</h3>
+                    <p>乘船夜游（推荐！），感受两岸灯火璀璨。之后逛古镇夜市，品尝各类小吃。</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day-badge">Day 2</span>
+                    <h3>08:30 睡到自然醒 → 早餐</h3>
+                    <p>度假就是要慢节奏，在酒店享用早餐，悠闲开启新的一天。</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day-badge">Day 2</span>
+                    <h3>10:00 上午：二次打卡 → 购物</h遗漏>
+                    <p>早上再逛逛古镇清晨的宁静时光，购买伴手礼（濮院羊毛衫、姑嫂饼、杭白菊等）</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day-badge">Day 2</span>
+                    <h3>12:00 退房 → 午餐 → 返程</h3>
+                    <p>退房后在古镇外午餐，品尝桐乡煲、湖羊肉等特色。餐后返程上海，结束愉快旅程！</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 美食推荐 -->
+        <div class="section">
+            <h2><span class="icon">🍜</span> 美食攻略（超详尽）</h2>
+            <h3 style="color: #667eea; margin: 20px 0 15px;">🍽️ 特色餐厅</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🏆 梅泾中餐厅</h3>
+                    <p><strong>⭐ 强烈推荐！</strong>古镇内最高端餐厅<br>
+                    🔸招牌菜：黑松露鲍鱼红烧肉、茉莉花熏鱼<br>
+                    🔸人均：80-120元<br>
+                    🔸地址：古镇内</p>
+                </div>
+                <div class="card">
+                    <h3>🍲 张家砂锅</h3>
+                    <p><strong>⭐ 必打卡！</strong>濮院人气最旺的砂锅店<br>
+                    🔸招牌：各类砂锅、烧烤<br>
+                    🔸人均：40-60元<br>
+                    🔸地址：古镇外</p>
+                </div>
+                <div class="card">
+                    <h3>🦐 鲍记海鲜小馆</h3>
+                    <p>当地人推荐的海鲜馆子<br>
+                    🔸招牌：白灼虾、葱姜蟹<br>
+                    🔸人均：60-80元</p>
+                </div>
+                <div class="card">
+                    <h3>🍖 桐乡煲总店</h3>
+                    <p>桐乡煲发源地<br>
+                    🔸招牌：桐乡煲（鸡煲/牛蛙煲）<br>
+                    🔸人均：50-70元</p>
+                </div>
+            </div>
+            
+            <h3 style="color: #667eea; margin: 30px 0 15px;">🍡 小吃一条街</h3>
+            <div class="food-grid">
+                <div class="food-item">
+                    <div class="name">🦴 濮院臭豆腐</div>
+                    <div class="desc">外酥里嫩，超人气小吃</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🥮 定胜糕</div>
+                    <div class="desc">传统糕点，寓意吉祥</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🥞 姑嫂饼</div>
+                    <div class="desc">⭐ 必买！桐乡特产</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🍠 烤红薯</div>
+                    <div class="desc">冬日暖胃首选</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🥙 缙云烧饼</div>
+                    <div class="desc">香酥可口</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🍡 淀粉肠</div>
+                    <div class="desc">童年回忆</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🥩 肉夹馍</div>
+                    <div class="desc">北方风味</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🍵 姚记海棠糕</div>
+                    <div class="desc">⭐ 网红爆款！</div>
+                </div>
+            </div>
+            
+            <h3 style="color: #667eea; margin: 30px 0 15px;">🍷 特产手信</h3>
+            <div class="food-grid">
+                <div class="food-item">
+                    <div class="name">🧥 濮院羊毛衫</div>
+                    <div class="desc">⭐ 必买！全国闻名</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🧣 女儿桥丝巾</div>
+                    <div class="desc">品牌文创，优雅</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🥮 姑嫂饼</div>
+                    <div class="desc">⭐ 传统老字号</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🌼 杭白菊</div>
+                    <div class="desc">桐乡特产，清热</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🍶 桂花酿</div>
+                    <div class="desc">甜蜜醇香</div>
+                </div>
+                <div class="food-item">
+                    <div class="name">🍶 嘉善黄酒</div>
+                    <div class="desc">本地佳酿</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 住宿推荐 -->
+        <div class="section">
+            <h2><span class="icon">🛏️</span> 住宿攻略（详尽版）</h2>
+            <p style="margin-bottom: 20px; color: #666;">⭐ <strong>强烈建议入住古镇内酒店</strong>，可无限次出入景区，游玩更方便！</p>
+            
+            <h3 style="color: #667eea; margin: 20px 0 15px;">🏨 古镇内酒店（官方）</h3>
+            <div class="hotel-card">
+                <h3>⭐ 濮锦大酒店 ⭐ 首选！</h3>
+                <p>位于古镇入口，步行1分钟到景区</p>
+                <p class="price">¥699起/晚（含双早+古镇门票）</p>
+                <div class="tags">
+                    <span class="tag">⭐ 评分4.6</span>
+                    <span class="tag">🅿️ 免费停车</span>
+                    <span class="tag">👨‍👩‍👧 亲子友好</span>
+                    <span class="tag">🥣 自助早餐</span>
+                </div>
+            </div>
+            <div class="hotel-card">
+                <h3>🏨 梅尚度假酒店</h3>
+                <p>古镇内高端度假酒店，可以体验游船入住</p>
+                <p class="price">¥1699起/晚</p>
+                <div class="tags">
+                    <span class="tag">⭐ 品质高端</span>
+                    <span class="tag">🛶 游船入住</span>
+                    <span class="tag">♨️ 度假首选</span>
+                </div>
+            </div>
+            <div class="hotel-card">
+                <h3>🏠 濮院时尚古镇客栈</h3>
+                <p>古镇内特色民宿，乌镇式统一管理</p>
+                <p class="price">¥400起/晚</p>
+                <div class="tags">
+                    <span class="tag">🏮 特色民宿</span>
+                    <span class="tag">👨‍💼 管家服务</span>
+                </div>
+            </div>
+            
+            <h3 style="color: #667eea; margin: 30px 0 15px;">🏨 古镇外酒店</h3>
+            <div class="hotel-card">
+                <h3>🏨 桐乡酒店/全季/亚朵</h3>
+                <p>性价比高，适合自驾游客</p>
+                <p class="price">¥200-400起/晚</p>
+                <div class="tags">
+                    <span class="tag">💰 性价比高</span>
+                    <span class="tag">🅿️ 停车方便</span>
+                </div>
+            </div>
+            
+            <h3 style="color: #e53e3e; margin: 30px 0 15px;">⚠️ 五一订房建议</h3>
+            <ul style="color: #666; margin-left: 20px;">
+                <li>⭐ <strong>提前7-10天预订！</strong> 五一假期房源紧张</li>
+                <li>建议选择<strong>可取消</strong>的预订，价格波动可随时调整</li>
+                <li>古镇内酒店<strong>含门票</strong>，比单独买票划算</li>
+            </ul>
+        </div>
+
+        <!-- 实用信息 -->
+        <div class="section">
+            <h2><span class="icon">ℹ️</span> 实用信息汇总</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🎫 门票价格</h3>
+                    <p>成人票：60-80元<br>
+                    儿童/学生：半价<br>
+                    古镇内酒店住客：无限次出入</p>
+                </div>
+                <div class="card">
+                    <h3>🕐 开放时间</h3>
+                    <p>日间：09:00-22:00<br>
+                    夏令时：09:00-22:30<br>
+                    夜游：18:00后</p>
+                </div>
+                <div class="card">
+                    <h3>🅿️ 停车指南</h3>
+                    <p>古镇停车场：5-10元/小时<br>
+                    濮锦大酒店：住客免费<br>
+                    建议导航至酒店停车场</p>
+                </div>
+                <div class="card">
+                    <h3>🛶 游船价格</h3>
+                    <p>夜游环河：约60-80元/人<br>
+                    包船：约200-300元/船</p>
+                </div>
+                <div class="card">
+                    <h3>🚌 交通贴士</h3>
+                    <p>推荐自驾：申嘉湖高速<br>
+                    高铁：到桐乡站，打车20分钟</p>
+                </div>
+                <div class="card">
+                    <h3>📱 官方小程序</h3>
+                    <p>搜索"濮院时尚古镇"<br>
+                    可在线购票、查演出、导航</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 出行准备 -->
+        <div class="section">
+            <h2><span class="icon">🎒</span> 出行准备清单</h2>
+            <div class="cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+                <div class="card" style="text-align: center; padding: 15px;">
+                    <div style="font-size: 2em;">📱</div>
+                    <p>手机</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 15px;">
+                    <div style="font-size: 2em;">🔋</div>
+                    <p>充电宝</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 15px;">
+                    <div style="font-size: 2em;">📷</div>
+                    <p>相机</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 15px;">
+                    <div style="font-size: 2em;">👟</div>
+                    <p>舒适运动鞋</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 15px;">
+                    <div style="font-size: 2em;">🧴</div>
+                    <p>防晒霜</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 15px;">
+                    <div style="font-size: 2em;">🌂</div>
+                    <p>晴雨伞</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 15px;">
+                    <div style="font-size: 2em;">💊</div>
+                    <p>常用药品</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 15px;">
+                    <div style="font-size: 2em;">🦟</div>
+                    <p>驱蚊水</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 15px;">
+                    <div style="font-size: 2em;">🧢</div>
+                    <p>遮阳帽</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 15px;">
+                    <div style="font-size: 2em;">👗</div>
+                    <p>汉服/旗袍（拍照）</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 温馨提示 -->
+        <div class="section">
+            <h2><span class="icon">⚠️</span> 温馨提示（必看）</h2>
+            <div class="tips">
+                <ul>
+                    <li><strong>⭐ 五一提前订房！</strong> 假期房源紧张，价格上涨，建议提前7-10天预订</li>
+                    <li><strong>🚗 错峰出行！</strong> 5月1日上午是高峰，建议5月2-3日出发更舒适</li>
+                    <li><strong>🛣️ 高速建议：</strong> 走申嘉湖高速比G60更通畅，避免拥堵</li>
+                    <li><strong>👟 穿舒适鞋：</strong>古镇内石板路多，建议穿舒适运动鞋</li>
+                    <li><strong>🦟 防蚊虫：</strong> 晚上河边蚊虫多，记得带驱蚊水</li>
+                    <li><strong>📸 拍照建议：</strong> 穿汉服/旗袍拍照超美，景区有租赁</li>
+                    <li><strong>🛶 夜游建议：</strong> 傍晚6点后乘坐最佳，灯光效果最好</li>
+                    <li><strong>🛍️ 购物提示：</strong> 濮院羊毛衫全国闻名，可以顺便买买买！</li>
+                    <li><strong>🏮 周边可串联：</strong> 月河老街离濮院很近，可以一起打卡</li>
+                    <li><strong>☀️ 防晒必备：</strong> 五一阳光强烈，带好防晒和遮阳帽</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 自驾路线 -->
+        <div class="section">
+            <h2><span class="icon">🗺️</span> 详细自驾路线</h2>
+            <div class="card">
+                <h3>🚗 上海 → 濮院古镇 全程导航</h3>
+                <p style="margin-top: 15px;"><strong>📍 导航目的地：</strong>"濮院时尚古镇"或"濮院古镇停车场"</p>
+                
+                <h4 style="color: #667eea; margin: 20px 0 10px;">🛣️ 推荐路线：</h4>
+                <ol style="margin: 15px 0 15px 20px; line-height: 2.2;">
+                    <li>上海市区 → <strong>沪昆高速</strong> 或 <strong>申嘉湖高速</strong></li>
+                    <li>行驶约80公里 → <strong>桐乡/濮院出口</strong> 下高速</li>
+                    <li>沿 <strong>桐乡大道</strong> / <strong>嘉湖公路</strong> 行驶约15公里</li>
+                    <li>到达濮院镇 → 导航至古镇入口/酒店</li>
+                </ol>
+                
+                <h4 style="color: #667eea; margin: 20px 0 10px;">💰 费用估算：</h4>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li><strong>高速费：</strong>约35元（上海到桐乡段）</li>
+                    <li><strong>油费：</strong>约60元（按百公里8L，约100公里计算）</li>
+                    <li><strong>停车费：</strong>约20-40元/天</li>
+                </ul>
+                
+                <h4 style="color: #e53e3e; margin: 20px 0 10px;">⚠️ 避坑提示：</h4>
+                <ul style="margin-left: 20px; line-height: 2; color: #666;">
+                    <li>❌ 避免走G60沪昆高速杭州方向，经常拥堵</li>
+                    <li>✅ 建议走申嘉湖高速，车流量相对较小</li>
+                    <li>❌ 不要直接导航"濮院镇"，要导航"濮院时尚古镇"</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 周边串联 -->
+        <div class="section">
+            <h2><span class="icon">🔗</span> 周边串联景点</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🏘️ 月河老街</h3>
+                    <p><strong>⭐ 强烈推荐串联！</strong><br>
+                    距离濮院约20分钟车程，嘉兴市区保存最好的古镇老街。<br>
+                    🔸亮点：粽子博物馆、酒吧街、夜景超美<br>
+                    🔸美食：真真老老粽子、各种小吃</p>
+                </div>
+                <div class="card">
+                    <h3>🏯 乌镇</h3>
+                    <p>中国最著名古镇之一，距离濮院约30分钟车程。<br>
+                    🔸可安排半日游<br>
+                    🔸夜景同样震撼</p>
+                </div>
+                <div class="card">
+                    <h3>🏛️ 嘉兴南湖</h3>
+                    <p>嘉兴红色旅游经典景点<br>
+                    🔸游船登湖心岛<br>
+                    🔸参观红船纪念地</p>
+                </div>
+                <div class="card">
+                    <h3>🎨 木心美术馆</h3>
+                    <p>位于乌镇，现代化美术馆<br>
+                    🔸建筑大师作品<br>
+                    🔸艺术爱好者必去</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>🏯 祝您五一假期玩得开心！</p>
+            <p style="margin-top: 10px; opacity: 0.7;">制作于 2026年4月 | 上海出发 | 未经授权禁止转载</p>
+        </div>
+    </div>
+</body>
+</html>
