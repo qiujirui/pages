@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>德克士ABtest试验解读 - 券加购策略优化</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .header .subtitle {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid #FF6B35;
+        }
+        .highlight-box h3 {
+            color: #FF6B35;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        .ranking-table th {
+            background: #343a40;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        .ranking-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .ranking-table tr:hover {
+            background: #f8f9fa;
+        }
+        .rank-1 { background: linear-gradient(90deg, #ffd70020, transparent); }
+        .rank-2 { background: linear-gradient(90deg, #c0c0c020, transparent); }
+        .rank-3 { background: linear-gradient(90deg, #cd7f3220, transparent); }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-danger { background: #f8d7da; color: #721c24; }
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .insight-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #e9ecef;
+        }
+        .insight-card h4 {
+            color: #495057;
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .insight-card p {
+            color: #212529;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .action-box {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .action-box h3 {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .action-item {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 12px;
+            border-top: 1px solid #e9ecef;
+        }
+        @media (max-width: 600px) {
+            .insight-grid { grid-template-columns: 1fr; }
+            .ranking-table { font-size: 12px; }
+            .ranking-table th, .ranking-table td { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍗 德克士券加购试验解读</h1>
+            <div class="subtitle">置顶推荐框ABtest第二期试验报告 | 2026年3月</div>
+        </div>
+        
+        <div class="content">
+            <div class="highlight-box">
+                <h3>💡 核心结论</h3>
+                <p><strong>单品券（13.9元）</strong> 是本次试验最优策略，相比对照组加购率提升13.4%，核销率提升13.9%，且通过95%统计显著性检验。</p>
+            </div>
+            
+            <table class="ranking-table">
+                <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>试验组</th>
+                        <th>加购率</th>
+                        <th>核销率</th>
+                        <th>结果判定</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="rank-1">
+                        <td>🥇</td>
+                        <td><strong>单品券（13.9元）</strong></td>
+                        <td><strong>0.76%</strong></td>
+                        <td><strong>23.6%</strong></td>
+                        <td><span class="badge badge-success">✅ 显著正向</span></td>
+                    </tr>
+                    <tr class="rank-2">
+                        <td>🥈</td>
+                        <td>对照组（默认）</td>
+                        <td>0.67%</td>
+                        <td>20.7%</td>
+                        <td><span class="badge badge-warning">基准线</span></td>
+                    </tr>
+                    <tr class="rank-3">
+                        <td>🥉</td>
+                        <td>三件套（23.9元）</td>
+                        <td>0.66%</td>
+                        <td>21.0%</td>
+                        <td><span class="badge badge-warning">⚠️ 不显著</span></td>
+                    </tr>
+                    <tr>
+                        <td>❌</td>
+                        <td>两件套（19.9元）</td>
+                        <td>0.64%</td>
+                        <td>15.3%</td>
+                        <td><span class="badge badge-danger">❌ 显著负向</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="insight-grid">
+                <div class="insight-card">
+                    <h4>🎯 决策成本理论验证</h4>
+                    <p>单品券优惠感知最直接，决策路径最短</p>
+                </div>
+                <div class="insight-card">
+                    <h4>⏰ 分时段策略</h4>
+                    <p>午餐推套餐，晚餐推单品券</p>
+                </div>
+                <div class="insight-card">
+                    <h4>📉 两件套失败原因</h4>
+                    <p>认知门槛高，价值传递不清晰</p>
+                </div>
+                <div class="insight-card">
+                    <h4>📊 统计置信度</h4>
+                    <p>样本充足，结论可信度95%</p>
+                </div>
+            </div>
+            
+            <div class="action-box">
+                <h3>🚀 立即执行建议</h3>
+                <span class="action-item">🌅 晚餐时段主推单品券</span>
+                <span class="action-item">🍱 午餐时段保留套餐</span>
+                <span class="action-item">🏷️ 券面突出显示节省金额</span>
+                <span class="action-item">📱 优化加购转化路径</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            基于《德克士_置顶推荐框券加购试验第二期_试验报告_20260318》深度分析 | Powered by AI
+        </div>
+    </div>
+</body>
+</html>
