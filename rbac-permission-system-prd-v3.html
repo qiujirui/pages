@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>权限管理系统 - 详细产品需求文档（PRD）</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { background: #f8fafc; }
+        .section-card { 
+            background: white; 
+            border-radius: 16px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s;
+        }
+        .section-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .page-wireframe {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .wireframe-header { background: #1e293b; color: white; padding: 8px 16px; font-size: 12px; }
+        .wireframe-sidebar { background: #f1f5f9; border-right: 1px solid #e2e8f0; }
+        .wireframe-content { background: white; }
+        .component-box {
+            border: 1px dashed #94a3b8;
+            background: #f8fafc;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 11px;
+            color: #64748b;
+        }
+        .field-row {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .field-label { width: 120px; color: #64748b; font-size: 13px; }
+        .field-value { flex: 1; color: #1e293b; font-size: 13px; }
+        .flow-step {
+            position: relative;
+            padding-left: 40px;
+        }
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 24px;
+            bottom: -16px;
+            width: 2px;
+            background: #e2e8f0;
+        }
+        .flow-step:last-child::before { display: none; }
+        .flow-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .nav-pill {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .nav-pill.active { background: #3b82f6; color: white; }
+        .nav-pill:not(.active):hover { background: #f1f5f9; }
+        .status-badge {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .table-spec th { background: #f8fafc; font-weight: 600; font-size: 12px; }
+        .table-spec td { font-size: 12px; }
+        .priority-p0 { background: #fef2f2; color: #dc2626; }
+        .priority-p1 { background: #fff7ed; color: #ea580c; }
+        .priority-p2 { background: #f0f9ff; color: #0284c7; }
+    </style>
+</head>
+<body class="text-slate-800">
+    <!-- 顶部导航 -->
+    <header class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold">R</div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900">权限管理系统 PRD</h1>
+                        <p class="text-sm text-slate-500">详细产品需求文档 v3.0 - 页面级设计</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">PRD</span>
+                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">详细版</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 导航栏 -->
+    <nav class="bg-white border-b border-slate-200 sticky top-[73px] z-40">
+        <div class="max-w-7xl mx-auto px-6 py-3">
+            <div class="flex gap-2">
+                <a href="#overview" class="nav-pill active">产品概述</a>
+                <a href="#pages" class="nav-pill">页面设计</a>
+                <a href="#features" class="nav-pill">功能详解</a>
+                <a href="#rules" class="nav-pill">业务规则</a>
+                <a href="#interactions" class="nav-pill">交互说明</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- 产品概述 -->
+        <section id="overview" class="mb-12">
+            <div class="section-card p-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6">一、产品概述</h2>
+                
+                <div class="grid grid-cols-3 gap-6 mb-8">
+                    <div class="bg-blue-50 rounded-xl p-5 border border-blue-100">
+                        <h3 class="font-semibold text-blue-900 mb-2">产品定位</h3>
+                        <p class="text-sm text-blue-700">为企业级后台管理系统提供基于RBAC模型的权限管控平台，实现用户、角色、权限、组织架构的精细化管理。</p>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-5 border border-green-100">
+                        <h3 class="font-semibold text-green-900 mb-2">目标用户</h3>
+                        <p class="text-sm text-green-700">系统管理员、部门负责人、IT运维人员、安全合规专员，以及需要精细化权限管控的企业客户。</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-xl p-5 border border-purple-100">
+                        <h3 class="font-semibold text-purple-900 mb-2">核心价值</h3>
+                        <p class="text-sm text-purple-700">降低80%权限管理成本，实现权限配置可视化、数据范围精细化、操作审计合规化。</p>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-semibold text-slate-900 mb-4">系统模块结构</h3>
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                    <div class="flex justify-center">
+                        <div class="text-center">
+                            <div class="inline-block px-6 py-3 bg-slate-800 text-white rounded-lg font-semibold mb-4">权限管理系统</div>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="bg-white rounded-lg p-4 border-2 border-blue-200 text-center">
+                                    <div class="text-2xl mb-2">👤</div>
+                                    <div class="font-medium text-sm">用户管理</div>
+                                    <div class="text-xs text-slate-400 mt-1">User Mgmt</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 border-2 border-green-200 text-center">
+                                    <div class="text-2xl mb-2">🎭</div>
+                                    <div class="font-medium text-sm">角色管理</div>
+                                    <div class="text-xs text-slate-400 mt-1">Role Mgmt</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 border-2 border-purple-200 text-center">
+                                    <div class="text-2xl mb-2">🏢</div>
+                                    <div class="font-medium text-sm">组织架构</div>
+                                    <div class="text-xs text-slate-400 mt-1">Organization</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 border-2 border-orange-200 text-center">
+                                    <div class="text-2xl mb-2">📝</div>
+                                    <div class="font-medium text-sm">审计日志</div>
+                                    <div class="text-xs text-slate-400 mt-1">Audit Log</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 页面设计 -->
+        <section id="pages" class="mb-12">
+            <div class="section-card p-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6">二、页面详细设计</h2>
+
+                <!-- 页面1：用户管理 -->
+                <div class="mb-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-10 h-10 bg-blue-500 text-white rounded-lg flex items-center justify-center font-bold">1</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">用户管理页面</h3>
+                            <p class="text-sm text-slate-500">Page: /system/user/index | 功能：用户的增删改查、状态管理、角色分配</p>
+                        </div>
+                    </div>
+
+                    <!-- 页面布局 -->
+                    <div class="grid grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-semibold text-slate-800 mb-3">页面布局</h4>
+                            <div class="page-wireframe">
+                                <div class="wireframe-header">用户管理 - 系统管理</div>
+                                <div class="flex h-80">
+                                    <!-- 侧边栏 -->
+                                    <div class="w-32 wireframe-sidebar p-2 text-xs space-y-1">
+                                        <div class="p-2 bg-blue-100 rounded font-medium">👤 用户管理</div>
+                                        <div class="p-2 opacity-60">🎭 角色管理</div>
+                                        <div class="p-2 opacity-60">🏢 组织架构</div>
+                                        <div class="p-2 opacity-60">📝 审计日志</div>
+                                    </div>
+                                    <!-- 主内容 -->
+                                    <div class="flex-1 wireframe-content p-3">
+                                        <!-- 面包屑 -->
+                                        <div class="text-xs text-slate-400 mb-2">系统管理 / 用户管理</div>
+                                        <!-- 搜索区 -->
+                                        <div class="component-box mb-3">
+                                            <div class="flex gap-2">
+                                                <span>🔍 搜索框</span>
+                                                <span>📋 部门筛选</span>
+                                                <span>📊 状态筛选</span>
+                                                <span class="ml-auto">[+ 新建用户]</span>
+                                            </div>
+                                        </div>
+                                        <!-- 操作栏 -->
+                                        <div class="component-box mb-3">
+                                            <div class="flex gap-2">
+                                                <span>[批量启用]</span>
+                                                <span>[批量禁用]</span>
+                                                <span>[批量删除]</span>
+                                                <span class="ml-auto">[导出]</span>
+                                            </div>
+                                        </div>
+                                        <!-- 表格 -->
+                                        <div class="border rounded overflow-hidden text-xs">
+                                            <div class="bg-slate-100 flex p-2 border-b font-medium">
+                                                <div class="w-6">☐</div>
+                                                <div class="w-24">用户信息</div>
+                                                <div class="w-20">账号</div>
+                                                <div class="w-20">部门</div>
+                                                <div class="w-24">角色</div>
+                                                <div class="w-16">状态</div>
+                                                <div class="w-20">操作</div>
+                                            </div>
+                                            <div class="flex p-2 border-b">
+                                                <div class="w-6">☐</div>
+                                                <div class="w-24">👤 张三</div>
+                                                <div class="w-20">zhangsan</div>
+                                                <div class="w-20">数智中心</div>
+                                                <div class="w-24">系统管理员</div>
+                                                <div class="w-16">🟢 启用</div>
+                                                <div class="w-20 text-blue-500">编辑 禁用</div>
+                                            </div>
+                                            <div class="flex p-2">
+                                                <div class="w-6">☐</div>
+                                                <div class="w-24">👤 李四</div>
+                                                <div class="w-20">lisi</div>
+                                                <div class="w-20">财务中心</div>
+                                                <div class="w-24">财务专员</div>
+                                                <div class="w-16">🟢 启用</div>
+                                                <div class="w-20 text-blue-500">编辑 禁用</div>
+                                            </div>
+                                        </div>
+                                        <!-- 分页 -->
+                                        <div class="component-box mt-3 text-right">
+                                            <span>&lt; 1 2 3 ... 10 &gt;</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-slate-800 mb-3">区域说明</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div class="font-medium text-slate-900 mb-1">① 面包屑导航</div>
+                                    <p class="text-slate-600 text-xs">显示当前页面路径，支持点击返回上级菜单。格式：系统管理 / 用户管理</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div class="font-medium text-slate-900 mb-1">② 搜索筛选区</div>
+                                    <p class="text-slate-600 text-xs">包含：关键词搜索框、部门下拉筛选、状态下拉筛选、新建用户按钮</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div class="font-medium text-slate-900 mb-1">③ 批量操作栏</div>
+                                    <p class="text-slate-600 text-xs">选中列表项后显示，支持：批量启用、批量禁用、批量删除、导出Excel</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div class="font-medium text-slate-900 mb-1">④ 数据列表</div>
+                                    <p class="text-slate-600 text-xs">展示用户信息表格，支持：排序、分页、行内操作（编辑/禁用/重置密码）</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 功能详细说明 -->
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h4 class="font-semibold text-slate-900 mb-4">功能详细说明</h4>
+                        
+                        <div class="space-y-6">
+                            <!-- 功能1：用户列表 -->
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">1. 用户列表展示</h5>
+                                    <span class="status-badge priority-p0">P0 - 核心</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <div class="text-slate-500 mb-2">展示字段</div>
+                                        <ul class="space-y-1 text-xs text-slate-600">
+                                            <li>• 用户头像 + 姓名（头像取姓名首字）</li>
+                                            <li>• 登录账号</li>
+                                            <li>• 所属部门（显示完整部门路径）</li>
+                                            <li>• 角色标签（多个角色以标签展示）</li>
+                                            <li>• 状态（启用/禁用/锁定）</li>
+                                            <li>• 最近登录时间</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-slate-500 mb-2">交互规则</div>
+                                        <ul class="space-y-1 text-xs text-slate-600">
+                                            <li>• 默认按创建时间倒序排列</li>
+                                            <li>• 支持点击表头排序</li>
+                                            <li>• 每页默认20条，支持切换10/50/100条</li>
+                                            <li>• 行 hover 显示操作按钮</li>
+                                            <li>• 长按表头可拖拽调整列宽</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 功能2：搜索筛选 -->
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">2. 搜索与筛选</h5>
+                                    <span class="status-badge priority-p0">P0 - 核心</span>
+                                </div>
+                                <div class="text-sm space-y-3">
+                                    <div>
+                                        <div class="text-slate-500 mb-2">搜索条件</div>
+                                        <div class="grid grid-cols-3 gap-3">
+                                            <div class="bg-slate-50 p-3 rounded text-xs">
+                                                <div class="font-medium mb-1">关键词搜索</div>
+                                                <p class="text-slate-500">支持：姓名、账号、手机号、邮箱模糊搜索</p>
+                                            </div>
+                                            <div class="bg-slate-50 p-3 rounded text-xs">
+                                                <div class="font-medium mb-1">部门筛选</div>
+                                                <p class="text-slate-500">树形下拉选择，支持多选</p>
+                                            </div>
+                                            <div class="bg-slate-50 p-3 rounded text-xs">
+                                                <div class="font-medium mb-1">状态筛选</div>
+                                                <p class="text-slate-500">全部/启用/禁用/锁定</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-slate-500">
+                                        <span class="font-medium">搜索逻辑：</span>关键词实时搜索（防抖300ms），筛选条件点击"查询"后生效。支持组合筛选条件，筛选结果可导出。
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 功能3：新建用户 -->
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">3. 新建用户</h5>
+                                    <span class="status-badge priority-p0">P0 - 核心</span>
+                                </div>
+                                <div class="text-sm">
+                                    <div class="grid grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <div class="text-slate-500 mb-2">弹窗表单字段</div>
+                                            <table class="w-full text-xs">
+                                                <tr class="border-b"><td class="py-1 font-medium">姓名 *</td><td class="py-1 text-slate-500">必填，2-20字符</td></tr>
+                                                <tr class="border-b"><td class="py-1 font-medium">登录账号 *</td><td class="py-1 text-slate-500">必填，字母开头，4-20位</td></tr>
+                                                <tr class="border-b"><td class="py-1 font-medium">初始密码 *</td><td class="py-1 text-slate-500">必填，默认生成可修改</td></tr>
+                                                <tr class="border-b"><td class="py-1 font-medium">手机号</td><td class="py-1 text-slate-500">选填，需校验格式</td></tr>
+                                                <tr class="border-b"><td class="py-1 font-medium">邮箱</td><td class="py-1 text-slate-500">选填，需校验格式</td></tr>
+                                                <tr class="border-b"><td class="py-1 font-medium">所属部门 *</td><td class="py-1 text-slate-500">必填，树形选择器</td></tr>
+                                                <tr class="border-b"><td class="py-1 font-medium">角色 *</td><td class="py-1 text-slate-500">必填，可多选</td></tr>
+                                                <tr><td class="py-1 font-medium">状态</td><td class="py-1 text-slate-500">默认启用</td></tr>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <div class="text-slate-500 mb-2">业务规则</div>
+                                            <ul class="space-y-1 text-xs text-slate-600">
+                                                <li>• 账号唯一性校验，已存在则提示</li>
+                                                <li>• 初始密码默认8位随机字符</li>
+                                                <li>• 创建成功后发送通知（站内信+邮件）</li>
+                                                <li>• 首次登录强制修改密码</li>
+                                                <li>• 记录创建人、创建时间</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2 text-xs">
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded">校验规则</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-600 rounded">成功提示</span>
+                                        <span class="px-2 py-1 bg-red-50 text-red-600 rounded">错误提示</span>
+                                        <span class="px-2 py-1 bg-amber-50 text-amber-600 rounded">确认弹窗</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 功能4：批量操作 -->
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">4. 批量操作</h5>
+                                    <span class="status-badge priority-p1">P1 - 重要</span>
+                                </div>
+                                <div class="text-sm space-y-2">
+                                    <div class="grid grid-cols-3 gap-3 text-xs">
+                                        <div class="bg-slate-50 p-3 rounded">
+                                            <div class="font-medium mb-1">批量启用</div>
+                                            <p class="text-slate-500">将选中禁用的用户改为启用状态，需二次确认</p>
+                                        </div>
+                                        <div class="bg-slate-50 p-3 rounded">
+                                            <div class="font-medium mb-1">批量禁用</div>
+                                            <p class="text-slate-500">将选中启用的用户改为禁用状态，需二次确认，已登录用户强制下线</p>
+                                        </div>
+                                        <div class="bg-slate-50 p-3 rounded">
+                                            <div class="font-medium mb-1">批量删除</div>
+                                            <p class="text-slate-500">软删除选中用户，需二次确认，删除后无法登录</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-slate-500">
+                                        <span class="font-medium">限制规则：</span>每次最多操作100条；操作超级管理员需要额外确认；操作结果以Toast提示，失败项显示详情。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 页面2：角色管理 -->
+                <div class="mb-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center font-bold">2</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">角色管理页面</h3>
+                            <p class="text-sm text-slate-500">Page: /system/role/index | 功能：角色CRUD、权限配置、数据范围设置</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-semibold text-slate-800 mb-3">页面布局</h4>
+                            <div class="page-wireframe">
+                                <div class="wireframe-header">角色管理 - 系统管理</div>
+                                <div class="flex h-80">
+                                    <div class="w-32 wireframe-sidebar p-2 text-xs space-y-1">
+                                        <div class="p-2 opacity-60">👤 用户管理</div>
+                                        <div class="p-2 bg-green-100 rounded font-medium">🎭 角色管理</div>
+                                        <div class="p-2 opacity-60">🏢 组织架构</div>
+                                        <div class="p-2 opacity-60">📝 审计日志</div>
+                                    </div>
+                                    <div class="flex-1 wireframe-content p-3">
+                                        <div class="text-xs text-slate-400 mb-2">系统管理 / 角色管理</div>
+                                        <div class="flex h-full">
+                                            <!-- 左侧角色列表 -->
+                                            <div class="w-36 border-r pr-2">
+                                                <div class="component-box mb-2 text-center">[+ 新建角色]</div>
+                                                <div class="space-y-1 text-xs">
+                                                    <div class="p-2 bg-blue-50 rounded border border-blue-200">
+                                                        <div class="font-medium">👑 超级管理员</div>
+                                                        <div class="text-slate-400 mt-1">全部权限</div>
+                                                    </div>
+                                                    <div class="p-2 bg-slate-50 rounded">
+                                                        <div class="font-medium">🔧 系统管理员</div>
+                                                        <div class="text-slate-400 mt-1">系统管理权限</div>
+                                                    </div>
+                                                    <div class="p-2 bg-slate-50 rounded">
+                                                        <div class="font-medium">💰 财务经理</div>
+                                                        <div class="text-slate-400 mt-1">财务相关权限</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 右侧权限配置 -->
+                                            <div class="flex-1 pl-3">
+                                                <div class="flex items-center justify-between mb-3">
+                                                    <div>
+                                                        <div class="font-semibold text-sm">配置角色：系统管理员</div>
+                                                        <div class="text-xs text-slate-400">负责系统配置和用户管理</div>
+                                                    </div>
+                                                    <div class="flex gap-2">
+                                                        <span class="text-xs px-2 py-1 border rounded">克隆</span>
+                                                        <span class="text-xs px-2 py-1 border rounded">删除</span>
+                                                        <span class="text-xs px-2 py-1 bg-blue-500 text-white rounded">保存</span>
+                                                    </div>
+                                                </div>
+                                                <div class="component-box h-48 overflow-auto">
+                                                    <div class="space-y-2">
+                                                        <div class="flex items-center gap-2">
+                                                            <span>☑</span>
+                                                            <span class="font-medium">系统管理</span>
+                                                        </div>
+                                                        <div class="pl-4 space-y-1 text-slate-600">
+                                                            <div class="flex items-center justify-between">
+                                                                <span>☑ 用户管理</span>
+                                                                <span class="text-xs space-x-1">
+                                                                    <span>[查]</span><span>[增]</span><span>[改]</span><span>[删]</span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="flex items-center justify-between">
+                                                                <span>☑ 角色管理</span>
+                                                                <span class="text-xs space-x-1">
+                                                                    <span>[查]</span><span>[增]</span><span>[改]</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex items-center gap-2 pt-2 border-t">
+                                                            <span>☐</span>
+                                                            <span class="font-medium">财务报表</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="component-box mt-2">
+                                                    <span class="text-xs">数据范围：[全部数据 ▼]</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-slate-800 mb-3">区域说明</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div class="font-medium text-slate-900 mb-1">① 角色列表</div>
+                                    <p class="text-slate-600 text-xs">展示所有角色卡片，包含：角色名称、描述、用户数。点击切换右侧配置面板。</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div class="font-medium text-slate-900 mb-1">② 角色信息</div>
+                                    <p class="text-slate-600 text-xs">显示当前选中角色的名称和描述，支持编辑。提供克隆、删除、保存操作按钮。</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div class="font-medium text-slate-900 mb-1">③ 权限树</div>
+                                    <p class="text-slate-600 text-xs">树形结构展示所有权限，支持：勾选父级自动全选子级、单独勾选子级、操作类型细粒度控制。</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div class="font-medium text-slate-900 mb-1">④ 数据范围</div>
+                                    <p class="text-slate-600 text-xs">设置该角色用户可查看的数据范围：全部数据/本部门及子部门/仅本部门/仅个人。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h4 class="font-semibold text-slate-900 mb-4">功能详细说明</h4>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">1. 角色列表</h5>
+                                    <span class="status-badge priority-p0">P0 - 核心</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <div class="text-slate-500 mb-2">角色卡片信息</div>
+                                        <ul class="space-y-1 text-xs text-slate-600">
+                                            <li>• 角色图标 + 名称</li>
+                                            <li>• 角色描述（1行截断）</li>
+                                            <li>• 关联用户数</li>
+                                            <li>• 系统角色标识（不可删除）</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-slate-500 mb-2">交互规则</div>
+                                        <ul class="space-y-1 text-xs text-slate-600">
+                                            <li>• 点击卡片切换右侧配置</li>
+                                            <li>• 当前选中卡片高亮显示</li>
+                                            <li>• hover显示编辑/删除按钮</li>
+                                            <li>• 系统角色隐藏删除按钮</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">2. 权限配置树</h5>
+                                    <span class="status-badge priority-p0">P0 - 核心</span>
+                                </div>
+                                <div class="text-sm space-y-3">
+                                    <div class="text-xs text-slate-600 space-y-1">
+                                        <p><span class="font-medium">四级权限体系：</span></p>
+                                        <ul class="pl-4 space-y-1">
+                                            <li>• <span class="font-medium">菜单权限</span> - 控制左侧导航菜单的显示/隐藏</li>
+                                            <li>• <span class="font-medium">按钮权限</span> - 控制页面内操作按钮（增删改查导）</li>
+                                            <li>• <span class="font-medium">数据权限</span> - 通过数据范围设置控制</li>
+                                            <li>• <span class="font-medium">接口权限</span> - 后端控制，前端无需配置</li>
+                                        </ul>
+                                    </div>
+                                    <div class="text-xs text-slate-500">
+                                        <span class="font-medium">勾选逻辑：</span>勾选父节点自动勾选所有子节点；取消父节点自动取消所有子节点；部分勾选子节点时父节点显示半选状态。
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">3. 数据范围配置</h5>
+                                    <span class="status-badge priority-p1">P1 - 重要</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 text-xs">
+                                    <div class="space-y-2">
+                                        <div class="p-2 bg-blue-50 rounded border border-blue-100">
+                                            <div class="font-medium text-blue-800">全部数据</div>
+                                            <div class="text-blue-600 mt-1">可查看系统中所有数据，不受部门限制。仅超级管理员可用。</div>
+                                        </div>
+                                        <div class="p-2 bg-green-50 rounded border border-green-100">
+                                            <div class="font-medium text-green-800">本部门及子部门</div>
+                                            <div class="text-green-600 mt-1">可查看本部门及所有下级部门的数据。</div>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div class="p-2 bg-purple-50 rounded border border-purple-100">
+                                            <div class="font-medium text-purple-800">仅本部门</div>
+                                            <div class="text-purple-600 mt-1">仅可查看本部门数据，不包括子部门。</div>
+                                        </div>
+                                        <div class="p-2 bg-orange-50 rounded border border-orange-100">
+                                            <div class="font-medium text-orange-800">仅个人数据</div>
+                                            <div class="text-orange-600 mt-1">仅可查看自己创建或负责的数据。</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 页面3：组织架构 -->
+                <div class="mb-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-10 h-10 bg-purple-500 text-white rounded-lg flex items-center justify-center font-bold">3</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">组织架构页面</h3>
+                            <p class="text-sm text-slate-500">Page: /system/org/index | 功能：部门管理、组织树维护、成员管理</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h4 class="font-semibold text-slate-900 mb-4">功能详细说明</h4>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">1. 组织树管理</h5>
+                                    <span class="status-badge priority-p0">P0 - 核心</span>
+                                </div>
+                                <div class="text-sm space-y-2">
+                                    <div class="grid grid-cols-3 gap-3 text-xs">
+                                        <div class="bg-slate-50 p-3 rounded">
+                                            <div class="font-medium mb-1">展开/折叠</div>
+                                            <p class="text-slate-500">点击箭头展开或折叠子部门，支持全部展开/折叠按钮</p>
+                                        </div>
+                                        <div class="bg-slate-50 p-3 rounded">
+                                            <div class="font-medium mb-1">拖拽排序</div>
+                                            <p class="text-slate-500">支持拖拽调整部门顺序，拖拽到目标部门可调整父子关系</p>
+                                        </div>
+                                        <div class="bg-slate-50 p-3 rounded">
+                                            <div class="font-medium mb-1">右键菜单</div>
+                                            <p class="text-slate-500">右键部门节点显示：添加子部门、编辑、删除、查看成员</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">2. 部门表单</h5>
+                                    <span class="status-badge priority-p0">P0 - 核心</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <table class="w-full text-xs">
+                                        <tr class="border-b"><td class="py-1.5 font-medium">部门名称 *</td><td class="py-1.5 text-slate-500">必填，2-50字符</td></tr>
+                                        <tr class="border-b"><td class="py-1.5 font-medium">部门编码 *</td><td class="py-1.5 text-slate-500">必填，唯一，字母数字</td></tr>
+                                        <tr class="border-b"><td class="py-1.5 font-medium">上级部门 *</td><td class="py-1.5 text-slate-500">必填，树形选择</td></tr>
+                                        <tr class="border-b"><td class="py-1.5 font-medium">部门类型</td><td class="py-1.5 text-slate-500">集团/公司/部门/小组</td></tr>
+                                        <tr><td class="py-1.5 font-medium">负责人</td><td class="py-1.5 text-slate-500">选填，选择用户</td></tr>
+                                    </table>
+                                    <div class="text-xs text-slate-600 space-y-1">
+                                        <p><span class="font-medium">校验规则：</span></p>
+                                        <ul class="pl-4 space-y-0.5">
+                                            <li>• 部门名称不能重复</li>
+                                            <li>• 不能将部门设置为自己的子部门</li>
+                                            <li>• 有子部门的父部门不可删除</li>
+                                            <li>• 删除部门前需先转移或删除成员</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 页面4：审计日志 -->
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-10 h-10 bg-orange-500 text-white rounded-lg flex items-center justify-center font-bold">4</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">审计日志页面</h3>
+                            <p class="text-sm text-slate-500">Page: /system/audit/index | 功能：操作日志查询、安全审计、异常监控</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h4 class="font-semibold text-slate-900 mb-4">功能详细说明</h4>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">1. 日志列表</h5>
+                                    <span class="status-badge priority-p0">P0 - 核心</span>
+                                </div>
+                                <div class="text-sm space-y-2">
+                                    <div class="text-xs text-slate-600">
+                                        <p class="font-medium mb-1">展示字段：</p>
+                                        <p>时间（精确到秒）、操作用户、操作类型（登录/操作/异常/系统）、操作内容、操作结果（成功/失败）、IP地址、耗时</p>
+                                    </div>
+                                    <div class="flex gap-2 text-xs">
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded">登录日志</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-600 rounded">操作日志</span>
+                                        <span class="px-2 py-1 bg-red-50 text-red-600 rounded">异常日志</span>
+                                        <span class="px-2 py-1 bg-purple-50 text-purple-600 rounded">系统日志</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">2. 高级筛选</h5>
+                                    <span class="status-badge priority-p1">P1 - 重要</span>
+                                </div>
+                                <div class="grid grid-cols-4 gap-3 text-xs">
+                                    <div class="bg-slate-50 p-2 rounded">
+                                        <div class="font-medium mb-1">时间范围</div>
+                                        <p class="text-slate-500">今天/昨天/最近7天/最近30天/自定义</p>
+                                    </div>
+                                    <div class="bg-slate-50 p-2 rounded">
+                                        <div class="font-medium mb-1">用户筛选</div>
+                                        <p class="text-slate-500">指定用户或全部</p>
+                                    </div>
+                                    <div class="bg-slate-50 p-2 rounded">
+                                        <div class="font-medium mb-1">操作类型</div>
+                                        <p class="text-slate-500">多选：登录/操作/异常/系统</p>
+                                    </div>
+                                    <div class="bg-slate-50 p-2 rounded">
+                                        <div class="font-medium mb-1">操作结果</div>
+                                        <p class="text-slate-500">成功/失败/全部</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h5 class="font-semibold text-slate-800">3. 日志导出</h5>
+                                    <span class="status-badge priority-p1">P1 - 重要</span>
+                                </div>
+                                <div class="text-xs text-slate-600 space-y-1">
+                                    <p>• 支持按筛选条件导出Excel/CSV</p>
+                                    <p>• 单次最多导出10000条，超过需分批导出</p>
+                                    <p>• 导出记录保存在"导出中心"，可重复下载</p>
+                                    <p>• 导出文件保留7天后自动删除</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 功能详解 -->
+        <section id="features" class="mb-12">
+            <div class="section-card p-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6">三、功能详解</h2>
+
+                <!-- 用户状态流转 -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">用户状态流转</h3>
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <div class="flex items-center justify-center gap-4">
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center text-2xl mb-2">🆕</div>
+                                <div class="font-medium text-sm">待激活</div>
+                                <div class="text-xs text-slate-400">创建后未登录</div>
+                            </div>
+                            <div class="text-2xl text-slate-300">→</div>
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-2xl mb-2">✅</div>
+                                <div class="font-medium text-sm">正常</div>
+                                <div class="text-xs text-slate-400">可正常使用</div>
+                            </div>
+                            <div class="text-2xl text-slate-300">⇄</div>
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center text-2xl mb-2">🔒</div>
+                                <div class="font-medium text-sm">已锁定</div>
+                                <div class="text-xs text-slate-400">密码错误超限</div>
+                            </div>
+                            <div class="text-2xl text-slate-300">⇄</div>
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center text-2xl mb-2">🚫</div>
+                                <div class="font-medium text-sm">已禁用</div>
+                                <div class="text-xs text-slate-400">管理员禁用</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-xs text-slate-500 text-center">
+                            <p>状态流转规则：创建后首次登录自动激活；密码错误5次锁定30分钟；管理员可手动禁用/启用；禁用用户无法登录</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 权限校验流程 -->
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">权限校验流程</h3>
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <div class="space-y-4">
+                            <div class="flow-step">
+                                <div class="flow-number">1</div>
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <div class="font-medium text-slate-800">用户发起请求</div>
+                                    <p class="text-sm text-slate-600 mt-1">用户访问页面或点击按钮，前端发起API请求，携带JWT Token</p>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-number">2</div>
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <div class="font-medium text-slate-800">身份认证</div>
+                                    <p class="text-sm text-slate-600 mt-1">后端验证Token有效性，获取用户ID和角色信息</p>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-number">3</div>
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <div class="font-medium text-slate-800">权限校验</div>
+                                    <p class="text-sm text-slate-600 mt-1">检查用户角色是否拥有该API权限，校验数据范围是否符合</p>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-number">4</div>
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <div class="font-medium text-slate-800">结果返回</div>
+                                    <p class="text-sm text-slate-600 mt-1">有权限：返回数据；无权限：返回403，记录审计日志</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 业务规则 -->
+        <section id="rules" class="mb-12">
+            <div class="section-card p-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6">四、核心业务规则</h2>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-blue-50 rounded-xl p-5 border border-blue-100">
+                        <h3 class="font-semibold text-blue-900 mb-3">用户管理规则</h3>
+                        <ul class="space-y-2 text-sm text-blue-800">
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>账号全局唯一，不可重复</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>一个用户可拥有多个角色</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>用户必须属于一个部门</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>禁用用户立即踢出所有登录</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>删除为软删除，数据保留</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-5 border border-green-100">
+                        <h3 class="font-semibold text-green-900 mb-3">角色权限规则</h3>
+                        <ul class="space-y-2 text-sm text-green-800">
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></span>超级管理员拥有所有权限</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></span>系统角色不可删除</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></span>角色权限修改实时生效</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></span>无角色用户无法登录</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></span>权限取角色并集</li>
+                        </ul>
+                    </div>
+                    <div class="bg-purple-50 rounded-xl p-5 border border-purple-100">
+                        <h3 class="font-semibold text-purple-900 mb-3">组织架构规则</h3>
+                        <ul class="space-y-2 text-sm text-purple-800">
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-1.5"></span>支持无限层级部门</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-1.5"></span>部门编码全局唯一</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-1.5"></span>有子部门不可删除</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-1.5"></span>支持部门合并与拆分</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-1.5"></span>部门变更影响数据范围</li>
+                        </ul>
+                    </div>
+                    <div class="bg-orange-50 rounded-xl p-5 border border-orange-100">
+                        <h3 class="font-semibold text-orange-900 mb-3">数据权限规则</h3>
+                        <ul class="space-y-2 text-sm text-orange-800">
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5"></span>数据范围与角色绑定</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5"></span>多角色取最大范围</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5"></span>跨部门数据需单独授权</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5"></span>数据权限后端强制执行</li>
+                            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5"></span>操作审计记录全量数据</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 交互说明 -->
+        <section id="interactions" class="mb-12">
+            <div class="section-card p-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6">五、交互与反馈</h2>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">操作反馈规范</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-green-50 rounded-lg border border-green-100">
+                                <span class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm">✓</span>
+                                <div>
+                                    <div class="font-medium text-green-800 text-sm">成功提示</div>
+                                    <div class="text-xs text-green-600">操作成功："创建用户成功" Toast提示，2秒自动消失</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                                <span class="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center text-sm">✗</span>
+                                <div>
+                                    <div class="font-medium text-red-800 text-sm">错误提示</div>
+                                    <div class="text-xs text-red-600">操作失败：表单字段标红，显示具体错误信息</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-lg border border-amber-100">
+                                <span class="w-8 h-8 bg-amber-500 text-white rounded-full flex items-center justify-center text-sm">!</span>
+                                <div>
+                                    <div class="font-medium text-amber-800 text-sm">确认弹窗</div>
+                                    <div class="text-xs text-amber-600">危险操作：删除前弹窗确认，显示影响范围</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                                <span class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm">i</span>
+                                <div>
+                                    <div class="font-medium text-blue-800 text-sm">加载状态</div>
+                                    <div class="text-xs text-blue-600">数据加载：显示Skeleton骨架屏或Loading动画</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">异常处理规范</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                <div class="font-medium text-slate-800 mb-1">网络异常</div>
+                                <p class="text-slate-600 text-xs">请求超时或网络断开时，显示"网络异常，请检查网络连接"，提供重试按钮</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                <div class="font-medium text-slate-800 mb-1">权限不足</div>
+                                <p class="text-slate-600 text-xs">访问无权限页面时，显示403页面，提示"您没有权限访问此页面"</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                <div class="font-medium text-slate-800 mb-1">数据不存在</div>
+                                <p class="text-slate-600 text-xs">访问已删除数据时，显示404页面，提示"数据不存在或已被删除"</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                <div class="font-medium text-slate-800 mb-1">服务端错误</div>
+                                <p class="text-slate-600 text-xs">服务器500错误时，显示"系统繁忙，请稍后再试"，记录错误日志</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="text-center text-slate-400 text-sm py-8">
+            <p class="text-lg font-semibold text-slate-600 mb-2">权限管理系统 - 详细产品需求文档</p>
+            <p>Version 3.0 · 页面级设计 · Generated by WorkBuddy</p>
+            <p class="mt-2">2026-04-24</p>
+        </footer>
+    </main>
+
+    <script>
+        // 导航切换
+        document.querySelectorAll('.nav-pill').forEach(pill => {
+            pill.addEventListener('click', function(e) {
+                document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
