@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBAC用户角色权限体系 - 产品需求文档</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { background: #f8fafc; }
+        .gradient-header { background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%); }
+        .card { transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .permission-badge { transition: all 0.2s; }
+        .permission-badge:hover { transform: scale(1.05); }
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3b82f6;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+        .toc-item { border-left: 3px solid transparent; transition: all 0.2s; }
+        .toc-item:hover, .toc-item.active { border-left-color: #3b82f6; background: rgba(59,130,246,0.05); }
+        .mermaid { background: transparent !important; }
+        .table-container { overflow-x: auto; }
+        .data-model-diagram {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 12px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+    <!-- 顶部导航 -->
+    <nav class="gradient-header text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center text-xl font-bold">R</div>
+                    <div>
+                        <h1 class="text-xl font-bold">RBAC 权限体系 PRD</h1>
+                        <p class="text-sm text-slate-300">用户角色权限管理系统 - 产品需求文档</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6 text-sm">
+                    <a href="#overview" class="nav-link opacity-80 hover:opacity-100">概览</a>
+                    <a href="#architecture" class="nav-link opacity-80 hover:opacity-100">架构设计</a>
+                    <a href="#modules" class="nav-link opacity-80 hover:opacity-100">功能模块</a>
+                    <a href="#data-model" class="nav-link opacity-80 hover:opacity-100">数据模型</a>
+                    <a href="#api" class="nav-link opacity-80 hover:opacity-100">接口设计</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-6 py-8 flex gap-8">
+        <!-- 左侧目录 -->
+        <aside class="w-64 flex-shrink-0 hidden lg:block">
+            <div class="sticky top-24 bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+                <h3 class="font-semibold text-slate-900 mb-4 px-3">目录</h3>
+                <div class="space-y-1">
+                    <a href="#overview" class="toc-item block px-3 py-2 text-sm text-slate-600 hover:text-blue-600 rounded">1. 文档概览</a>
+                    <a href="#background" class="toc-item block px-3 py-2 text-sm text-slate-600 hover:text-blue-600 rounded">2. 项目背景</a>
+                    <a href="#architecture" class="toc-item block px-3 py-2 text-sm text-slate-600 hover:text-blue-600 rounded">3. 系统架构</a>
+                    <a href="#concept" class="toc-item block px-3 pl-6 py-1 text-xs text-slate-500 hover:text-blue-600">3.1 RBAC概念模型</a>
+                    <a href="#core-entities" class="toc-item block px-3 pl-6 py-1 text-xs text-slate-500 hover:text-blue-600">3.2 核心实体关系</a>
+                    <a href="#modules" class="toc-item block px-3 py-2 text-sm text-slate-600 hover:text-blue-600 rounded">4. 功能模块</a>
+                    <a href="#user-module" class="toc-item block px-3 pl-6 py-1 text-xs text-slate-500 hover:text-blue-600">4.1 用户管理</a>
+                    <a href="#role-module" class="toc-item block px-3 pl-6 py-1 text-xs text-slate-500 hover:text-blue-600">4.2 角色管理</a>
+                    <a href="#permission-module" class="toc-item block px-3 pl-6 py-1 text-xs text-slate-500 hover:text-blue-600">4.3 权限管理</a>
+                    <a href="#org-module" class="toc-item block px-3 pl-6 py-1 text-xs text-slate-500 hover:text-blue-600">4.4 组织架构</a>
+                    <a href="#data-model" class="toc-item block px-3 py-2 text-sm text-slate-600 hover:text-blue-600 rounded">5. 数据模型</a>
+                    <a href="#permission-matrix" class="toc-item block px-3 pl-6 py-1 text-xs text-slate-500 hover:text-blue-600">5.1 权限矩阵</a>
+                    <a href="#api" class="toc-item block px-3 py-2 text-sm text-slate-600 hover:text-blue-600 rounded">6. 接口设计</a>
+                    <a href="#security" class="toc-item block px-3 py-2 text-sm text-slate-600 hover:text-blue-600 rounded">7. 安全设计</a>
+                    <a href="#audit" class="toc-item block px-3 py-2 text-sm text-slate-600 hover:text-blue-600 rounded">8. 审计日志</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="flex-1 min-w-0">
+            <!-- 文档概览 -->
+            <section id="overview" class="mb-12">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold text-slate-900 mb-2">文档概览</h2>
+                            <p class="text-slate-500">基于RBAC模型的后台管理系统权限体系设计</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">PRD</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">v1.0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-4 gap-4 mb-8">
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                            <div class="text-2xl font-bold text-blue-600 mb-1">5</div>
+                            <div class="text-sm text-slate-500">核心模块</div>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                            <div class="text-2xl font-bold text-purple-600 mb-1">4</div>
+                            <div class="text-sm text-slate-500">权限维度</div>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                            <div class="text-2xl font-bold text-green-600 mb-1">8</div>
+                            <div class="text-sm text-slate-500">数据实体</div>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                            <div class="text-2xl font-bold text-orange-600 mb-1">25+</div>
+                            <div class="text-sm text-slate-500">API接口</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                文档信息
+                            </h3>
+                            <table class="w-full text-sm">
+                                <tr class="border-b border-slate-100"><td class="py-2 text-slate-500">文档版本</td><td class="py-2 font-medium">v1.0.0</td></tr>
+                                <tr class="border-b border-slate-100"><td class="py-2 text-slate-500">编写日期</td><td class="py-2 font-medium">2026-04-24</td></tr>
+                                <tr class="border-b border-slate-100"><td class="py-2 text-slate-500">适用系统</td><td class="py-2 font-medium">后台管理系统通用</td></tr>
+                                <tr><td class="py-2 text-slate-500">技术栈</td><td class="py-2 font-medium">前后端分离 / RESTful API</td></tr>
+                            </table>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                设计目标
+                            </h3>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span><span>实现细粒度权限控制，支持菜单/按钮/数据/API四级权限</span></li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span><span>支持多租户组织架构，实现数据范围隔离</span></li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span><span>提供完整的审计追踪能力，满足合规要求</span></li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span><span>支持动态权限配置，无需重启服务</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 项目背景 -->
+            <section id="background" class="mb-12">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-sm">02</span>
+                        项目背景
+                    </h2>
+                    
+                    <div class="grid grid-cols-2 gap-6 mb-6">
+                        <div class="bg-red-50 border border-red-100 rounded-xl p-5">
+                            <h3 class="font-semibold text-red-800 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                现有痛点
+                            </h3>
+                            <ul class="space-y-2 text-sm text-red-700">
+                                <li>• 权限控制粒度粗，只能控制到菜单级别</li>
+                                <li>• 用户与权限直接绑定，维护成本高</li>
+                                <li>• 缺乏数据权限控制，无法隔离敏感数据</li>
+                                <li>• 权限变更需重启服务，影响业务连续性</li>
+                                <li>• 无操作审计日志，无法满足合规要求</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 border border-green-100 rounded-xl p-5">
+                            <h3 class="font-semibold text-green-800 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                预期收益
+                            </h3>
+                            <ul class="space-y-2 text-sm text-green-700">
+                                <li>• 细粒度权限控制，提升系统安全性</li>
+                                <li>• 角色批量授权，降低管理成本80%</li>
+                                <li>• 数据范围隔离，保护核心业务数据</li>
+                                <li>• 动态权限配置，实时生效无需重启</li>
+                                <li>• 完整审计追踪，满足等保合规要求</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h3 class="font-semibold text-slate-900 mb-3">RBAC 核心优势</h3>
+                        <div class="grid grid-cols-4 gap-4">
+                            <div class="text-center p-4">
+                                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">🔐</div>
+                                <div class="font-medium text-sm">最小权限原则</div>
+                                <div class="text-xs text-slate-500 mt-1">按需分配，防止越权</div>
+                            </div>
+                            <div class="text-center p-4">
+                                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">🔄</div>
+                                <div class="font-medium text-sm">职责分离</div>
+                                <div class="text-xs text-slate-500 mt-1">敏感操作需多人授权</div>
+                            </div>
+                            <div class="text-center p-4">
+                                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">📊</div>
+                                <div class="font-medium text-sm">数据隔离</div>
+                                <div class="text-xs text-slate-500 mt-1">多租户数据范围控制</div>
+                            </div>
+                            <div class="text-center p-4">
+                                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">📝</div>
+                                <div class="font-medium text-sm">审计追踪</div>
+                                <div class="text-xs text-slate-500 mt-1">操作留痕可追溯</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 系统架构 -->
+            <section id="architecture" class="mb-12">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-sm">03</span>
+                        系统架构
+                    </h2>
+
+                    <!-- RBAC概念模型 -->
+                    <div id="concept" class="mb-8">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">3.1 RBAC 概念模型</h3>
+                        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                            <div class="mermaid">
+graph TB
+    User[用户 User] -->|分配| Role[角色 Role]
+    Role -->|拥有| Permission[权限 Permission]
+    Permission -->|控制| Resource[资源 Resource]
+    
+    User -.->|属于| Org[组织架构 Organization]
+    Role -.->|关联| Org
+    
+    Permission -->|类型| Menu[菜单权限]
+    Permission -->|类型| Button[按钮权限]
+    Permission -->|类型| Data[数据权限]
+    Permission -->|类型| API[接口权限]
+    
+    style User fill:#dbeafe,stroke:#3b82f6
+    style Role fill:#dcfce7,stroke:#22c55e
+    style Permission fill:#fef3c7,stroke:#f59e0b
+    style Resource fill:#f3e8ff,stroke:#a855f7
+                            </div>
+                        </div>
+                        <div class="mt-4 grid grid-cols-4 gap-3">
+                            <div class="bg-blue-50 rounded-lg p-3 border border-blue-100">
+                                <div class="text-blue-700 font-medium text-sm">用户 User</div>
+                                <div class="text-blue-600 text-xs mt-1">系统的最终使用者，可被分配一个或多个角色</div>
+                            </div>
+                            <div class="bg-green-50 rounded-lg p-3 border border-green-100">
+                                <div class="text-green-700 font-medium text-sm">角色 Role</div>
+                                <div class="text-green-600 text-xs mt-1">权限的集合，代表一组职责和权限</div>
+                            </div>
+                            <div class="bg-amber-50 rounded-lg p-3 border border-amber-100">
+                                <div class="text-amber-700 font-medium text-sm">权限 Permission</div>
+                                <div class="text-amber-600 text-xs mt-1">对资源的访问控制，包括CRUD操作</div>
+                            </div>
+                            <div class="bg-purple-50 rounded-lg p-3 border border-purple-100">
+                                <div class="text-purple-700 font-medium text-sm">资源 Resource</div>
+                                <div class="text-purple-600 text-xs mt-1">被保护的系统对象，如菜单、数据、API</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 核心实体关系 -->
+                    <div id="core-entities">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">3.2 核心实体关系图</h3>
+                        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                            <div class="mermaid">
+erDiagram
+    USER ||--o{ USER_ROLE : "拥有"
+    ROLE ||--o{ USER_ROLE : "分配给"
+    ROLE ||--o{ ROLE_PERMISSION : "包含"
+    PERMISSION ||--o{ ROLE_PERMISSION : "属于"
+    ORG ||--o{ USER : "包含"
+    ORG ||--o{ ROLE : "关联"
+    
+    USER {
+        bigint id PK
+        varchar username
+        varchar email
+        varchar phone
+        int status
+        bigint org_id FK
+    }
+    
+    ROLE {
+        bigint id PK
+        varchar role_name
+        varchar role_code
+        int role_type
+        text description
+        bigint org_id FK
+    }
+    
+    PERMISSION {
+        bigint id PK
+        varchar perm_name
+        varchar perm_code
+        varchar resource_type
+        varchar resource_id
+        varchar action
+    }
+    
+    ORG {
+        bigint id PK
+        varchar org_name
+        varchar org_code
+        bigint parent_id
+        int org_type
+    }
+    
+    USER_ROLE {
+        bigint user_id FK
+        bigint role_id FK
+        datetime grant_time
+    }
+    
+    ROLE_PERMISSION {
+        bigint role_id FK
+        bigint perm_id FK
+        varchar data_scope
+    }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 功能模块 -->
+            <section id="modules" class="mb-12">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-sm">04</span>
+                        功能模块设计
+                    </h2>
+
+                    <!-- 用户管理 -->
+                    <div id="user-module" class="mb-8">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                            <span class="w-6 h-6 bg-blue-500 text-white rounded flex items-center justify-center text-xs">4.1</span>
+                            用户管理模块
+                        </h3>
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-medium text-slate-800 mb-3">功能清单</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                            <span class="flex-1">用户CRUD（创建/查询/更新/删除）</span>
+                                            <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">核心</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                            <span class="flex-1">用户状态管理（启用/禁用/锁定）</span>
+                                            <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">核心</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                            <span class="flex-1">密码策略管理（复杂度/有效期）</span>
+                                            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">安全</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                            <span class="flex-1">批量导入/导出用户</span>
+                                            <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded">扩展</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                            <span class="flex-1">用户角色分配与管理</span>
+                                            <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">核心</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-slate-800 mb-3">用户状态流转</h4>
+                                    <div class="mermaid">
+stateDiagram-v2
+    [*] --> 待激活: 创建用户
+    待激活 --> 正常: 激活账号
+    正常 --> 已锁定: 密码错误超次数
+    正常 --> 已禁用: 管理员禁用
+    已锁定 --> 正常: 自动解锁/管理员解锁
+    已禁用 --> 正常: 管理员启用
+    正常 --> [*]: 删除用户
+    已禁用 --> [*]: 删除用户
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 角色管理 -->
+                    <div id="role-module" class="mb-8">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                            <span class="w-6 h-6 bg-blue-500 text-white rounded flex items-center justify-center text-xs">4.2</span>
+                            角色管理模块
+                        </h3>
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <div class="grid grid-cols-3 gap-4 mb-4">
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <div class="text-2xl mb-2">👑</div>
+                                    <div class="font-medium text-slate-800">超级管理员</div>
+                                    <div class="text-xs text-slate-500 mt-1">系统初始化角色，拥有所有权限</div>
+                                    <div class="text-xs text-red-500 mt-2">* 不可删除</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <div class="text-2xl mb-2">🔧</div>
+                                    <div class="font-medium text-slate-800">系统管理员</div>
+                                    <div class="text-xs text-slate-500 mt-1">负责系统配置、用户管理</div>
+                                    <div class="text-xs text-green-500 mt-2">预置角色</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <div class="text-2xl mb-2">👤</div>
+                                    <div class="font-medium text-slate-800">普通用户</div>
+                                    <div class="text-xs text-slate-500 mt-1">业务操作人员，权限受限</div>
+                                    <div class="text-xs text-blue-500 mt-2">可自定义</div>
+                                </div>
+                            </div>
+                            <div class="table-container">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-slate-100">
+                                        <tr>
+                                            <th class="px-4 py-2 text-left font-medium text-slate-700">功能点</th>
+                                            <th class="px-4 py-2 text-left font-medium text-slate-700">描述</th>
+                                            <th class="px-4 py-2 text-left font-medium text-slate-700">优先级</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-200">
+                                        <tr>
+                                            <td class="px-4 py-2">角色CRUD</td>
+                                            <td class="px-4 py-2 text-slate-600">创建、编辑、删除角色（预置角色不可删除）</td>
+                                            <td class="px-4 py-2"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">P0</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">权限分配</td>
+                                            <td class="px-4 py-2 text-slate-600">为角色分配菜单、按钮、数据、API权限</td>
+                                            <td class="px-4 py-2"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">P0</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">数据范围配置</td>
+                                            <td class="px-4 py-2 text-slate-600">设置角色的数据可见范围（全部/部门/个人）</td>
+                                            <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">P1</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">角色继承</td>
+                                            <td class="px-4 py-2 text-slate-600">支持角色继承，子角色自动拥有父角色权限</td>
+                                            <td class="px-4 py-2"><span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-xs">P2</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 权限管理 -->
+                    <div id="permission-module" class="mb-8">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                            <span class="w-6 h-6 bg-blue-500 text-white rounded flex items-center justify-center text-xs">4.3</span>
+                            权限管理模块（四级权限体系）
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-blue-50 rounded-xl p-5 border border-blue-100">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="w-8 h-8 bg-blue-500 text-white rounded-lg flex items-center justify-center text-sm">1</span>
+                                    <h4 class="font-semibold text-blue-900">菜单权限</h4>
+                                </div>
+                                <p class="text-sm text-blue-700 mb-3">控制用户可见的导航菜单和页面访问</p>
+                                <div class="space-y-1 text-xs text-blue-600">
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>一级菜单（侧边栏）</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>二级菜单（子菜单）</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>页面路由权限</div>
+                                </div>
+                            </div>
+                            <div class="bg-green-50 rounded-xl p-5 border border-green-100">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="w-8 h-8 bg-green-500 text-white rounded-lg flex items-center justify-center text-sm">2</span>
+                                    <h4 class="font-semibold text-green-900">按钮权限</h4>
+                                </div>
+                                <p class="text-sm text-green-700 mb-3">控制页面内操作按钮的显示与可用性</p>
+                                <div class="space-y-1 text-xs text-green-600">
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>新增/创建按钮</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>编辑/修改按钮</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>删除/批量删除按钮</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>导出/导入按钮</div>
+                                </div>
+                            </div>
+                            <div class="bg-purple-50 rounded-xl p-5 border border-purple-100">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="w-8 h-8 bg-purple-500 text-white rounded-lg flex items-center justify-center text-sm">3</span>
+                                    <h4 class="font-semibold text-purple-900">数据权限</h4>
+                                </div>
+                                <p class="text-sm text-purple-700 mb-3">控制用户可查看和操作的数据范围</p>
+                                <div class="space-y-1 text-xs text-purple-600">
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full"></span>全部数据（超级管理员）</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full"></span>部门及子部门数据</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full"></span>仅本部门数据</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full"></span>仅个人数据</div>
+                                </div>
+                            </div>
+                            <div class="bg-amber-50 rounded-xl p-5 border border-amber-100">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="w-8 h-8 bg-amber-500 text-white rounded-lg flex items-center justify-center text-sm">4</span>
+                                    <h4 class="font-semibold text-amber-900">接口权限</h4>
+                                </div>
+                                <p class="text-sm text-amber-700 mb-3">控制API接口的访问权限，防止越权调用</p>
+                                <div class="space-y-1 text-xs text-amber-600">
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span>GET 查询接口</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span>POST 创建接口</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span>PUT/PATCH 更新接口</div>
+                                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span>DELETE 删除接口</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 组织架构 -->
+                    <div id="org-module">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                            <span class="w-6 h-6 bg-blue-500 text-white rounded flex items-center justify-center text-xs">4.4</span>
+                            组织架构模块
+                        </h3>
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-medium text-slate-800 mb-3">组织类型</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                            <span class="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-lg">🏢</span>
+                                            <div>
+                                                <div class="font-medium text-sm">集团/公司</div>
+                                                <div class="text-xs text-slate-500">顶级组织节点，数据汇总层级</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                            <span class="w-10 h-10 bg-green-100 text-green-600 rounded-lg flex items-center justify-center text-lg">🏪</span>
+                                            <div>
+                                                <div class="font-medium text-sm">部门/门店</div>
+                                                <div class="text-xs text-slate-500">中间层级，独立核算单元</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                            <span class="w-10 h-10 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center text-lg">👥</span>
+                                            <div>
+                                                <div class="font-medium text-sm">小组/团队</div>
+                                                <div class="text-xs text-slate-500">最细粒度组织单元</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-slate-800 mb-3">树形结构示例</h4>
+                                    <div class="mermaid">
+graph TD
+    A[顶巧餐饮集团] --> B[数智科技中心]
+    A --> C[营运中心]
+    A --> D[财务中心]
+    B --> B1[产品研发部]
+    B --> B2[数据中台部]
+    C --> C1[华东大区]
+    C --> C2[华北大区]
+    C1 --> C1a[上海门店群]
+    C1 --> C1b[杭州门店群]
+    
+    style A fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+    style B fill:#dcfce7,stroke:#22c55e
+    style C fill:#dcfce7,stroke:#22c55e
+    style D fill:#dcfce7,stroke:#22c55e
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 数据模型 -->
+            <section id="data-model" class="mb-12">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-sm">05</span>
+                        数据模型设计
+                    </h2>
+
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <!-- 用户表 -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <h3 class="font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                                <span class="w-6 h-6 bg-blue-500 text-white rounded text-xs flex items-center justify-center">U</span>
+                                sys_user（用户表）
+                            </h3>
+                            <table class="w-full text-xs">
+                                <thead class="bg-slate-200">
+                                    <tr><th class="px-2 py-1 text-left">字段</th><th class="px-2 py-1 text-left">类型</th><th class="px-2 py-1 text-left">说明</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="px-2 py-1 font-medium">id</td><td class="px-2 py-1">bigint</td><td class="px-2 py-1 text-slate-500">主键</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">username</td><td class="px-2 py-1">varchar(50)</td><td class="px-2 py-1 text-slate-500">用户名</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">password</td><td class="px-2 py-1">varchar(100)</td><td class="px-2 py-1 text-slate-500">密码(加密)</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">email</td><td class="px-2 py-1">varchar(100)</td><td class="px-2 py-1 text-slate-500">邮箱</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">phone</td><td class="px-2 py-1">varchar(20)</td><td class="px-2 py-1 text-slate-500">手机号</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">org_id</td><td class="px-2 py-1">bigint</td><td class="px-2 py-1 text-slate-500">所属组织</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">status</td><td class="px-2 py-1">tinyint</td><td class="px-2 py-1 text-slate-500">状态</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">last_login</td><td class="px-2 py-1">datetime</td><td class="px-2 py-1 text-slate-500">最后登录</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 角色表 -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <h3 class="font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                                <span class="w-6 h-6 bg-green-500 text-white rounded text-xs flex items-center justify-center">R</span>
+                                sys_role（角色表）
+                            </h3>
+                            <table class="w-full text-xs">
+                                <thead class="bg-slate-200">
+                                    <tr><th class="px-2 py-1 text-left">字段</th><th class="px-2 py-1 text-left">类型</th><th class="px-2 py-1 text-left">说明</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="px-2 py-1 font-medium">id</td><td class="px-2 py-1">bigint</td><td class="px-2 py-1 text-slate-500">主键</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">role_name</td><td class="px-2 py-1">varchar(50)</td><td class="px-2 py-1 text-slate-500">角色名称</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">role_code</td><td class="px-2 py-1">varchar(50)</td><td class="px-2 py-1 text-slate-500">角色编码</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">role_type</td><td class="px-2 py-1">tinyint</td><td class="px-2 py-1 text-slate-500">类型</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">data_scope</td><td class="px-2 py-1">tinyint</td><td class="px-2 py-1 text-slate-500">数据范围</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">description</td><td class="px-2 py-1">varchar(200)</td><td class="px-2 py-1 text-slate-500">描述</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">is_system</td><td class="px-2 py-1">tinyint</td><td class="px-2 py-1 text-slate-500">系统角色</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 权限表 -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <h3 class="font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                                <span class="w-6 h-6 bg-amber-500 text-white rounded text-xs flex items-center justify-center">P</span>
+                                sys_permission（权限表）
+                            </h3>
+                            <table class="w-full text-xs">
+                                <thead class="bg-slate-200">
+                                    <tr><th class="px-2 py-1 text-left">字段</th><th class="px-2 py-1 text-left">类型</th><th class="px-2 py-1 text-left">说明</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="px-2 py-1 font-medium">id</td><td class="px-2 py-1">bigint</td><td class="px-2 py-1 text-slate-500">主键</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">perm_name</td><td class="px-2 py-1">varchar(50)</td><td class="px-2 py-1 text-slate-500">权限名称</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">perm_code</td><td class="px-2 py-1">varchar(100)</td><td class="px-2 py-1 text-slate-500">权限编码</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">resource_type</td><td class="px-2 py-1">varchar(20)</td><td class="px-2 py-1 text-slate-500">资源类型</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">resource_id</td><td class="px-2 py-1">bigint</td><td class="px-2 py-1 text-slate-500">资源ID</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">action</td><td class="px-2 py-1">varchar(20)</td><td class="px-2 py-1 text-slate-500">操作类型</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">parent_id</td><td class="px-2 py-1">bigint</td><td class="px-2 py-1 text-slate-500">父权限</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 组织表 -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <h3 class="font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                                <span class="w-6 h-6 bg-purple-500 text-white rounded text-xs flex items-center justify-center">O</span>
+                                sys_org（组织表）
+                            </h3>
+                            <table class="w-full text-xs">
+                                <thead class="bg-slate-200">
+                                    <tr><th class="px-2 py-1 text-left">字段</th><th class="px-2 py-1 text-left">类型</th><th class="px-2 py-1 text-left">说明</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="px-2 py-1 font-medium">id</td><td class="px-2 py-1">bigint</td><td class="px-2 py-1 text-slate-500">主键</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">org_name</td><td class="px-2 py-1">varchar(50)</td><td class="px-2 py-1 text-slate-500">组织名称</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">org_code</td><td class="px-2 py-1">varchar(50)</td><td class="px-2 py-1 text-slate-500">组织编码</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">org_type</td><td class="px-2 py-1">tinyint</td><td class="px-2 py-1 text-slate-500">组织类型</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">parent_id</td><td class="px-2 py-1">bigint</td><td class="px-2 py-1 text-slate-500">父组织</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">level</td><td class="px-2 py-1">int</td><td class="px-2 py-1 text-slate-500">层级</td></tr>
+                                    <tr><td class="px-2 py-1 font-medium">path</td><td class="px-2 py-1">varchar(200)</td><td class="px-2 py-1 text-slate-500">路径</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 关联表 -->
+                    <div id="permission-matrix" class="mb-8">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">权限矩阵示例</h3>
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-slate-200">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">功能模块</th>
+                                        <th class="px-3 py-2 text-center">超级管理员</th>
+                                        <th class="px-3 py-2 text-center">系统管理员</th>
+                                        <th class="px-3 py-2 text-center">部门经理</th>
+                                        <th class="px-3 py-2 text-center">普通用户</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr class="bg-blue-50">
+                                        <td class="px-3 py-2 font-medium" colspan="5">用户管理</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2 pl-6">查看用户列表</td>
+                                        <td class="px-3 py-2 text-center"><span class="text-green-500">✓</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-green-500">✓</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-green-500">✓</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-red-400">✗</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2 pl-6">创建用户</td>
+                                        <td class="px-3 py-2 text-center"><span class="text-green-500">✓</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-green-500">✓</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-red-400">✗</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-red-400">✗</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2 pl-6">编辑用户</td>
+                                        <td class="px-3 py-2 text-center"><span class="text-green-500">✓</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-green-500">✓</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-yellow-500">△</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-red-400">✗</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2 pl-6">删除用户</td>
+                                        <td class="px-3 py-2 text-center"><span class="text-green-500">✓</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-red-400">✗</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-red-400">✗</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-red-400">✗</span></td>
+                                    </tr>
+                                    <tr class="bg-blue-50">
+                                        <td class="px-3 py-2 font-medium" colspan="5">数据权限范围</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2 pl-6">可见数据范围</td>
+                                        <td class="px-3 py-2 text-center"><span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">全部</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">全部</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">本部门</span></td>
+                                        <td class="px-3 py-2 text-center"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">仅自己</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="mt-3 text-xs text-slate-500 flex gap-4">
+                                <span><span class="text-green-500">✓</span> 有权限</span>
+                                <span><span class="text-red-400">✗</span> 无权限</span>
+                                <span><span class="text-yellow-500">△</span> 有条件权限</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 接口设计 -->
+            <section id="api" class="mb-12">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-sm">06</span>
+                        接口设计（RESTful API）
+                    </h2>
+
+                    <div class="space-y-4">
+                        <!-- 用户接口 -->
+                        <div class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                            <div class="bg-slate-100 px-4 py-3 font-semibold text-slate-800 flex items-center gap-2">
+                                <span class="w-6 h-6 bg-blue-500 text-white rounded text-xs flex items-center justify-center">U</span>
+                                用户管理接口
+                            </div>
+                            <div class="p-4">
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">GET</span>
+                                        <code class="text-sm flex-1">/api/v1/users</code>
+                                        <span class="text-sm text-slate-500">获取用户列表（支持分页、筛选）</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">POST</span>
+                                        <code class="text-sm flex-1">/api/v1/users</code>
+                                        <span class="text-sm text-slate-500">创建用户</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium">PUT</span>
+                                        <code class="text-sm flex-1">/api/v1/users/{id}</code>
+                                        <span class="text-sm text-slate-500">更新用户信息</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-medium">DELETE</span>
+                                        <code class="text-sm flex-1">/api/v1/users/{id}</code>
+                                        <span class="text-sm text-slate-500">删除用户</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs font-medium">POST</span>
+                                        <code class="text-sm flex-1">/api/v1/users/{id}/roles</code>
+                                        <span class="text-sm text-slate-500">分配用户角色</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 角色接口 -->
+                        <div class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                            <div class="bg-slate-100 px-4 py-3 font-semibold text-slate-800 flex items-center gap-2">
+                                <span class="w-6 h-6 bg-green-500 text-white rounded text-xs flex items-center justify-center">R</span>
+                                角色管理接口
+                            </div>
+                            <div class="p-4">
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">GET</span>
+                                        <code class="text-sm flex-1">/api/v1/roles</code>
+                                        <span class="text-sm text-slate-500">获取角色列表</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">POST</span>
+                                        <code class="text-sm flex-1">/api/v1/roles</code>
+                                        <span class="text-sm text-slate-500">创建角色</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium">PUT</span>
+                                        <code class="text-sm flex-1">/api/v1/roles/{id}/permissions</code>
+                                        <span class="text-sm text-slate-500">分配角色权限</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">GET</span>
+                                        <code class="text-sm flex-1">/api/v1/roles/{id}/users</code>
+                                        <span class="text-sm text-slate-500">获取角色下的用户</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 权限校验接口 -->
+                        <div class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                            <div class="bg-slate-100 px-4 py-3 font-semibold text-slate-800 flex items-center gap-2">
+                                <span class="w-6 h-6 bg-amber-500 text-white rounded text-xs flex items-center justify-center">P</span>
+                                权限校验接口
+                            </div>
+                            <div class="p-4">
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">GET</span>
+                                        <code class="text-sm flex-1">/api/v1/auth/permissions</code>
+                                        <span class="text-sm text-slate-500">获取当前用户权限列表</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">GET</span>
+                                        <code class="text-sm flex-1">/api/v1/auth/menus</code>
+                                        <span class="text-sm text-slate-500">获取当前用户菜单</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">POST</span>
+                                        <code class="text-sm flex-1">/api/v1/auth/check</code>
+                                        <span class="text-sm text-slate-500">校验特定权限</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 安全设计 -->
+            <section id="security" class="mb-12">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-sm">07</span>
+                        安全设计
+                    </h2>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-red-50 rounded-xl p-5 border border-red-100">
+                            <h3 class="font-semibold text-red-800 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                认证安全
+                            </h3>
+                            <ul class="space-y-2 text-sm text-red-700">
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5"></span>JWT Token认证，支持刷新Token机制</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5"></span>密码采用BCrypt加密存储</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5"></span>登录失败次数限制（5次锁定30分钟）</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5"></span>强制密码复杂度（8位以上+大小写+数字）</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5"></span>定期密码更换提醒（90天）</li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-50 rounded-xl p-5 border border-blue-100">
+                            <h3 class="font-semibold text-blue-800 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                授权安全
+                            </h3>
+                            <ul class="space-y-2 text-sm text-blue-700">
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>接口级别权限校验（后端二次校验）</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>数据范围动态过滤（SQL拦截注入）</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>敏感操作二次确认（删除、批量操作）</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>越权访问自动拦截并告警</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>Session超时自动登出（30分钟无操作）</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-5 border border-green-100">
+                            <h3 class="font-semibold text-green-800 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path></svg>
+                                传输安全
+                            </h3>
+                            <ul class="space-y-2 text-sm text-green-700">
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></span>全站HTTPS加密传输</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></span>API请求签名验证防篡改</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></span>请求频率限制（防暴力破解）</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5"></span>CORS跨域白名单控制</li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-5 border border-purple-100">
+                            <h3 class="font-semibold text-purple-800 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                                数据安全
+                            </h3>
+                            <ul class="space-y-2 text-sm text-purple-700">
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-1.5"></span>敏感数据脱敏展示（手机号、身份证）</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-1.5"></span>数据库敏感字段加密存储</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-1.5"></span>数据库访问权限最小化</li>
+                                <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mt-1.5"></span>定期数据备份与恢复演练</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 审计日志 -->
+            <section id="audit" class="mb-12">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-sm">08</span>
+                        审计日志
+                    </h2>
+
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-3">日志分类</h3>
+                        <div class="grid grid-cols-4 gap-4">
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 text-center">
+                                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">🔑</div>
+                                <div class="font-medium text-sm">登录日志</div>
+                                <div class="text-xs text-slate-500 mt-1">记录用户登录/登出行为</div>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 text-center">
+                                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">📝</div>
+                                <div class="font-medium text-sm">操作日志</div>
+                                <div class="text-xs text-slate-500 mt-1">记录增删改查等操作</div>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 text-center">
+                                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">⚠️</div>
+                                <div class="font-medium text-sm">异常日志</div>
+                                <div class="text-xs text-slate-500 mt-1">记录权限越权等异常</div>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 text-center">
+                                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">🔧</div>
+                                <div class="font-medium text-sm">系统日志</div>
+                                <div class="text-xs text-slate-500 mt-1">记录权限变更等配置操作</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h3 class="font-semibold text-slate-900 mb-3">日志字段规范</h3>
+                        <div class="table-container">
+                            <table class="w-full text-sm">
+                                <thead class="bg-slate-200">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">字段名</th>
+                                        <th class="px-3 py-2 text-left">类型</th>
+                                        <th class="px-3 py-2 text-left">说明</th>
+                                        <th class="px-3 py-2 text-left">示例</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 bg-white">
+                                    <tr><td class="px-3 py-2 font-medium">id</td><td class="px-3 py-2">bigint</td><td class="px-3 py-2 text-slate-500">日志ID</td><td class="px-3 py-2">10001</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">log_type</td><td class="px-3 py-2">varchar(20)</td><td class="px-3 py-2 text-slate-500">日志类型</td><td class="px-3 py-2">LOGIN/OPERATE/ERROR</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">user_id</td><td class="px-3 py-2">bigint</td><td class="px-3 py-2 text-slate-500">操作用户ID</td><td class="px-3 py-2">123</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">username</td><td class="px-3 py-2">varchar(50)</td><td class="px-3 py-2 text-slate-500">操作用户名</td><td class="px-3 py-2">admin</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">operation</td><td class="px-3 py-2">varchar(100)</td><td class="px-3 py-2 text-slate-500">操作描述</td><td class="px-3 py-2">创建用户</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">method</td><td class="px-3 py-2">varchar(10)</td><td class="px-3 py-2 text-slate-500">请求方法</td><td class="px-3 py-2">POST</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">url</td><td class="px-3 py-2">varchar(200)</td><td class="px-3 py-2 text-slate-500">请求URL</td><td class="px-3 py-2">/api/v1/users</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">ip</td><td class="px-3 py-2">varchar(50)</td><td class="px-3 py-2 text-slate-500">IP地址</td><td class="px-3 py-2">192.168.1.1</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">params</td><td class="px-3 py-2">text</td><td class="px-3 py-2 text-slate-500">请求参数（脱敏）</td><td class="px-3 py-2">{"name":"张三"}</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">result</td><td class="px-3 py-2">text</td><td class="px-3 py-2 text-slate-500">操作结果</td><td class="px-3 py-2">SUCCESS/FAILED</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">duration</td><td class="px-3 py-2">int</td><td class="px-3 py-2 text-slate-500">耗时(ms)</td><td class="px-3 py-2">156</td></tr>
+                                    <tr><td class="px-3 py-2 font-medium">create_time</td><td class="px-3 py-2">datetime</td><td class="px-3 py-2 text-slate-500">操作时间</td><td class="px-3 py-2">2026-04-24 10:30:00</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 bg-amber-50 rounded-xl p-4 border border-amber-100">
+                        <h4 class="font-semibold text-amber-800 mb-2 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            日志保留策略
+                        </h4>
+                        <ul class="text-sm text-amber-700 space-y-1">
+                            <li>• 登录日志：保留180天</li>
+                            <li>• 操作日志：保留365天</li>
+                            <li>• 异常日志：永久保留</li>
+                            <li>• 系统日志：保留90天</li>
+                            <li>• 超过保留期的日志自动归档到对象存储（如OSS/S3）</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 页脚 -->
+            <footer class="text-center text-slate-400 text-sm py-8">
+                <p>RBAC 用户角色权限体系 - 产品需求文档 v1.0</p>
+                <p class="mt-1">Generated by WorkBuddy · 2026-04-24</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        // 目录高亮
+        const sections = document.querySelectorAll('section[id]');
+        const tocItems = document.querySelectorAll('.toc-item');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            tocItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${current}`) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
