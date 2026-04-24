@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek V4 深度解析：技术架构、性能对比与行业影响</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            color: #333;
+            line-height: 1.8;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(229,0,18,0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .header .subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+        .header .meta {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        .badge {
+            display: inline-block;
+            background: #e50012;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        /* Section */
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 32px;
+            background: linear-gradient(180deg, #e50012, #ff6b35);
+            border-radius: 2px;
+        }
+        
+        /* Model Cards */
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .model-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid #e8e8e8;
+            transition: all 0.3s ease;
+        }
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .model-card.pro {
+            border-color: #e50012;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+        }
+        .model-card.flash {
+            border-color: #52c41a;
+            background: linear-gradient(135deg, #f6ffed 0%, #ffffff 100%);
+        }
+        .model-card .version {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .model-card.pro .version { color: #e50012; }
+        .model-card.flash .version { color: #52c41a; }
+        .model-card .tag {
+            display: inline-block;
+            background: #333;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+        .model-card .specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .model-card .spec-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .model-card .spec-item .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .model-card .spec-item .label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        /* Comparison Table */
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+        .comp-table th {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 500;
+        }
+        .comp-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .comp-table tr:hover { background: #f8f9fa; }
+        .comp-table .highlight { background: #fff5f5; font-weight: bold; }
+        .comp-table .winner { color: #52c41a; font-weight: bold; }
+        .comp-table .loser { color: #999; }
+        
+        /* Tech Stack */
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .tech-item {
+            background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 100%);
+            border-radius: 12px;
+            padding: 24px;
+            border-left: 4px solid #e50012;
+        }
+        .tech-item .name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .tech-item .desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Price Comparison */
+        .price-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .price-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            border: 2px solid #e8e8e8;
+            transition: all 0.3s;
+        }
+        .price-card:hover {
+            border-color: #e50012;
+            transform: scale(1.02);
+        }
+        .price-card .model-name {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .price-card .price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #e50012;
+        }
+        .price-card .unit {
+            font-size: 12px;
+            color: #999;
+        }
+        .price-card .desc {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #e50012, #ff6b35);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 30px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border: 3px solid #e50012;
+            border-radius: 50%;
+        }
+        .timeline-item .date {
+            font-size: 12px;
+            color: #e50012;
+            font-weight: bold;
+        }
+        .timeline-item .title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 4px 0;
+        }
+        .timeline-item .desc {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+        .summary-box h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .summary-item {
+            text-align: center;
+        }
+        .summary-item .icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+        .summary-item .title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .summary-item .desc {
+            font-size: 13px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 1024px) {
+            .model-grid { grid-template-columns: 1fr; }
+            .chart-grid { grid-template-columns: 1fr; }
+            .tech-stack { grid-template-columns: 1fr; }
+            .price-cards { grid-template-columns: repeat(2, 1fr); }
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>DeepSeek V4</h1>
+            <div class="subtitle">万亿参数MoE架构 · 百万上下文 · 国产算力全栈自主</div>
+            <div class="meta">发布时间：2026年4月24日 | 深度求索（DeepSeek）</div>
+            <div class="badge">🚀 正式发布</div>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="section">
+            <h2 class="section-title">核心亮点速览</h2>
+            <div class="summary-box">
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="icon">📊</div>
+                        <div class="title">双版本架构</div>
+                        <div class="desc">Pro版1.6T总参数/49B激活参数<br>Flash版284B总参数/13B激活参数</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="icon">📖</div>
+                        <div class="title">百万上下文标配</div>
+                        <div class="desc">原生支持100万token<br>成本仅为V3.2的27%</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="icon">🇨🇳</div>
+                        <div class="title">国产自主可控</div>
+                        <div class="desc">全面适配华为昇腾950PR<br>脱离英伟达CUDA生态</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Specifications -->
+        <div class="section">
+            <h2 class="section-title">模型规格对比</h2>
+            <div class="model-grid">
+                <div class="model-card pro">
+                    <div class="version">V4-Pro</div>
+                    <div class="tag">旗舰性能版</div>
+                    <div class="specs">
+                        <div class="spec-item">
+                            <div class="value">1.6T</div>
+                            <div class="label">总参数</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="value">49B</div>
+                            <div class="label">激活参数</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="value">1M</div>
+                            <div class="label">上下文窗口</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="value">27%</div>
+                            <div class="label">vs V3.2 FLOPs</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="model-card flash">
+                    <div class="version">V4-Flash</div>
+                    <div class="tag">经济高效版</div>
+                    <div class="specs">
+                        <div class="spec-item">
+                            <div class="value">284B</div>
+                            <div class="label">总参数</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="value">13B</div>
+                            <div class="label">激活参数</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="value">1M</div>
+                            <div class="label">上下文窗口</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="value">10%</div>
+                            <div class="label">vs V3.2 FLOPs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Charts -->
+        <div class="section">
+            <h2 class="section-title">性能基准测试对比</h2>
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">编程/推理能力对比</div>
+                    <canvas id="codingChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Agent能力对比</div>
+                    <canvas id="agentChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">知识问答能力对比</div>
+                <canvas id="knowledgeChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Detailed Comparison Table -->
+        <div class="section">
+            <h2 class="section-title">与头部厂商模型全面对比</h2>
+            <table class="comp-table">
+                <thead>
+                    <tr>
+                        <th>对比维度</th>
+                        <th>DeepSeek V4-Pro</th>
+                        <th>GPT-5.4</th>
+                        <th>Gemini-3.1-Pro</th>
+                        <th>Claude Opus 4.6</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>发布时间</strong></td>
+                        <td>2026.04.24</td>
+                        <td>2026.03</td>
+                        <td>2026.03</td>
+                        <td>2026.02</td>
+                    </tr>
+                    <tr>
+                        <td><strong>架构</strong></td>
+                        <td>MoE (1.6T/49B)</td>
+                        <td>未公开</td>
+                        <td>未公开</td>
+                        <td>未公开</td>
+                    </tr>
+                    <tr>
+                        <td><strong>上下文窗口</strong></td>
+                        <td class="highlight">1M tokens</td>
+                        <td>128K-1M</td>
+                        <td class="winner">1M+ tokens</td>
+                        <td>200K tokens</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Apex Shortlist</strong></td>
+                        <td class="winner">90.2%</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Codeforces Rating</strong></td>
+                        <td class="winner">3206</td>
+                        <td>~3100</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SWE Verified</strong></td>
+                        <td>80.6%</td>
+                        <td>~80%</td>
+                        <td>-</td>
+                        <td class="winner">~82%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SimpleQA</strong></td>
+                        <td>稍逊</td>
+                        <td>-</td>
+                        <td class="winner">75.6%</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MMLU-Pro</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td class="winner">91.0</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Agent能力</strong></td>
+                        <td>接近Opus 4.6非思考模式</td>
+                        <td>强</td>
+                        <td>强</td>
+                        <td class="winner">最强（思考模式）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>开源</strong></td>
+                        <td class="winner">✅ 完全开源</td>
+                        <td>❌ 闭源</td>
+                        <td>❌ 闭源</td>
+                        <td>❌ 闭源</td>
+                    </tr>
+                    <tr>
+                        <td><strong>API价格</strong></td>
+                        <td class="winner">极低</td>
+                        <td>高</td>
+                        <td>高</td>
+                        <td>极高</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="section">
+            <h2 class="section-title">核心技术突破</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <div class="name">🧠 MegaMoE架构</div>
+                    <div class="desc">1.6万亿总参数仅激活3%，大幅降低推理成本。采用mHC流形约束优化专家路由效率。</div>
+                </div>
+                <div class="tech-item">
+                    <div class="name">⚡ 创新注意力机制</div>
+                    <div class="desc">Token维度压缩 + DSA稀疏注意力，百万上下文处理成本降至V3.2的27%。</div>
+                </div>
+                <div class="tech-item">
+                    <div class="name">💾 Engram条件记忆</div>
+                    <div class="desc">动态KV Cache压缩技术，长文本推理时KV Cache占用降低至10%。</div>
+                </div>
+                <div class="tech-item">
+                    <div class="name">🔧 稀疏FP8解码</div>
+                    <div class="desc">混合精度推理，在保证精度的同时大幅提升推理速度。</div>
+                </div>
+                <div class="tech-item">
+                    <div class="name">🇨🇳 华为昇腾全栈适配</div>
+                    <div class="desc">深度适配华为昇腾950PR芯片，单卡推理性能达英伟达H20的2.87倍。</div>
+                </div>
+                <div class="tech-item">
+                    <div class="name">🚀 Agent专项优化</div>
+                    <div class="desc">针对Claude Code、OpenClaw等主流Agent框架深度优化，工具调用准确率大幅提升。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Price Comparison -->
+        <div class="section">
+            <h2 class="section-title">API定价对比（每百万token）</h2>
+            <div class="price-cards">
+                <div class="price-card">
+                    <div class="model-name">V4-Flash 输入(缓存命中)</div>
+                    <div class="price">¥0.2</div>
+                    <div class="unit">/ 百万token</div>
+                    <div class="desc">极致性价比</div>
+                </div>
+                <div class="price-card">
+                    <div class="model-name">V4-Flash 输出</div>
+                    <div class="price">¥2</div>
+                    <div class="unit">/ 百万token</div>
+                    <div class="desc">经济高效</div>
+                </div>
+                <div class="price-card">
+                    <div class="model-name">V4-Pro 输入(缓存命中)</div>
+                    <div class="price">¥1</div>
+                    <div class="unit">/ 百万token</div>
+                    <div class="desc">旗舰性能</div>
+                </div>
+                <div class="price-card">
+                    <div class="model-name">V4-Pro 输出</div>
+                    <div class="price">¥24</div>
+                    <div class="unit">/ 百万token</div>
+                    <div class="desc">顶级质量</div>
+                </div>
+            </div>
+            <p style="text-align: center; color: #666; font-size: 14px; margin-top: 20px;">
+                对比：GPT-4 Turbo输出约¥150+/百万token，Claude 3 Opus输出约¥450+/百万token
+            </p>
+        </div>
+
+        <!-- Development Timeline -->
+        <div class="section">
+            <h2 class="section-title">DeepSeek发展历程</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="date">2023年</div>
+                    <div class="title">DeepSeek成立</div>
+                    <div class="desc">幻方量化孵化，专注大模型研发</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="date">2024年</div>
+                    <div class="title">DeepSeek-V2发布</div>
+                    <div class="desc">首次采用MoE架构，引发API价格战</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="date">2025年</div>
+                    <div class="title">DeepSeek-V3/V3.2</div>
+                    <div class="desc">性能持续提升，开源社区影响力扩大</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="date">2026年4月</div>
+                    <div class="title">DeepSeek-V4发布</div>
+                    <div class="desc">万亿参数MoE，百万上下文，国产算力全栈自主</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Impact Analysis -->
+        <div class="section">
+            <h2 class="section-title">行业影响与战略意义</h2>
+            <div class="summary-box">
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="icon">💰</div>
+                        <div class="title">成本重构</div>
+                        <div class="desc">百万上下文成本降至白菜价<br>推动长文本应用普及</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="icon">🔓</div>
+                        <div class="title">开源引领</div>
+                        <div class="desc">顶级性能完全开源<br>打破闭源模型垄断</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="icon">🏭</div>
+                        <div class="title">国产替代</div>
+                        <div class="desc">脱离英伟达生态<br>华为昇腾算力自主可控</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="section">
+            <h2 class="section-title">总结评价</h2>
+            <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; padding: 30px; border-left: 4px solid #e50012;">
+                <p style="font-size: 16px; line-height: 2; margin-bottom: 20px;">
+                    <strong>DeepSeek V4不是一次简单的模型升级，而是一次战略级突破。</strong>
+                </p>
+                <p style="font-size: 15px; line-height: 2; color: #444;">
+                    它的意义不在于超越GPT-5.4或Claude Opus（官方也坦诚仍落后3-6个月），而在于：<br><br>
+                    1. <strong>技术民主化</strong>：将百万上下文、顶级推理能力以极低价格普惠化<br>
+                    2. <strong>开源领导力</strong>：在开源领域达到闭源顶级模型水平<br>
+                    3. <strong>自主可控</strong>：全球首个脱离CUDA生态的万亿参数大模型，标志中国AI进入自主可控新阶段<br><br>
+                    对于开发者而言，V4-Pro适合高质量Agent应用，V4-Flash适合大规模并发场景。
+                    随着2026年下半年昇腾950超节点批量部署，预计Pro版本价格还将大幅下调。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Coding/Reasoning Chart
+        const codingCtx = document.getElementById('codingChart').getContext('2d');
+        new Chart(codingCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Apex Shortlist', 'Codeforces Rating', 'GPQA Diamond', 'MMLU-Pro'],
+                datasets: [{
+                    label: 'DeepSeek V4-Pro',
+                    data: [90.2, 3206, 85, 88],
+                    backgroundColor: '#e50012',
+                    borderRadius: 6
+                }, {
+                    label: 'Gemini-3.1-Pro',
+                    data: [88, 3100, 94.3, 91],
+                    backgroundColor: '#4285f4',
+                    borderRadius: 6
+                }, {
+                    label: 'GPT-5.4',
+                    data: [87, 3100, 92, 90],
+                    backgroundColor: '#10a37f',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+
+        // Agent Chart
+        const agentCtx = document.getElementById('agentChart').getContext('2d');
+        new Chart(agentCtx, {
+            type: 'radar',
+            data: {
+                labels: ['SWE Verified', 'Terminal Bench', 'Toolathlon', 'Code Edit', 'Debug'],
+                datasets: [{
+                    label: 'DeepSeek V4-Pro',
+                    data: [80.6, 67.9, 51.8, 75, 72],
+                    borderColor: '#e50012',
+                    backgroundColor: 'rgba(229,0,18,0.2)',
+                    pointBackgroundColor: '#e50012'
+                }, {
+                    label: 'Claude Opus 4.6',
+                    data: [82, 65, 48, 78, 76],
+                    borderColor: '#cc785c',
+                    backgroundColor: 'rgba(204,120,92,0.2)',
+                    pointBackgroundColor: '#cc785c'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+
+        // Knowledge Chart
+        const knowledgeCtx = document.getElementById('knowledgeChart').getContext('2d');
+        new Chart(knowledgeCtx, {
+            type: 'line',
+            data: {
+                labels: ['SimpleQA', 'MMLU-Pro', 'MATH', 'HumanEval', 'GSM8K'],
+                datasets: [{
+                    label: 'DeepSeek V4-Pro',
+                    data: [72, 88, 85, 92, 94],
+                    borderColor: '#e50012',
+                    backgroundColor: 'rgba(229,0,18,0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Gemini-3.1-Pro-High',
+                    data: [75.6, 91, 88, 90, 95],
+                    borderColor: '#4285f4',
+                    backgroundColor: 'rgba(66,133,244,0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
