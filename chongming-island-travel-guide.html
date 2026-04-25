@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>崇明岛2日游攻略 | 上海浦东出发</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 头部区域 */
+        .hero {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.5;
+        }
+        
+        .hero h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-tag {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            font-size: 1.5em;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+        }
+        
+        /* 行程概览 */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .overview-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .overview-item .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .overview-item .label {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* 日程样式 */
+        .day-section {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .day-header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .day-header.day2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .day-title {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .day-theme {
+            opacity: 0.9;
+            font-size: 1em;
+        }
+        
+        .day-content {
+            padding: 30px;
+        }
+        
+        /* 时间线 */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #11998e, #38ef7d);
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            background: #11998e;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .time-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .activity-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .activity-desc {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .activity-tips {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9em;
+            color: #555;
+        }
+        
+        .activity-tips::before {
+            content: '💡 ';
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+            border: 1px solid #ffeaa7;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+        
+        .highlight-box .title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 8px;
+        }
+        
+        /* 景点卡片 */
+        .spot-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 12px;
+        }
+        
+        .spot-card h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .spot-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .spot-info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        /* 美食区域 */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        
+        .food-item {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .food-item h4 {
+            color: #c0392b;
+            margin-bottom: 8px;
+        }
+        
+        .food-item p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        /* 交通表格 */
+        .transport-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        
+        .transport-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 14px;
+            text-align: left;
+        }
+        
+        .transport-table td {
+            padding: 14px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .transport-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .recommend {
+            background: #d4edda;
+            color: #155724;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        
+        /* 费用预算 */
+        .budget-list {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .budget-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .budget-item.total {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        /* 贴士列表 */
+        .tips-list {
+            list-style: none;
+        }
+        
+        .tips-list li {
+            padding: 12px 0;
+            border-bottom: 1px dashed #e9ecef;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .tips-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .tips-list .tip-icon {
+            font-size: 1.5em;
+            flex-shrink: 0;
+        }
+        
+        /* 地图区域 */
+        .route-map {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+        
+        .route-steps {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .route-step {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .route-arrow {
+            color: #667eea;
+            font-size: 1.5em;
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8em;
+            }
+            
+            .day-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .timeline {
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="hero">
+            <h1>🏝️ 崇明岛2日游攻略</h1>
+            <p class="subtitle">上海浦东出发 · 生态海岛 · 周末 getaway</p>
+            <div class="hero-tags">
+                <span class="hero-tag">🚗 自驾/公交</span>
+                <span class="hero-tag">🌲 森林公园</span>
+                <span class="hero-tag">🦢 湿地观鸟</span>
+                <span class="hero-tag">🍖 崇明美食</span>
+            </div>
+        </div>
+        
+        <!-- 行程概览 -->
+        <div class="card">
+            <h2 class="card-title">
+                <span class="icon">📋</span>
+                行程概览
+            </h2>
+            <div class="overview-grid">
+                <div class="overview-item">
+                    <div class="number">2</div>
+                    <div class="label">游玩天数</div>
+                </div>
+                <div class="overview-item">
+                    <div class="number">4</div>
+                    <div class="label">核心景点</div>
+                </div>
+                <div class="overview-item">
+                    <div class="number">80km</div>
+                    <div class="label">单程距离</div>
+                </div>
+                <div class="overview-item">
+                    <div class="number">¥500</div>
+                    <div class="label">人均预算</div>
+                </div>
+            </div>
+            
+            <div class="route-map">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #1565c0;">🗺️ 行程路线</h3>
+                <div class="route-steps">
+                    <div class="route-step">浦东出发</div>
+                    <span class="route-arrow">→</span>
+                    <div class="route-step">长江隧桥</div>
+                    <span class="route-arrow">→</span>
+                    <div class="route-step">东滩湿地</div>
+                    <span class="route-arrow">→</span>
+                    <div class="route-step">森林公园</div>
+                    <span class="route-arrow">→</span>
+                    <div class="route-step">明珠湖</div>
+                    <span class="route-arrow">→</span>
+                    <div class="route-step">返回浦东</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 1 -->
+        <div class="day-section">
+            <div class="day-header">
+                <div>
+                    <div class="day-title">Day 1</div>
+                    <div class="day-theme">东线生态之旅 · 湿地与森林</div>
+                </div>
+                <div style="font-size: 3em;">🌅</div>
+            </div>
+            <div class="day-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="time-badge">07:30 - 08:30</span>
+                        <div class="activity-title">🚗 浦东出发 → 崇明岛</div>
+                        <div class="activity-desc">建议从浦东出发，走S20外环高速 → G40沪陕高速 → 上海长江隧桥，全程约80公里，车程约1-1.5小时。</div>
+                        <div class="activity-tips">周末早高峰较多，建议7:30前出发避开拥堵。长江隧桥过路费约50元。</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <span class="time-badge">08:30 - 11:30</span>
+                        <div class="activity-title">🦢 东滩湿地公园</div>
+                        <div class="activity-desc">国家级自然保护区，是亚太地区候鸟迁徙的重要驿站。可观赏到各种珍稀鸟类，日出时分尤为壮观。</div>
+                        <div class="spot-card">
+                            <h4>📍 景点信息</h4>
+                            <p>东滩湿地是长江口典型的河口湿地，拥有大面积的芦苇荡和滩涂，是观鸟爱好者的天堂。</p>
+                            <div class="spot-info">
+                                <div class="spot-info-item">🎫 门票：平日¥45，周末¥50</div>
+                                <div class="spot-info-item">⏰ 建议游览：2-3小时</div>
+                                <div class="spot-info-item">🅿️ 停车：免费</div>
+                                <div class="spot-info-item">⭐ 亮点：观鸟台、芦苇迷宫</div>
+                            </div>
+                        </div>
+                        <div class="highlight-box">
+                            <div class="title">🎯 游览建议</div>
+                            <p>• 建议乘坐景区电瓶车（¥20/人）直达观鸟台，节省体力</p>
+                            <p>• 携带望远镜，可更清晰观察远处鸟类</p>
+                            <p>• 最佳观鸟季节：11月-次年3月候鸟迁徙季</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <span class="time-badge">11:30 - 13:00</span>
+                        <div class="activity-title">🍽️ 陈家镇午餐</div>
+                        <div class="activity-desc">在陈家镇品尝地道的崇明农家菜，推荐尝试崇明羊肉、崇明老毛蟹等特色菜肴。</div>
+                        <div class="activity-tips">推荐餐厅：陈家镇老街土菜馆、崇明人家。人均消费约80-120元。</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <span class="time-badge">13:30 - 17:30</span>
+                        <div class="activity-title">🌲 东平国家森林公园</div>
+                        <div class="activity-desc">华东地区最大的平原人造森林，森林覆盖率达90%以上，被誉为"天然氧吧"。园内有烧烤区、房车营地、骑行道等设施。</div>
+                        <div class="spot-card">
+                            <h4>📍 景点信息</h4>
+                            <p>公园内有水杉林、柳杉林等人工林，以及众多湖泊水系，空气清新，负氧离子含量极高。</p>
+                            <div class="spot-info">
+                                <div class="spot-info-item">🎫 门票：¥70/人</div>
+                                <div class="spot-info-item">⏰ 建议游览：3-4小时</div>
+                                <div class="spot-info-item">🚴 租车：双人自行车¥40/小时</div>
+                                <div class="spot-info-item">⭐ 亮点：森林小火车、烧烤露营</div>
+                            </div>
+                        </div>
+                        <div class="highlight-box">
+                            <div class="title">🎯 游玩项目推荐</div>
+                            <p>• 🚂 森林小火车：环游公园，全程约20分钟，适合全家</p>
+                            <p>• 🚴 森林骑行：租车骑行探索，感受林间清风</p>
+                            <p>• 🏕️ 烧烤露营：公园内有专门的烧烤区和露营区</p>
+                            <p>• 🌸 花博记忆：参观第十届中国花博会留下的景观</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <span class="time-badge">18:00 - 20:00</span>
+                        <div class="activity-title">🍖 晚餐 & 住宿</div>
+                        <div class="activity-desc">前往住宿地办理入住，晚餐可品尝崇明特色红烧羊肉、崇明糕等传统美食。</div>
+                        <div class="activity-tips">推荐入住森林公园附近的民宿或酒店，方便第二天行程。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 2 -->
+        <div class="day-section">
+            <div class="day-header day2">
+                <div>
+                    <div class="day-title">Day 2</div>
+                    <div class="day-theme">西线风光之旅 · 湖泊与田园</div>
+                </div>
+                <div style="font-size: 3em;">🌊</div>
+            </div>
+            <div class="day-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="time-badge">08:00 - 08:30</span>
+                        <div class="activity-title">🍳 早餐</div>
+                        <div class="activity-desc">在住宿地享用早餐，品尝崇明特色早点如崇明糕、土鸡蛋、农家粥等。</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <span class="time-badge">09:00 - 12:00</span>
+                        <div class="activity-title">🏞️ 明珠湖公园</div>
+                        <div class="activity-desc">崇明岛西部最大的天然淡水湖，湖水清澈，环境幽静。可租船游湖、垂钓，是休闲放松的好去处。</div>
+                        <div class="spot-card">
+                            <h4>📍 景点信息</h4>
+                            <p>明珠湖是崇明岛最大的天然内陆湖，湖面面积约3.3平方公里，湖岸线蜿蜒曲折，景色宜人。</p>
+                            <div class="spot-info">
+                                <div class="spot-info-item">🎫 门票：¥45/人</div>
+                                <div class="spot-info-item">⏰ 建议游览：2-3小时</div>
+                                <div class="spot-info-item">🚣 游船：¥30/人</div>
+                                <div class="spot-info-item">⭐ 亮点：湖滨栈道、观鸟平台</div>
+                            </div>
+                        </div>
+                        <div class="highlight-box">
+                            <div class="title">🎯 游览建议</div>
+                            <p>• 沿湖栈道漫步，欣赏湖光山色，拍照打卡绝佳</p>
+                            <p>• 可选择租船游湖，近距离感受湖景</p>
+                            <p>• 公园内有餐厅，可在此解决午餐</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <span class="time-badge">12:00 - 13:30</span>
+                        <div class="activity-title">🍽️ 午餐</div>
+                        <div class="activity-desc">在明珠湖附近或前往南门镇用餐，品尝崇明河鲜和农家菜。</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <span class="time-badge">14:00 - 16:00</span>
+                        <div class="activity-title">🏛️ 江南三民文化村 或 崇明学宫</div>
+                        <div class="activity-desc">二选一游览。文化村展示崇明民俗风情，学宫则是上海地区保存最完好的孔庙。</div>
+                        <div class="spot-card">
+                            <h4>📍 江南三民文化村</h4>
+                            <p>展示崇明岛传统的民间文化、民俗风情和民间工艺，有土布馆、农耕馆、长寿馆等。</p>
+                            <div class="spot-info">
+                                <div class="spot-info-item">🎫 门票：¥60/人</div>
+                                <div class="spot-info-item">⏰ 建议游览：1-1.5小时</div>
+                                <div class="spot-info-item">⭐ 亮点：土布纺织表演、农具体验</div>
+                            </div>
+                        </div>
+                        <div class="spot-card" style="margin-top: 10px;">
+                            <h4>📍 崇明学宫（备选）</h4>
+                            <p>始建于宋代，是崇明历史文化的象征，也是上海地区现存最完整的孔庙建筑群。</p>
+                            <div class="spot-info">
+                                <div class="spot-info-item">🎫 门票：免费</div>
+                                <div class="spot-info-item">⏰ 建议游览：1小时</div>
+                                <div class="spot-info-item">⭐ 亮点：古建筑群、历史文化</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <span class="time-badge">16:00 - 16:30</span>
+                        <div class="activity-title">🛍️ 选购特产</div>
+                        <div class="activity-desc">在南门镇购买崇明特产：崇明老白酒、崇明糕、崇明大米、崇明羊肉等。</div>
+                        <div class="activity-tips">推荐购买地点：南门农贸市场、华联超市、特色农产品专卖店</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <span class="time-badge">16:30 - 18:00</span>
+                        <div class="activity-title">🚗 返程回浦东</div>
+                        <div class="activity-desc">从南门镇出发，经陈海公路 → G40沪陕高速 → 上海长江隧桥 → 浦东。</div>
+                        <div class="activity-tips">周末返程高峰一般在16:00-19:00，建议错峰出行。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 交通指南 -->
+        <div class="card">
+            <h2 class="card-title">
+                <span class="icon">🚗</span>
+                交通指南
+            </h2>
+            <p style="margin-bottom: 16px; color: #666;">从上海浦东前往崇明岛，有以下几种交通方式可供选择：</p>
+            <table class="transport-table">
+                <thead>
+                    <tr>
+                        <th>交通方式</th>
+                        <th>路线</th>
+                        <th>耗时</th>
+                        <th>费用</th>
+                        <th>推荐度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>🚗 自驾</strong></td>
+                        <td>S20 → G40长江隧桥 → 崇明</td>
+                        <td>1-1.5小时</td>
+                        <td>过路费约¥50 + 油费</td>
+                        <td><span class="recommend">强烈推荐</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>🚌 公交</strong></td>
+                        <td>申崇六线（巨峰路→南门）</td>
+                        <td>约2小时</td>
+                        <td>约¥20</td>
+                        <td>经济实惠</td>
+                    </tr>
+                    <tr>
+                        <td><strong>⛴️ 轮渡</strong></td>
+                        <td>宝杨路/石洞口码头→崇明</td>
+                        <td>约1.5小时</td>
+                        <td>约¥20-30</td>
+                        <td>体验独特</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🚕 打车/网约车</strong></td>
+                        <td>直达目的地</td>
+                        <td>1-1.5小时</td>
+                        <td>约¥200-300</td>
+                        <td>舒适便捷</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="highlight-box" style="margin-top: 20px;">
+                <div class="title">💡 自驾注意事项</div>
+                <p>• G40沪陕高速长江隧桥段周末易拥堵，建议早出晚归错峰出行</p>
+                <p>• 隧道内限速80km/h，严禁变道超车</p>
+                <p>• 崇明岛内道路较好，但部分景点间距离较远，建议自驾</p>
+                <p>• 各景点均有停车场，收费约5-10元/次</p>
+            </div>
+        </div>
+        
+        <!-- 美食推荐 -->
+        <div class="card">
+            <h2 class="card-title">
+                <span class="icon">🍖</span>
+                必吃美食推荐
+            </h2>
+            <div class="food-grid">
+                <div class="food-item">
+                    <h4>🐑 崇明红烧羊肉</h4>
+                    <p>崇明岛最著名的特色美食，选用本地山羊，肉质细嫩，色泽红亮，肥而不腻，是冬季进补佳品。</p>
+                </div>
+                <div class="food-item">
+                    <h4>🦀 崇明老毛蟹</h4>
+                    <p>崇明清水蟹，个头虽小但蟹黄饱满，肉质鲜甜，每年秋季是最佳品尝时节。</p>
+                </div>
+                <div class="food-item">
+                    <h4>🍶 崇明老白酒</h4>
+                    <p>传统糯米酿造的甜米酒，酒精度低，口感甘甜，是崇明独有的特色酒品。</p>
+                </div>
+                <div class="food-item">
+                    <h4>🥮 崇明糕</h4>
+                    <p>传统糯米糕点，有红糖糕、白糖糕等多种口味，软糯香甜，是崇明人过年必备。</p>
+                </div>
+                <div class="food-item">
+                    <h4>🐟 长江刀鱼</h4>
+                    <p>"长江三鲜"之一，肉质细嫩鲜美，春季最为肥美（注意：野生刀鱼禁止捕捞）。</p>
+                </div>
+                <div class="food-item">
+                    <h4>🦐 螃蜞</h4>
+                    <p>崇明滩涂上特有的迷你小螃蟹，可做成螃蜞酥、螃蜞酱等特色小吃。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 住宿建议 -->
+        <div class="card">
+            <h2 class="card-title">
+                <span class="icon">🏨</span>
+                住宿推荐
+            </h2>
+            <div class="spot-card">
+                <h4>🌟 高端度假酒店</h4>
+                <p><strong>崇明金茂凯悦酒店</strong> - 位于陈家镇，五星标准，设施完善，约¥800-1500/晚</p>
+                <p><strong>崇明由由喜来登酒店</strong> - 位于东滩，临近湿地，约¥700-1200/晚</p>
+            </div>
+            <div class="spot-card" style="margin-top: 12px;">
+                <h4>🏡 特色民宿</h4>
+                <p><strong>东平国家森林公园周边民宿</strong> - 农家风情，体验田园生活，约¥200-400/晚</p>
+                <p><strong>陈家镇民宿群</strong> - 选择多样，性价比高，约¥150-300/晚</p>
+            </div>
+            <div class="spot-card" style="margin-top: 12px;">
+                <h4>🏕️ 露营体验</h4>
+                <p><strong>东平国家森林公园房车营地</strong> - 可租用房车或自带帐篷，约¥200-500/晚</p>
+                <p>需要提前预订，周末较为紧张</p>
+            </div>
+            <div class="activity-tips" style="margin-top: 16px;">建议提前1-2周预订住宿，周末和节假日价格会有所上涨。</div>
+        </div>
+        
+        <!-- 费用预算 -->
+        <div class="card">
+            <h2 class="card-title">
+                <span class="icon">💰</span>
+                费用预算（人均）
+            </h2>
+            <div class="budget-list">
+                <div class="budget-item">
+                    <span>🚗 交通（自驾油费+过路费）</span>
+                    <span>约¥100-150</span>
+                </div>
+                <div class="budget-item">
+                    <span>🎫 景点门票（东滩+东平+明珠湖）</span>
+                    <span>约¥165</span>
+                </div>
+                <div class="budget-item">
+                    <span>🏨 住宿（1晚）</span>
+                    <span>约¥200-400</span>
+                </div>
+                <div class="budget-item">
+                    <span>🍽️ 餐饮（3正餐+1早餐）</span>
+                    <span>约¥200-300</span>
+                </div>
+                <div class="budget-item">
+                    <span>🛍️ 其他（特产、景区内交通等）</span>
+                    <span>约¥100-200</span>
+                </div>
+                <div class="budget-item total">
+                    <span>💵 合计（人均）</span>
+                    <span>约¥765-1215</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 实用贴士 -->
+        <div class="card">
+            <h2 class="card-title">
+                <span class="icon">💡</span>
+                实用贴士
+            </h2>
+            <ul class="tips-list">
+                <li>
+                    <span class="tip-icon">👕</span>
+                    <div>
+                        <strong>穿衣建议</strong>
+                        <p>崇明岛风力较大，即使是夏天也要带件薄外套。春秋季早晚温差大，注意保暖。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="tip-icon">🌤️</span>
+                    <div>
+                        <strong>最佳季节</strong>
+                        <p>春秋两季最佳（3-5月、9-11月）。春季百花盛开，秋季候鸟迁徙，气候宜人。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="tip-icon">📱</span>
+                    <div>
+                        <strong>网络信号</strong>
+                        <p>景区内信号覆盖良好，但部分湿地深处可能信号较弱，建议提前下载离线地图。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="tip-icon">🦟</span>
+                    <div>
+                        <strong>防虫措施</strong>
+                        <p>夏季蚊虫较多，建议携带驱蚊液。湿地公园内蚊虫更多，建议穿长袖长裤。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="tip-icon">♻️</span>
+                    <div>
+                        <strong>环保出行</strong>
+                        <p>崇明岛是生态岛，请爱护环境，不要乱扔垃圾。保护湿地生态，不随意采摘植物。</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="tip-icon">⏰</span>
+                    <div>
+                        <strong>避开高峰</strong>
+                        <p>周末和节假日游客较多，景点排队时间长。建议选择工作日出行或提前预约。</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>🏝️ 崇明岛2日游攻略 | 上海浦东出发</p>
+            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">
+                祝您旅途愉快！🌟
+            </p>
+        </div>
+    </div>
+</body>
+</html>
