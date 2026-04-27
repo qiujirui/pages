@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkBuddy 数字化运营培训手册 - 餐饮连锁加盟企业版</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        /* 导航 */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+        
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            bottom: 0;
+            width: 280px;
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .sidebar-link:hover {
+            background: var(--bg);
+            color: var(--primary);
+        }
+        
+        .sidebar-link.active {
+            background: #eff6ff;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* 主内容区 */
+        .main {
+            margin-left: 280px;
+            margin-top: 60px;
+            padding: 2rem;
+            max-width: 900px;
+        }
+        
+        /* 英雄区 */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+        }
+        
+        /* 章节标题 */
+        .section {
+            margin-bottom: 4rem;
+        }
+        
+        .section-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .section-number {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: 600;
+            margin-right: 0.75rem;
+        }
+        
+        .section h2 {
+            font-size: 1.8rem;
+            display: inline;
+        }
+        
+        .section-desc {
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+        
+        /* 卡片 */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* 功能网格 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-item {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .feature-item h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .feature-item p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        /* 代码块 */
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.25rem;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .code-block .comment {
+            color: #64748b;
+        }
+        
+        .code-block .keyword {
+            color: #f59e0b;
+        }
+        
+        /* 表格 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .data-table th {
+            background: var(--bg);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .data-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .data-table tr:hover {
+            background: var(--bg);
+        }
+        
+        /* 案例 */
+        .case-study {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .case-study-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .case-study-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .case-study h4 {
+            color: #92400e;
+            font-size: 1.1rem;
+        }
+        
+        .case-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #92400e;
+        }
+        
+        .case-content h5 {
+            font-size: 0.95rem;
+            color: #92400e;
+            margin: 1rem 0 0.5rem;
+        }
+        
+        /* 步骤 */
+        .steps {
+            counter-reset: step;
+        }
+        
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-number {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .step-content h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-content p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        /* 提示框 */
+        .tip {
+            background: #ecfdf5;
+            border-left: 4px solid var(--success);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+        
+        .tip-title {
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 0.25rem;
+        }
+        
+        .warning {
+            background: #fef2f2;
+            border-left-color: var(--danger);
+        }
+        
+        .warning .tip-title {
+            color: #991b1b;
+        }
+        
+        /* 标签 */
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tag.primary {
+            background: #eff6ff;
+            color: var(--primary);
+        }
+        
+        .tag.success {
+            background: #ecfdf5;
+            color: var(--success);
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+            .main {
+                margin-left: 0;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 对比表 */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-item {
+            padding: 1.25rem;
+            border-radius: 8px;
+        }
+        
+        .comparison-item.before {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+        
+        .comparison-item.after {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .comparison-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-item.before .comparison-label {
+            color: #991b1b;
+        }
+        
+        .comparison-item.after .comparison-label {
+            color: #065f46;
+        }
+        
+        /* 统计 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航 -->
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="logo">🚀 WorkBuddy</div>
+            <div class="nav-links">
+                <a href="#overview">概览</a>
+                <a href="#scenarios">场景</a>
+                <a href="#cases">案例</a>
+                <a href="#advanced">进阶</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">入门指南</div>
+            <a href="#overview" class="sidebar-link active">1. WorkBuddy 是什么</a>
+            <a href="#core-capabilities" class="sidebar-link">2. 核心能力矩阵</a>
+            <a href="#work-mode" class="sidebar-link">3. 工作模式详解</a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">餐饮场景</div>
+            <a href="#scenario-1" class="sidebar-link">4. 门店数据分析</a>
+            <a href="#scenario-2" class="sidebar-link">5. 加盟管理报表</a>
+            <a href="#scenario-3" class="sidebar-link">6. 营销活动规划</a>
+            <a href="#scenario-4" class="sidebar-link">7. 供应链管理</a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">实战案例</div>
+            <a href="#case-1" class="sidebar-link">8. 案例：区域业绩分析</a>
+            <a href="#case-2" class="sidebar-link">9. 案例：新店选址评估</a>
+            <a href="#case-3" class="sidebar-link">10. 案例：竞品调研报告</a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">进阶技巧</div>
+            <a href="#prompt-engineering" class="sidebar-link">11. Prompt 工程</a>
+            <a href="#automation" class="sidebar-link">12. 自动化工作流</a>
+            <a href="#integration" class="sidebar-link">13. 系统集成</a>
+        </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>WorkBuddy 数字化运营培训手册</h1>
+            <p>专为餐饮连锁加盟企业数字化运营经理打造<br>从数据采集到决策落地的全流程AI助手指南</p>
+            <div class="hero-badge">🏪 餐饮连锁 · 📊 数据驱动 · 🚀 效率提升</div>
+        </div>
+
+        <!-- 第1章：WorkBuddy是什么 -->
+        <section class="section" id="overview">
+            <div class="section-header">
+                <span class="section-number">1</span>
+                <h2>WorkBuddy 是什么</h2>
+                <p class="section-desc">理解AI助手的本质，建立正确的使用预期</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">💡</div>
+                    核心定位：你的数字化运营副驾
+                </div>
+                <p>WorkBuddy 不是替代你的工具，而是放大你能力的乘数。作为餐饮连锁企业的数字化运营经理，你面临的最大挑战是：</p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>数据分散在ERP、POS、CRM、外卖平台等十几个系统中</li>
+                    <li>Excel公式和透视表已经无法满足复杂分析需求</li>
+                    <li>临时取数需求多，但IT排期总是排不上</li>
+                    <li>想尝试新方法，但缺乏技术背景</li>
+                </ul>
+                <p>WorkBuddy 通过自然语言理解你的需求，直接操作数据、生成报告、甚至编写自动化脚本，让你专注于业务洞察而非技术实现。</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">10+</div>
+                    <div class="stat-label">数据源接入</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">专业技能</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">3种</div>
+                    <div class="stat-label">工作模式</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">∞</div>
+                    <div class="stat-label">使用场景</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第2章：核心能力矩阵 -->
+        <section class="section" id="core-capabilities">
+            <div class="section-header">
+                <span class="section-number">2</span>
+                <h2>核心能力矩阵</h2>
+                <p class="section-desc">WorkBuddy 的能力图谱与餐饮业务场景映射</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">📊</div>
+                    数据分析与可视化
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>Excel/CSV处理</h4>
+                        <p>数据清洗、透视分析、公式计算、图表生成</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>SQL查询</h4>
+                        <p>直连数据库，复杂多表关联查询</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>商业智能</h4>
+                        <p>趋势分析、同比环比、异常检测</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>数据可视化</h4>
+                        <p>动态图表、仪表盘、地理热力图</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">📄</div>
+                    文档与报告生成
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>Word/PDF报告</h4>
+                        <p>自动化生成标准格式的运营报告</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>PPT演示文稿</h4>
+                        <p>数据驱动的汇报材料一键生成</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Markdown文档</h4>
+                        <p>知识库、操作手册、API文档</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>邮件撰写</h4>
+                        <p>基于数据的沟通邮件自动生成</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">🔧</div>
+                    技术开发支持
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>Python脚本</h4>
+                        <p>自动化数据处理、定时任务</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Web开发</h4>
+                        <p>数据看板、内部工具、小程序</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>API集成</h4>
+                        <p>系统对接、数据同步、Webhook</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>数据库管理</h4>
+                        <p>表结构设计、索引优化、备份恢复</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">🌐</div>
+                    外部信息获取
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>网络搜索</h4>
+                        <p>行业报告、竞品动态、市场趋势</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>网页抓取</h4>
+                        <p>价格监控、评价采集、公开数据</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>地图服务</h4>
+                        <p>门店选址、商圈分析、配送范围</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>舆情监控</h4>
+                        <p>品牌声量、口碑分析、危机预警</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第3章：工作模式详解 -->
+        <section class="section" id="work-mode">
+            <div class="section-header">
+                <span class="section-number">3</span>
+                <h2>工作模式详解</h2>
+                <p class="section-desc">Craft / Plan / Ask 三种模式的使用场景与切换策略</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">⚡</div>
+                    Craft 模式：你说，我做
+                </div>
+                <p><strong>适用场景：</strong>任务明确、需求清晰、需要快速交付结果的情况</p>
+                
+                <div class="code-block">
+<span class="comment"># 示例对话</span>
+用户：把昨天的门店销售数据按区域汇总，生成Excel发给我
+
+WorkBuddy：立即执行 → 连接数据库 → 查询数据 → 生成透视表 → 输出Excel
+                </div>
+
+                <p><strong>最佳实践：</strong></p>
+                <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>提供明确的文件名、路径、格式要求</li>
+                    <li>复杂任务分步骤描述，避免一次性提过多要求</li>
+                    <li>涉及敏感操作（删除、修改）时主动确认</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">📝</div>
+                    Plan 模式：先规划，后执行
+                </div>
+                <p><strong>适用场景：</strong>复杂项目、跨系统对接、需要多步骤协作的情况</p>
+                
+                <div class="code-block">
+<span class="comment"># 示例对话</span>
+用户：我想搭建一个门店业绩预警系统
+
+WorkBuddy：先分析需求 → 设计方案 → 确认技术栈 → 分阶段实施
+         → 第1阶段：数据源对接
+         → 第2阶段：预警规则配置
+         → 第3阶段：通知机制实现
+         → 第4阶段：测试上线
+                </div>
+
+                <p><strong>最佳实践：</strong></p>
+                <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>先让AI给出完整方案，确认后再执行</li>
+                    <li>对关键技术决策保留否决权</li>
+                    <li>每完成一个里程碑检查一次成果</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">💬</div>
+                    Ask 模式：只咨询，不动手
+                </div>
+                <p><strong>适用场景：</strong>学习新知识、评估方案可行性、获取专业建议</p>
+                
+                <div class="code-block">
+<span class="comment"># 示例对话</span>
+用户：我想了解餐饮行业常用的会员RFM模型怎么落地
+
+WorkBuddy：仅提供知识解答，不生成任何文件或代码
+         → 解释RFM模型概念
+         → 给出餐饮场景的计算方法
+         → 提供SQL实现示例
+         → 建议后续实施步骤
+                </div>
+
+                <p><strong>最佳实践：</strong></p>
+                <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>先问清楚再动手，避免返工</li>
+                    <li>涉及合规、财务等敏感问题时优先咨询</li>
+                    <li>新技术选型时多收集信息</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 第4章：门店数据分析 -->
+        <section class="section" id="scenario-1">
+            <div class="section-header">
+                <span class="section-number">4</span>
+                <h2>场景一：门店数据分析</h2>
+                <p class="section-desc">从数据获取到洞察输出的完整工作流</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">典型工作流</div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>数据获取</h4>
+                            <p>从POS系统导出销售数据，或通过API直接拉取数据库数据。支持CSV、Excel、JSON等多种格式。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>数据清洗</h4>
+                            <p>处理缺失值、异常值、重复记录；统一门店编码、品类名称等维度字段；转换时间格式。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>分析建模</h4>
+                            <p>构建日/周/月销售趋势、同环比分析、品类贡献度、时段销售分布等核心指标。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>可视化呈现</h4>
+                            <p>生成动态图表、热力图、仪表盘；支持导出为图片、PDF或交互式HTML。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>报告生成</h4>
+                            <p>自动整合分析结果，生成Word/PPT格式的运营报告，包含数据解读和行动建议。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-study">
+                <div class="case-study-header">
+                    <div class="case-study-icon">📈</div>
+                    <h4>实战示例：华东区50店月度业绩分析</h4>
+                </div>
+                <div class="case-meta">
+                    <span>⏱️ 耗时：从4小时缩短到20分钟</span>
+                    <span>📊 数据量：15万条订单记录</span>
+                </div>
+                <div class="case-content">
+                    <h5>传统方式：</h5>
+                    <ul style="margin-bottom: 1rem; padding-left: 1.5rem;">
+                        <li>IT导出数据 → 等待2小时</li>
+                        <li>Excel透视表汇总 → 手动操作1小时</li>
+                        <li>制作PPT图表 → 排版美化1小时</li>
+                    </ul>
+                    
+                    <h5>使用WorkBuddy：</h5>
+                    <div class="code-block" style="margin: 0.5rem 0;">
+<span class="comment"># 用户指令</span>
+"分析华东区50家门店上个月数据，按城市分组统计：
+1. 总销售额、订单量、客单价
+2. 各品类销售占比
+3. 工作日vs周末销售差异
+4. 识别销售TOP10和BOTTOM10门店
+生成带图表的分析报告"
+                    </div>
+                    <p>WorkBuddy自动完成数据读取、清洗、分析、可视化、报告生成全流程。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第5章：加盟管理报表 -->
+        <section class="section" id="scenario-2">
+            <div class="section-header">
+                <span class="section-number">5</span>
+                <h2>场景二：加盟管理报表</h2>
+                <p class="section-desc">加盟商运营监控与督导的标准化报表体系</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">加盟管理报表体系设计</div>
+                <table class="data-table">
+                    <tr>
+                        <th>报表类型</th>
+                        <th>频率</th>
+                        <th>核心指标</th>
+                        <th>使用场景</th>
+                    </tr>
+                    <tr>
+                        <td>经营日报</td>
+                        <td>每日</td>
+                        <td>营业额、订单量、客单价、损耗率</td>
+                        <td>门店自检、区域督导</td>
+                    </tr>
+                    <tr>
+                        <td>周报分析</td>
+                        <td>每周</td>
+                        <td>周环比、目标达成率、品类趋势</td>
+                        <td>加盟商周会、问题识别</td>
+                    </tr>
+                    <tr>
+                        <td>月度经营分析</td>
+                        <td>每月</td>
+                        <td>同比、利润分析、人效坪效</td>
+                        <td>加盟商沟通、续约评估</td>
+                    </tr>
+                    <tr>
+                        <td>季度健康度</td>
+                        <td>每季</td>
+                        <td>综合评分、风险预警、改进建议</td>
+                        <td>战略决策、资源调配</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">加盟商健康度评分模型</div>
+                <p>基于多维度数据构建的综合评估体系：</p>
+                
+                <table class="data-table">
+                    <tr>
+                        <th>维度</th>
+                        <th>权重</th>
+                        <th>指标示例</th>
+                    </tr>
+                    <tr>
+                        <td>财务健康</td>
+                        <td>30%</td>
+                        <td>营收达成率、毛利率、现金流状况</td>
+                    </tr>
+                    <tr>
+                        <td>运营效率</td>
+                        <td>25%</td>
+                        <td>人效、坪效、库存周转</td>
+                    </tr>
+                    <tr>
+                        <td>顾客体验</td>
+                        <td>20%</td>
+                        <td>评分、投诉率、复购率</td>
+                    </tr>
+                    <tr>
+                        <td>合规执行</td>
+                        <td>15%</td>
+                        <td>SOP执行率、食安检查、培训完成度</td>
+                    </tr>
+                    <tr>
+                        <td>成长潜力</td>
+                        <td>10%</td>
+                        <td>新客增长、会员发展、营销活动参与</td>
+                    </tr>
+                </table>
+
+                <div class="tip">
+                    <div class="tip-title">💡 使用建议</div>
+                    <p>让WorkBuddy基于评分结果自动生成"加盟商沟通话术"，针对不同等级提供差异化的沟通策略和改进建议。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第6章：营销活动规划 -->
+        <section class="section" id="scenario-3">
+            <div class="section-header">
+                <span class="section-number">6</span>
+                <h2>场景三：营销活动规划</h2>
+                <p class="section-desc">从活动策划到效果评估的全链路支持</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">营销活动工作流</div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>竞品活动调研</h4>
+                            <p>抓取竞品近3个月营销活动数据，分析活动形式、力度、周期、效果，输出竞品活动日历。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>历史效果分析</h4>
+                            <p>分析本品牌过去12个月活动数据，识别高ROI活动类型、最佳活动时段、敏感价格带。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>活动方案设计</h4>
+                            <p>基于数据和目标，生成活动方案初稿：活动主题、时间规划、产品组合、价格策略、渠道分配。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>销售预测模型</h4>
+                            <p>基于历史同类活动数据，预测本次活动销售额、订单量、客单价，以及各门店分配比例。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>执行监控与复盘</h4>
+                            <p>活动期间实时监控核心指标，活动结束后自动生成复盘报告：目标达成率、ROI、经验总结。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-study">
+                <div class="case-study-header">
+                    <div class="case-study-icon">🎯</div>
+                    <h4>案例：夏季新品推广活动策划</h4>
+                </div>
+                <div class="case-meta">
+                    <span>📍 场景：某茶饮品牌夏季新品上市</span>
+                    <span>📊 覆盖：全国300+门店</span>
+                </div>
+                <div class="case-content">
+                    <h5>用户指令：</h5>
+                    <div class="code-block" style="margin: 0.5rem 0;">
+"我要做一个夏季新品推广活动，需要：
+1. 分析去年夏季活动数据，找出最有效的活动形式
+2. 基于竞品（喜茶、奈雪）最近活动，设计差异化方案
+3. 预测本次活动销售目标和各区域分配
+4. 生成活动执行手册（含门店操作指引）
+5. 设计活动监控看板指标"
+                    </div>
+
+                    <h5>WorkBuddy输出成果：</h5>
+                    <table class="data-table" style="margin: 0.5rem 0;">
+                        <tr>
+                            <th>交付物</th>
+                            <th>内容</th>
+                            <th>格式</th>
+                        </tr>
+                        <tr>
+                            <td>竞品分析报告</td>
+                            <td>近3个月主要竞品活动汇总，活动力度对比</td>
+                            <td>PDF</td>
+                        </tr>
+                        <tr>
+                            <td>历史数据分析</td>
+                            <td>去年夏季活动ROI、转化率、最佳活动组合</td>
+                            <td>Excel+图表</td>
+                        </tr>
+                        <tr>
+                            <td>活动方案</td>
+                            <td>新品定价、买赠策略、会员专享、社媒传播</td>
+                            <td>Word</td>
+                        </tr>
+                        <tr>
+                            <td>销售预测</td>
+                            <td>总目标500万，分区域/分门店预测表</td>
+                            <td>Excel</td>
+                        </tr>
+                        <tr>
+                            <td>执行手册</td>
+                            <td>门店物料布置、话术、操作SOP</td>
+                            <td>PPT</td>
+                        </tr>
+                        <tr>
+                            <td>监控看板</td>
+                            <td>实时销售、目标达成、库存预警</td>
+                            <td>HTML</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第7章：供应链管理 -->
+        <section class="section" id="scenario-4">
+            <div class="section-header">
+                <span class="section-number">7</span>
+                <h2>场景四：供应链管理</h2>
+                <p class="section-desc">从采购到库存的智能决策支持</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">智能补货预测模型</div>
+                <p>基于多维度数据构建的动态补货建议系统：</p>
+                
+                <table class="data-table">
+                    <tr>
+                        <th>输入数据</th>
+                        <th>分析方法</th>
+                        <th>输出结果</th>
+                    </tr>
+                    <tr>
+                        <td>历史销售数据</td>
+                        <td>时间序列分析、趋势预测</td>
+                        <td>未来7天/30天销量预测</td>
+                    </tr>
+                    <tr>
+                        <td>库存数据</td>
+                        <td>安全库存计算、周转分析</td>
+                        <td>现有库存可支持天数</td>
+                    </tr>
+                    <tr>
+                        <td>天气数据</td>
+                        <td>相关性分析、回归模型</td>
+                        <td>天气对销量影响系数</td>
+                    </tr>
+                    <tr>
+                        <td>活动日历</td>
+                        <td>事件驱动预测</td>
+                        <td>活动期间销量调整系数</td>
+                    </tr>
+                    <tr>
+                        <td>供应商数据</td>
+                        <td>交付周期分析、质量评分</td>
+                        <td>推荐供应商及订货量</td>
+                    </tr>
+                </table>
+
+                <div class="tip">
+                    <div class="tip-title">💡 进阶应用</div>
+                    <p>让WorkBuddy生成Python脚本，接入企业ERP系统API，实现每日自动补货建议推送。</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">库存健康度监控</div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>库存周转率分析</h4>
+                        <p>识别滞销SKU，提供促销清货建议</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>临期预警</h4>
+                        <p>自动计算效期，提前7/3/1天预警</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>损耗分析</h4>
+                        <p>区分报损类型，定位高频损耗门店/产品</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>成本优化</h4>
+                        <p>供应商比价、采购批量优化建议</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第8章：案例：区域业绩分析 -->
+        <section class="section" id="case-1">
+            <div class="section-header">
+                <span class="section-number">8</span>
+                <h2>实战案例：区域业绩分析</h2>
+                <p class="section-desc">完整复现一个真实分析项目的全过程</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📋 项目背景</div>
+                <p><strong>客户：</strong>某中式快餐连锁品牌，全国200+门店<br>
+                <strong>需求：</strong>分析Q3华东区业绩下滑原因，识别问题门店，制定改进方案<br>
+                <strong>交付周期：</strong>3天<br>
+                <strong>数据规模：</strong>60万条订单记录，50家门店信息</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🔍 分析过程</div>
+                
+                <h4 style="margin: 1.5rem 0 0.5rem;">Step 1：数据探索</h4>
+                <div class="code-block">
+<span class="comment"># 用户与WorkBuddy对话示例</span>
+
+用户："我有华东区50店Q3销售数据，想分析一下业绩下滑原因。
+数据文件：华东区Q3销售数据.xlsx，包含订单时间、门店、金额、品类"
+
+WorkBuddy："我来帮你分析。首先让我查看数据结构和基本情况..."
+
+→ 自动读取Excel文件
+→ 生成数据质量报告：缺失值、异常值、时间范围
+→ 输出基础统计：总订单数、总销售额、门店分布
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">Step 2：趋势分析</h4>
+                <div class="code-block">
+<span class="comment"># WorkBuddy自动执行的分析</span>
+
+1. 日销售趋势图：识别下滑拐点（7月15日后明显下滑）
+2. 同比分析：vs去年同期，整体下滑12%
+3. 环比分析：vs Q2，下滑8%
+4. 城市对比：杭州(-18%) > 南京(-15%) > 苏州(-8%) > 上海(-5%)
+
+关键发现：7月中旬开始持续下滑，杭州南京下滑最严重
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">Step 3：根因分析</h4>
+                <div class="code-block">
+<span class="comment"># 多维度拆解</span>
+
+品类维度：
+- 套餐类下滑20%（主力产品）
+- 单品类下滑5%
+- 饮品类增长8%
+
+时段维度：
+- 午餐(-15%) > 晚餐(-8%) > 早餐(-3%)
+
+客单维度：
+- 客流下降10%，客单价下降2%
+
+门店维度：
+- 问题门店TOP5：杭州西湖店(-35%)、南京新街口(-28%)...
+
+初步判断：主力产品吸引力下降 + 午餐时段流失严重
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">Step 4：外部因素关联</h4>
+                <div class="code-block">
+<span class="comment"># 竞品与舆情分析</span>
+
+WorkBuddy自动抓取分析：
+1. 竞品活动：7月竞争对手X推出"午市套餐5折"活动
+2. 舆情分析：近期差评关键词"涨价"、"分量少"出现频率上升
+3. 天气因素：7-8月高温天气，但空调投诉门店业绩更差
+
+根因定位：
+① 竞品午餐促销冲击 ② 价格敏感度上升 ③ 部分门店体验问题
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📊 交付成果</div>
+                <table class="data-table">
+                    <tr>
+                        <th>交付物</th>
+                        <th>内容</th>
+                        <th>用途</th>
+                    </tr>
+                    <tr>
+                        <td>分析报告</td>
+                        <td>15页PPT，含数据可视化、根因分析、改进建议</td>
+                        <td>向管理层汇报</td>
+                    </tr>
+                    <tr>
+                        <td>问题门店清单</td>
+                        <td>需重点关注的10家门店及具体问题</td>
+                        <td>督导巡店计划</td>
+                    </tr>
+                    <tr>
+                        <td>改进方案</td>
+                        <td>产品策略、价格策略、营销方案</td>
+                        <td>运营执行</td>
+                    </tr>
+                    <tr>
+                        <td>监控看板</td>
+                        <td>实时追踪改进效果的核心指标</td>
+                        <td>持续监控</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="comparison">
+                <div class="comparison-item before">
+                    <div class="comparison-label">Before WorkBuddy</div>
+                    <p>• 数据申请等待2天</p>
+                    <p>• Excel手工处理8小时</p>
+                    <p>• 图表制作4小时</p>
+                    <p>• 报告撰写6小时</p>
+                    <p style="margin-top: 0.5rem; font-weight: 600;">总计：约3天</p>
+                </div>
+                <div class="comparison-item after">
+                    <div class="comparison-label">After WorkBuddy</div>
+                    <p>• 直接上传数据</p>
+                    <p>• AI自动分析30分钟</p>
+                    <p>• 图表自动生成</p>
+                    <p>• 报告初稿即时生成</p>
+                    <p style="margin-top: 0.5rem; font-weight: 600;">总计：约2小时</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第9章：案例：新店选址评估 -->
+        <section class="section" id="case-2">
+            <div class="section-header">
+                <span class="section-number">9</span>
+                <h2>实战案例：新店选址评估</h2>
+                <p class="section-desc">数据驱动的选址决策支持系统</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">选址评估模型</div>
+                <p>基于多源数据的新店潜力评分体系：</p>
+                
+                <table class="data-table">
+                    <tr>
+                        <th>评估维度</th>
+                        <th>权重</th>
+                        <th>数据来源</th>
+                        <th>评估指标</th>
+                    </tr>
+                    <tr>
+                        <td>人流密度</td>
+                        <td>25%</td>
+                        <td>地图数据、运营商数据</td>
+                        <td>日均人流量、高峰时段、人群画像</td>
+                    </tr>
+                    <tr>
+                        <td>竞争强度</td>
+                        <td>20%</td>
+                        <td>地图POI、外卖平台</td>
+                        <td>同类餐饮数量、距离、评分</td>
+                    </tr>
+                    <tr>
+                        <td>消费能力</td>
+                        <td>20%</td>
+                        <td>人口普查、房价数据</td>
+                        <td>人均收入、消费水平、房价</td>
+                    </tr>
+                    <tr>
+                        <td>可达性</td>
+                        <td>15%</td>
+                        <td>地图数据</td>
+                        <td>地铁站距离、公交线路、停车位</td>
+                    </tr>
+                    <tr>
+                        <td>租金成本</td>
+                        <td>10%</td>
+                        <td>中介数据、历史成交</td>
+                        <td>租金单价、递增条款、转让费</td>
+                    </tr>
+                    <tr>
+                        <td>匹配度</td>
+                        <td>10%</td>
+                        <td>品牌画像</td>
+                        <td>客群匹配、品牌定位契合度</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="case-study">
+                <div class="case-study-header">
+                    <div class="case-study-icon">📍</div>
+                    <h4>案例：杭州某商圈选址评估</h4>
+                </div>
+                <div class="case-content">
+                    <h5>评估流程：</h5>
+                    <div class="steps" style="margin-top: 0.5rem;">
+                        <div class="step" style="margin-bottom: 0.75rem; padding-bottom: 0.75rem;">
+                            <div class="step-number" style="width: 28px; height: 28px; font-size: 0.85rem;">1</div>
+                            <div class="step-content">
+                                <h4 style="font-size: 0.95rem;">商圈数据采集</h4>
+                                <p style="font-size: 0.85rem;">抓取3公里范围内POI数据、竞品信息、房价数据、人流量估算</p>
+                            </div>
+                        </div>
+                        <div class="step" style="margin-bottom: 0.75rem; padding-bottom: 0.75rem;">
+                            <div class="step-number" style="width: 28px; height: 28px; font-size: 0.85rem;">2</div>
+                            <div class="step-content">
+                                <h4 style="font-size: 0.95rem;">相似门店对标</h4>
+                                <p style="font-size: 0.85rem;">找到已开业的相似位置门店，分析其业绩表现作为参考</p>
+                            </div>
+                        </div>
+                        <div class="step" style="margin-bottom: 0.75rem; padding-bottom: 0.75rem;">
+                            <div class="step-number" style="width: 28px; height: 28px; font-size: 0.85rem;">3</div>
+                            <div class="step-content">
+                                <h4 style="font-size: 0.95rem;">评分计算</h4>
+                                <p style="font-size: 0.85rem;">基于模型计算综合得分，输出雷达图对比</p>
+                            </div>
+                        </div>
+                        <div class="step" style="margin-bottom: 0;">
+                            <div class="step-number" style="width: 28px; height: 28px; font-size: 0.85rem;">4</div>
+                            <div class="step-content">
+                                <h4 style="font-size: 0.95rem;">销售预测</h4>
+                                <p style="font-size: 0.85rem;">基于对标门店和评分，预测首年销售额区间</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 style="margin-top: 1rem;">输出结果：</h5>
+                    <div class="code-block" style="margin: 0.5rem 0;">
+📊 杭州XX商圈选址评估报告
+
+综合评分：78/100 (推荐)
+
+维度得分：
+├── 人流密度：85/100 (优秀)
+├── 竞争强度：65/100 (注意：500米内有3家竞品)
+├── 消费能力：82/100 (优秀)
+├── 可达性：75/100 (良好)
+├── 租金成本：70/100 (偏高)
+└── 匹配度：88/100 (优秀)
+
+销售预测：
+• 保守估计：年销280万
+• 中性估计：年销350万
+• 乐观估计：年销420万
+
+风险提示：
+• 竞品较多，需差异化定位
+• 租金占比较高，需控制面积
+
+建议：✅ 可以签约，建议面积80-100㎡
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第10章：案例：竞品调研报告 -->
+        <section class="section" id="case-3">
+            <div class="section-header">
+                <span class="section-number">10</span>
+                <h2>实战案例：竞品调研报告</h2>
+                <p class="section-desc">自动化竞品监控与情报分析</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">竞品情报采集体系</div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>产品情报</h4>
+                        <p>新品上新、价格变动、套餐组合</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>营销情报</h4>
+                        <p>活动促销、会员策略、社媒传播</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>门店情报</h4>
+                        <p>开店速度、关店情况、位置分布</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>口碑情报</h4>
+                        <p>评分变化、差评热点、用户反馈</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">自动化监控脚本示例</div>
+                <div class="code-block">
+<span class="comment"># WorkBuddy生成的Python监控脚本</span>
+
+<span class="keyword">import</span> schedule
+<span class="keyword">import</span> time
+<span class="keyword">from</span> datetime <span class="keyword">import</span> datetime
+
+<span class="keyword">def</span> <span class="keyword">monitor_competitor</span>():
+    <span class="comment"># 1. 抓取竞品菜单和价格</span>
+    menu_data = scrape_menu(competitor_id)
+    
+    <span class="comment"># 2. 检测变化</span>
+    changes = compare_with_baseline(menu_data)
+    
+    <span class="comment"># 3. 如有变化，生成报告</span>
+    <span class="keyword">if</span> changes:
+        report = generate_alert_report(changes)
+        send_email(report, to="ops@company.com")
+        
+    <span class="comment"># 4. 更新基线</span>
+    update_baseline(menu_data)
+
+<span class="comment"># 每日早8点执行</span>
+schedule.every().day.at(<span class="keyword">"08:00"</span>).do(monitor_competitor)
+
+<span class="keyword">while</span> True:
+    schedule.run_pending()
+    time.sleep(60)
+                </div>
+
+                <div class="tip">
+                    <div class="tip-title">💡 部署建议</div>
+                    <p>将脚本部署到云服务器（如阿里云函数计算），设置定时触发，实现7×24小时自动监控。WorkBuddy可以帮你完成脚本编写和部署配置。</p>
+                </div>
+            </div>
+
+            <div class="case-study">
+                <div class="case-study-header">
+                    <div class="case-study-icon">🔎</div>
+                    <h4>案例：月度竞品监测报告自动生成</h4>
+                </div>
+                <div class="case-meta">
+                    <span>🎯 目标：监控3个主要竞品品牌</span>
+                    <span>📅 频率：每月1日自动生成</span>
+                </div>
+                <div class="case-content">
+                    <h5>WorkBuddy自动化流程：</h5>
+                    <ol style="padding-left: 1.5rem; margin: 0.5rem 0;">
+                        <li>抓取各品牌近30天的菜单、价格、活动数据</li>
+                        <li>统计上新数量、价格调整、促销频次</li>
+                        <li>抓取大众点评/美团评分变化和用户评价</li>
+                        <li>分析社媒（微博、小红书）声量和热点</li>
+                        <li>生成对比表格和趋势图表</li>
+                        <li>输出15页PDF报告，含执行摘要和战略建议</li>
+                    </ol>
+                    <p style="margin-top: 0.5rem;"><strong>效果：</strong>原来需要2人3天完成的竞品调研，现在完全自动化，每月1日上午自动收到报告。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第11章：Prompt工程 -->
+        <section class="section" id="prompt-engineering">
+            <div class="section-header">
+                <span class="section-number">11</span>
+                <h2>Prompt 工程：高效沟通指南</h2>
+                <p class="section-desc">让WorkBuddy更精准理解你的需求</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Prompt 编写原则</div>
+                
+                <table class="data-table">
+                    <tr>
+                        <th>原则</th>
+                        <th>错误示例</th>
+                        <th>正确示例</th>
+                    </tr>
+                    <tr>
+                        <td>具体明确</td>
+                        <td>"分析一下数据"</td>
+                        <td>"分析Q3华东区50家门店销售数据，按城市分组统计销售额和订单量"</td>
+                    </tr>
+                    <tr>
+                        <td>提供上下文</td>
+                        <td>"生成一个报表"</td>
+                        <td>"生成加盟商月度经营报表，包含财务、运营、顾客体验三个维度，面向督导使用"</td>
+                    </tr>
+                    <tr>
+                        <td>指定格式</td>
+                        <td>"写个报告"</td>
+                        <td>"生成PPT格式报告，每页一个分析主题，包含图表和要点解读"</td>
+                    </tr>
+                    <tr>
+                        <td>说明约束</td>
+                        <td>"快点做完"</td>
+                        <td>"需要在今天下午3点前完成，优先保证准确性，图表使用公司VI配色"</td>
+                    </tr>
+                    <tr>
+                        <td>迭代优化</td>
+                        <td>一次性提出所有要求</td>
+                        <td>先给初稿 → 反馈调整 → 再细化 → 最终确认</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">餐饮场景Prompt模板</div>
+                
+                <h4 style="margin: 1rem 0 0.5rem;">模板1：数据分析类</h4>
+                <div class="code-block">
+请分析【数据范围】的【业务指标】，重点关注【分析维度】。
+
+数据范围：XX区域XX家店的XX时间段数据
+业务指标：销售额、订单量、客单价、品类销售等
+分析维度：时间趋势、区域对比、门店排名、同比环比等
+
+输出要求：
+1. Excel数据透视表
+2. 关键发现总结（3-5点）
+3. 可视化图表
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">模板2：报告生成类</h4>
+                <div class="code-block">
+基于【数据来源】，生成【报告类型】，面向【受众】。
+
+数据来源：Excel/数据库/已有分析结果
+报告类型：日报/周报/月报/专项分析报告
+受众：高管/区域经理/加盟商/督导
+
+报告结构：
+1. 执行摘要（关键结论前置）
+2. 详细分析（数据+图表+解读）
+3. 问题识别（风险点标注）
+4. 改进建议（可执行方案）
+
+格式要求：PPT/Word/PDF
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">模板3：自动化脚本类</h4>
+                <div class="code-block">
+帮我写一个【功能描述】的Python脚本。
+
+功能描述：自动抓取/数据处理/定时任务等
+输入：数据来源、格式、位置
+输出：目标格式、存储位置
+执行频率：每日/每周/实时
+通知方式：邮件/钉钉/企微
+
+附加要求：异常处理、日志记录、容错机制
+                </div>
+            </div>
+
+            <div class="tip warning">
+                <div class="tip-title">⚠️ 常见误区</div>
+                <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                    <li><strong>一次性提太多要求：</strong>复杂任务分步骤沟通，先做框架再填细节</li>
+                    <li><strong>不提供数据文件：</strong>明确告知数据位置和格式，或主动上传文件</li>
+                    <li><strong>期望读心术：</strong>行业术语、业务规则要主动解释</li>
+                    <li><strong>不问就问：</strong>不确定时先问"你有什么建议"，而不是盲目执行</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 第12章：自动化工作流 -->
+        <section class="section" id="automation">
+            <div class="section-header">
+                <span class="section-number">12</span>
+                <h2>自动化工作流</h2>
+                <p class="section-desc">构建7×24小时自动运转的数据流水线</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">典型自动化场景</div>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>日报自动生成</h4>
+                            <p>每日早8点自动从数据库抽取数据 → 计算核心指标 → 生成邮件 → 发送给管理层</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>异常自动预警</h4>
+                            <p>实时监控销售额、订单量 → 触发阈值时自动发送告警 → 附带相关数据和分析</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>竞品自动监控</h4>
+                            <p>定时抓取竞品价格/活动 → 对比分析 → 变化时自动推送简报</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>报表自动分发</h4>
+                            <p>周一生成周报 → 按区域拆分成多个文件 → 自动发送给对应的区域经理</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">技术实现方案</div>
+                
+                <table class="data-table">
+                    <tr>
+                        <th>方案</th>
+                        <th>适用场景</th>
+                        <th>技术栈</th>
+                        <th>成本</th>
+                    </tr>
+                    <tr>
+                        <td>本地定时任务</td>
+                        <td>数据敏感、频率低（日/周）</td>
+                        <td>Python + Windows计划任务</td>
+                        <td>低</td>
+                    </tr>
+                    <tr>
+                        <td>云函数</td>
+                        <td>高频率、按需触发</td>
+                        <td>阿里云函数/腾讯云函数</td>
+                        <td>中</td>
+                    </tr>
+                    <tr>
+                        <td>虚拟机</td>
+                        <td>复杂流程、长运行时间</td>
+                        <td>云服务器 + Cron</td>
+                        <td>中高</td>
+                    </tr>
+                    <tr>
+                        <td>RPA工具</td>
+                        <td>涉及UI操作、多系统跳转</td>
+                        <td>影刀/UiBot</td>
+                        <td>中</td>
+                    </tr>
+                </table>
+
+                <div class="tip">
+                    <div class="tip-title">💡 建议</div>
+                    <p>从简单开始，先用Python+本地定时任务验证流程，稳定后再迁移到云端。WorkBuddy可以帮你完成脚本开发和部署配置。</p>
+                </div>
+            </div>
+
+            <div class="case-study">
+                <div class="case-study-header">
+                    <div class="case-study-icon">⚙️</div>
+                    <h4>案例：自动化日报系统搭建</h4>
+                </div>
+                <div class="case-content">
+                    <h5>需求：</h5>
+                    <p>每日早8点自动发送前一日经营日报给30位区域经理，包含各自区域数据。</p>
+                    
+                    <h5 style="margin-top: 1rem;">WorkBuddy交付：</h5>
+                    <div class="code-block" style="margin: 0.5rem 0;">
+项目结构：
+├── daily_report.py        # 主程序
+├── config.yaml            # 配置信息
+├── sql/
+│   └── daily_metrics.sql  # 数据查询
+├── templates/
+│   └── report_template.xlsx  # 报表模板
+└── logs/
+    └── daily_report.log   # 运行日志
+
+功能：
+1. 连接企业数据库抽取数据
+2. 按区域自动拆分数据
+3. 生成Excel报表（含图表）
+4. 发送邮件给对应区域经理
+5. 记录执行日志
+
+部署：
+- 阿里云ECS服务器
+- 每日8:00定时执行
+- 异常时发送告警邮件
+                    </div>
+                    <p><strong>效果：</strong>从人工2小时/天 → 全自动0人工，准确率100%</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第13章：系统集成 -->
+        <section class="section" id="integration">
+            <div class="section-header">
+                <span class="section-number">13</span>
+                <h2>系统集成</h2>
+                <p class="section-desc">与现有IT系统的对接策略</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">餐饮系统对接矩阵</div>
+                
+                <table class="data-table">
+                    <tr>
+                        <th>系统类型</th>
+                        <th>典型产品</th>
+                        <th>对接方式</th>
+                        <th>数据价值</th>
+                    </tr>
+                    <tr>
+                        <td>POS系统</td>
+                        <td>客如云、美团收银、哗啦啦</td>
+                        <td>API/OpenAPI</td>
+                        <td>交易流水、订单明细</td>
+                    </tr>
+                    <tr>
+                        <td>ERP系统</td>
+                        <td>用友、金蝶、SAP</td>
+                        <td>数据库直连/中间表</td>
+                        <td>财务数据、库存数据</td>
+                    </tr>
+                    <tr>
+                        <td>CRM系统</td>
+                        <td>有赞、微盟、自建</td>
+                        <td>API</td>
+                        <td>会员数据、营销数据</td>
+                    </tr>
+                    <tr>
+                        <td>外卖平台</td>
+                        <td>美团外卖、饿了么</td>
+                        <td>开放平台API</td>
+                        <td>外卖订单、评价数据</td>
+                    </tr>
+                    <tr>
+                        <td>供应链系统</td>
+                        <td>观麦、美菜</td>
+                        <td>API/导出文件</td>
+                        <td>采购数据、成本数据</td>
+                    </tr>
+                    <tr>
+                        <td>HR系统</td>
+                        <td>北森、Moka</td>
+                        <td>API</td>
+                        <td>人力成本、考勤数据</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">数据仓库架构建议</div>
+                
+                <div class="code-block">
+<span class="comment"># 推荐的数据分层架构</span>
+
+数据源层 (Source)
+├── POS系统 ──┐
+├── ERP系统 ──┤
+├── CRM系统 ──┼──→ 数据采集 → 数据清洗 → 数据仓库
+├── 外卖平台 ──┤
+└── 其他系统 ──┘
+
+数据仓库层 (DW)
+├── ODS (操作数据存储) - 原始数据保留
+├── DWD (明细数据层) - 清洗后的明细
+├── DWS (汇总数据层) - 按主题汇总
+└── ADS (应用数据层) - 面向业务报表
+
+数据应用层 (BI)
+├── 固定报表
+├── 自助分析
+├── 数据API
+└── 可视化看板
+                </div>
+
+                <div class="tip">
+                    <div class="tip-title">💡 实施建议</div>
+                    <p>初期可以先从Excel/CSV文件对接开始，逐步过渡到API直连。WorkBuddy可以帮助你设计架构、编写ETL脚本、生成测试数据。</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">数据安全与合规</div>
+                
+                <table class="data-table">
+                    <tr>
+                        <th>风险点</th>
+                        <th>防护措施</th>
+                        <th>实施方式</th>
+                    </tr>
+                    <tr>
+                        <td>敏感数据泄露</td>
+                        <td>数据脱敏</td>
+                        <td>手机号/身份证打码，姓名用代号</td>
+                    </tr>
+                    <tr>
+                        <td>权限失控</td>
+                        <td>最小权限原则</td>
+                        <td>只开通查询权限，禁止写入</td>
+                    </tr>
+                    <tr>
+                        <td>数据传输安全</td>
+                        <td>加密传输</td>
+                        <td>使用HTTPS/VPN</td>
+                    </tr>
+                    <tr>
+                        <td>数据留存合规</td>
+                        <td>定期清理</td>
+                        <td>敏感数据不留本地，用完即删</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- 结语 -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">完</span>
+                <h2>开始你的WorkBuddy之旅</h2>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📚 学习路径建议</div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Week 1：熟悉基础</h4>
+                            <p>从简单的数据分析开始，让WorkBuddy帮你处理Excel、生成图表，熟悉交互方式。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Week 2-3：场景实践</h4>
+                            <p>选择1-2个高频场景（如周报生成、门店分析），完整走通从需求到交付的流程。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Week 4：自动化进阶</h4>
+                            <p>将重复性工作自动化，搭建你的第一个自动报表系统。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Month 2+：持续优化</h4>
+                            <p>建立个人/团队的工作模板库，不断优化Prompt和工作流。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: var(--primary);">
+                <div class="card-title" style="color: var(--primary);">💡 最后的话</div>
+                <p>WorkBuddy 不是魔法，而是放大你能力的工具。最有效的使用方式是：</p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>清晰表达：</strong>你的需求越明确，输出越精准</li>
+                    <li><strong>持续迭代：</strong>初稿不满意就反馈，多轮优化胜过一次性完美</li>
+                    <li><strong>保持主导：</strong>AI辅助决策，但最终判断权在你</li>
+                    <li><strong>积累资产：</strong>保存好用的Prompt和模板，形成个人知识库</li>
+                </ul>
+                <p style="margin-top: 1rem;"><strong>现在，开始你的第一个任务吧！</strong> 🚀</p>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 3rem 0; color: var(--text-light); border-top: 1px solid var(--border); margin-top: 2rem;">
+            <p>WorkBuddy 数字化运营培训手册</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">餐饮连锁加盟企业版 · 2026</p>
+        </footer>
+    </main>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // 侧边栏高亮
+        const sections = document.querySelectorAll('.section');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
