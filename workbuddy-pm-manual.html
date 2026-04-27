@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkBuddy 数字化产品经理培训手册</title>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --secondary: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #fafafa;
+            --card: #ffffff;
+            --text: #18181b;
+            --text-light: #71717a;
+            --border: #e4e4e7;
+            --code-bg: #27272a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        /* 导航 */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+        
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            bottom: 0;
+            width: 280px;
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .sidebar-link:hover {
+            background: var(--bg);
+            color: var(--primary);
+        }
+        
+        .sidebar-link.active {
+            background: #f3e8ff;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* 主内容区 */
+        .main {
+            margin-left: 280px;
+            margin-top: 60px;
+            padding: 2rem;
+            max-width: 900px;
+        }
+        
+        /* 英雄区 */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+            position: relative;
+        }
+        
+        /* 章节标题 */
+        .section {
+            margin-bottom: 4rem;
+        }
+        
+        .section-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .section-number {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: 600;
+            margin-right: 0.75rem;
+        }
+        
+        .section h2 {
+            font-size: 1.8rem;
+            display: inline;
+        }
+        
+        .section-desc {
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+        
+        /* 卡片 */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        /* 功能网格 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-item {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e0f2fe 100%);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .feature-item h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+            color: var(--primary-dark);
+        }
+        
+        .feature-item p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        /* 代码块 */
+        .code-block {
+            background: var(--code-bg);
+            color: #e4e4e7;
+            padding: 1.25rem;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+        
+        .code-block .comment {
+            color: #71717a;
+        }
+        
+        .code-block .keyword {
+            color: #f472b6;
+        }
+        
+        .code-block .string {
+            color: #a3e635;
+        }
+        
+        /* 表格 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .data-table th {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e0f2fe 100%);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+            color: var(--primary-dark);
+        }
+        
+        .data-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .data-table tr:hover {
+            background: var(--bg);
+        }
+        
+        /* 案例 */
+        .case-study {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .case-study-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .case-study-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--warning);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .case-study h4 {
+            color: #92400e;
+            font-size: 1.1rem;
+        }
+        
+        .case-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #92400e;
+        }
+        
+        .case-content h5 {
+            font-size: 0.95rem;
+            color: #92400e;
+            margin: 1rem 0 0.5rem;
+        }
+        
+        /* 步骤 */
+        .steps {
+            counter-reset: step;
+        }
+        
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-number {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .step-content h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-content p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        /* 提示框 */
+        .tip {
+            background: #ecfdf5;
+            border-left: 4px solid var(--success);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+        
+        .tip-title {
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 0.25rem;
+        }
+        
+        .warning {
+            background: #fef2f2;
+            border-left-color: var(--danger);
+        }
+        
+        .warning .tip-title {
+            color: #991b1b;
+        }
+        
+        .info {
+            background: #eff6ff;
+            border-left-color: var(--primary);
+        }
+        
+        .info .tip-title {
+            color: #1e40af;
+        }
+        
+        /* 标签 */
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tag.primary {
+            background: #f3e8ff;
+            color: var(--primary);
+        }
+        
+        .tag.success {
+            background: #ecfdf5;
+            color: var(--success);
+        }
+        
+        .tag.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+            .main {
+                margin-left: 0;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 对比表 */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-item {
+            padding: 1.25rem;
+            border-radius: 8px;
+        }
+        
+        .comparison-item.before {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+        
+        .comparison-item.after {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .comparison-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-item.before .comparison-label {
+            color: #991b1b;
+        }
+        
+        .comparison-item.after .comparison-label {
+            color: #065f46;
+        }
+        
+        /* 统计 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+        
+        /* 工具卡片 */
+        .tool-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        
+        .tool-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .tool-content h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .tool-content p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        /* 流程图样式 */
+        .flow-diagram {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .flow-box {
+            background: white;
+            border: 2px solid var(--primary);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .flow-arrow {
+            margin: 0 0.5rem;
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+        
+        /* PRD模板 */
+        .prd-template {
+            background: #fefce8;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+        
+        .prd-template h5 {
+            color: #854d0e;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航 -->
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="logo">🚀 WorkBuddy PM</div>
+            <div class="nav-links">
+                <a href="#overview">概览</a>
+                <a href="#scenarios">场景</a>
+                <a href="#cases">案例</a>
+                <a href="#advanced">进阶</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">入门指南</div>
+            <a href="#overview" class="sidebar-link active">1. PM 的工作本质</a>
+            <a href="#ai-transformation" class="sidebar-link">2. AI时代的PM转型</a>
+            <a href="#core-capabilities" class="sidebar-link">3. WorkBuddy能力矩阵</a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">核心场景</div>
+            <a href="#scenario-1" class="sidebar-link">4. 需求分析与管理</a>
+            <a href="#scenario-2" class="sidebar-link">5. PRD文档撰写</a>
+            <a href="#scenario-3" class="sidebar-link">6. 数据分析与决策</a>
+            <a href="#scenario-4" class="sidebar-link">7. 竞品分析</a>
+            <a href="#scenario-5" class="sidebar-link">8. 用户研究</a>
+            <a href="#scenario-6" class="sidebar-link">9. 项目管理</a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">实战案例</div>
+            <a href="#case-1" class="sidebar-link">10. 从0到1搭建CRM系统</a>
+            <a href="#case-2" class="sidebar-link">11. 数据驱动功能优化</a>
+            <a href="#case-3" class="sidebar-link">12. 竞品功能对标分析</a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">进阶技巧</div>
+            <a href="#prompt-engineering" class="sidebar-link">13. Prompt工程</a>
+            <a href="#automation" class="sidebar-link">14. 自动化工作流</a>
+            <a href="#integration" class="sidebar-link">15. 工具链集成</a>
+        </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>WorkBuddy 数字化产品经理培训手册</h1>
+            <p>AI驱动的产品管理新范式<br>从需求洞察到产品落地的全流程提效指南</p>
+            <div class="hero-badge">📱 产品设计 · 📊 数据决策 · 🤖 AI赋能</div>
+        </div>
+
+        <!-- 第1章：PM的工作本质 -->
+        <section class="section" id="overview">
+            <div class="section-header">
+                <span class="section-number">1</span>
+                <h2>数字化产品经理的工作本质</h2>
+                <p class="section-desc">理解PM的核心价值，建立AI时代的竞争优势</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">💡</div>
+                    PM的核心价值：翻译与决策
+                </div>
+                <p>产品经理的本质是<strong>问题的翻译者和决策的制定者</strong>：</p>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>需求翻译</h4>
+                        <p>将模糊的业务诉求转化为清晰的产品需求</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>技术翻译</h4>
+                        <p>将技术语言转化为业务方可理解的表达</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>价值判断</h4>
+                        <p>在资源约束下判断做什么、不做什么</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>决策验证</h4>
+                        <p>用数据验证决策正确性，持续迭代</p>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem;">这些能力无法被AI替代，但AI可以极大放大这些能力的产出效率。</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">数字化PM的日常工作全景</div>
+                <table class="data-table">
+                    <tr>
+                        <th>工作类型</th>
+                        <th>占比</th>
+                        <th>典型任务</th>
+                        <th>痛点</th>
+                    </tr>
+                    <tr>
+                        <td>需求分析与沟通</td>
+                        <td>30%</td>
+                        <td>用户访谈、需求梳理、方案评审</td>
+                        <td>需求模糊、反复变更</td>
+                    </tr>
+                    <tr>
+                        <td>文档撰写</td>
+                        <td>20%</td>
+                        <td>PRD、原型说明、会议纪要</td>
+                        <td>格式繁琐、维护困难</td>
+                    </tr>
+                    <tr>
+                        <td>数据分析</td>
+                        <td>20%</td>
+                        <td>埋点设计、数据提取、效果评估</td>
+                        <td>SQL不熟练、工具受限</td>
+                    </tr>
+                    <tr>
+                        <td>项目管理</td>
+                        <td>15%</td>
+                        <td>排期协调、进度跟踪、风险管理</td>
+                        <td>信息同步滞后</td>
+                    </tr>
+                    <tr>
+                        <td>竞品调研</td>
+                        <td>10%</td>
+                        <td>功能对标、市场分析、趋势判断</td>
+                        <td>信息收集耗时</td>
+                    </tr>
+                    <tr>
+                        <td>其他</td>
+                        <td>5%</td>
+                        <td>培训分享、跨部门协作</td>
+                        <td>-</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">60%</div>
+                    <div class="stat-label">文档撰写可提效</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">70%</div>
+                    <div class="stat-label">数据分析可加速</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">50%</div>
+                    <div class="stat-label">竞品调研可自动化</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">∞</div>
+                    <div class="stat-label">创意激发无限</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第2章：AI时代的PM转型 -->
+        <section class="section" id="ai-transformation">
+            <div class="section-header">
+                <span class="section-number">2</span>
+                <h2>AI时代的PM转型</h2>
+                <p class="section-desc">从"执行者"到"AI协作者"的角色升级</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">AI对PM工作的重塑</div>
+                <div class="comparison">
+                    <div class="comparison-item before">
+                        <div class="comparison-label">传统模式</div>
+                        <p>• 手动写PRD（2-3天）</p>
+                        <p>• Excel手工分析数据</p>
+                        <p>• 人工整理会议纪要</p>
+                        <p>• 手动制作PPT汇报</p>
+                        <p>• 逐个查询竞品信息</p>
+                        <p style="margin-top: 0.5rem; font-weight: 600;">时间：80%执行 + 20%思考</p>
+                    </div>
+                    <div class="comparison-item after">
+                        <div class="comparison-label">AI增强模式</div>
+                        <p>• AI辅助生成PRD框架（2小时）</p>
+                        <p>• AI自动提取洞察</p>
+                        <p>• AI实时转录并总结</p>
+                        <p>• AI自动生成数据看板</p>
+                        <p>• AI自动监控竞品动态</p>
+                        <p style="margin-top: 0.5rem; font-weight: 600;">时间：30%执行 + 70%思考</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">PM的不可替代性</div>
+                <p>AI可以辅助执行，但这些核心能力必须掌握在你手中：</p>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>业务洞察力</h4>
+                            <p>理解行业逻辑、商业模型、用户心理，判断需求真伪和价值大小。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>产品判断力</h4>
+                            <p>在无数可行方案中选择最优路径，平衡用户体验、商业价值、技术成本。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>沟通推动力</h4>
+                            <p>协调跨部门资源，推动项目落地，解决人际冲突，建立信任关系。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>创新想象力</h4>
+                            <p>发现未被满足的需求，创造新的产品形态，引领而非跟随。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip info">
+                <div class="tip-title">🎯 转型建议</div>
+                <p>把AI当作你的"超级实习生"——它可以快速完成执行层任务，但你必须负责指导方向、审核质量、做出最终决策。</p>
+            </div>
+        </section>
+
+        <!-- 第3章：核心能力矩阵 -->
+        <section class="section" id="core-capabilities">
+            <div class="section-header">
+                <span class="section-number">3</span>
+                <h2>WorkBuddy 能力矩阵</h2>
+                <p class="section-desc">数字化PM的AI工具箱</p>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">📝</div>
+                <div class="tool-content">
+                    <h4>智能文档生成</h4>
+                    <p>PRD、产品说明书、会议纪要、汇报PPT、邮件撰写——支持多种格式，快速生成专业文档</p>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">📊</div>
+                <div class="tool-content">
+                    <h4>数据分析与可视化</h4>
+                    <p>埋点分析、用户行为分析、AB测试分析、漏斗分析——从数据到洞察的一站式服务</p>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">🔍</div>
+                <div class="tool-content">
+                    <h4>竞品情报系统</h4>
+                    <p>功能对标、定价分析、更新监控、市场格局——自动化竞品追踪与分析</p>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">💻</div>
+                <div class="tool-content">
+                    <h4>原型与演示</h4>
+                    <p>快速生成HTML原型、数据看板、交互演示——无需开发即可验证想法</p>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">🤖</div>
+                <div class="tool-content">
+                    <h4>自动化工作流</h4>
+                    <p>日报自动生成、数据监控预警、竞品监控——7×24小时自动运转</p>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">🌐</div>
+                <div class="tool-content">
+                    <h4>外部信息获取</h4>
+                    <p>行业报告、技术趋势、用户反馈、舆情监控——快速获取决策所需信息</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第4章：需求分析与管理 -->
+        <section class="section" id="scenario-1">
+            <div class="section-header">
+                <span class="section-number">4</span>
+                <h2>需求分析与管理</h2>
+                <p class="section-desc">从混沌到清晰的需求翻译过程</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">需求分析工作流</div>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <div class="flow-box">原始需求</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">用户访谈</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">需求分类</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-box">需求分类</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">价值评估</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">优先级排序</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-box">优先级排序</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">方案设计</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">PRD输出</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">AI辅助需求分析</div>
+                <table class="data-table">
+                    <tr>
+                        <th>场景</th>
+                        <th>传统方式</th>
+                        <th>AI增强方式</th>
+                        <th>效率提升</th>
+                    </tr>
+                    <tr>
+                        <td>用户访谈整理</td>
+                        <td>人工听录音、做笔记、归纳（4小时）</td>
+                        <td>AI转录+自动提取关键观点（30分钟）</td>
+                        <td>8x</td>
+                    </tr>
+                    <tr>
+                        <td>需求分类</td>
+                        <td>人工阅读、打标签、归类（2小时）</td>
+                        <td>AI自动分类、聚类、打标签（10分钟）</td>
+                        <td>12x</td>
+                    </tr>
+                    <tr>
+                        <td>价值评估</td>
+                        <td>人工估算、讨论、决策（1天）</td>
+                        <td>AI提供影响面分析、数据支撑（1小时）</td>
+                        <td>8x</td>
+                    </tr>
+                    <tr>
+                        <td>需求池维护</td>
+                        <td>人工更新Excel/文档（持续）</td>
+                        <td>AI自动整理、去重、关联（自动）</td>
+                        <td>∞</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="case-study">
+                <div class="case-study-header">
+                    <div class="case-study-icon">🎯</div>
+                    <h4>案例：用户反馈批量分析</h4>
+                </div>
+                <div class="case-content">
+                    <h5>场景：</h5>
+                    <p>收到500条用户反馈，需要快速分类并识别核心痛点。</p>
+                    
+                    <h5>WorkBuddy方案：</h5>
+                    <div class="code-block">
+# 用户指令示例
+"分析附件中的500条用户反馈，完成以下任务：
+1. 按主题自动分类（如：功能需求、BUG反馈、体验问题等）
+2. 识别TOP5高频问题
+3. 提取具体的用户原话作为证据
+4. 给出优先级建议（考虑影响面和实现成本）
+5. 生成需求池Excel，包含：分类、问题描述、频次、优先级、建议方案"
+                    </div>
+                    
+                    <h5>输出成果：</h5>
+                    <ul style="padding-left: 1.5rem; margin: 0.5rem 0;">
+                        <li>自动分类准确率：85%+</li>
+                        <li>识别TOP5问题，附用户原话</li>
+                        <li>生成可直接导入需求池的Excel</li>
+                        <li>提供优先级排序建议</li>
+                    </ul>
+                    <p><strong>耗时：</strong>从2天 → 30分钟</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第5章：PRD文档撰写 -->
+        <section class="section" id="scenario-2">
+            <div class="section-header">
+                <span class="section-number">5</span>
+                <h2>PRD文档撰写</h2>
+                <p class="section-desc">从框架到细节的专业文档生成</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">PRD文档结构标准</div>
+                <div class="prd-template">
+                    <h5>PRD标准模板结构</h5>
+                    <pre>1. 文档信息
+   - 版本号、修订记录、作者、日期
+
+2. 背景与目标
+   - 项目背景、业务目标、成功指标
+
+3. 需求范围
+   - 包含范围、排除范围、版本规划
+
+4. 用户故事
+   - 用户画像、使用场景、核心任务
+
+5. 功能需求
+   - 功能列表、详细说明、流程图、原型图
+
+6. 非功能需求
+   - 性能、安全、兼容性、埋点需求
+
+7. 数据分析
+   - 核心指标、埋点文档、看板需求
+
+8. 风险评估
+   - 技术风险、业务风险、应对策略
+
+9. 附录
+   - 参考文档、术语表、原型链接</pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">PRD撰写Prompt模板</div>
+                
+                <h4 style="margin: 1rem 0 0.5rem;">模板1：从零开始写PRD</h4>
+                <div class="code-block">
+请帮我撰写一份PRD文档，产品信息如下：
+
+【产品背景】
+- 产品名称：[名称]
+- 目标用户：[用户群体]
+- 解决痛点：[核心问题]
+- 业务目标：[预期效果]
+
+【功能需求】
+- 核心功能：[功能简述]
+- 关键流程：[用户操作流程]
+- 涉及页面：[页面列表]
+
+输出要求：
+1. 按标准PRD结构撰写
+2. 包含用户故事（As a... I want... So that...）
+3. 详细描述核心功能逻辑
+4. 列出埋点需求
+5. 格式：Markdown，可导出Word
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">模板2：基于原型写PRD</h4>
+                <div class="code-block">
+我有一份产品原型（截图/链接），请帮我撰写对应的PRD文档。
+
+要求：
+1. 逐页分析原型，描述功能逻辑
+2. 补充交互说明（点击、跳转、异常状态）
+3. 标注数据展示规则（如列表排序、筛选逻辑）
+4. 补充埋点需求
+5. 识别可能遗漏的边界情况
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">模板3：PRD优化迭代</h4>
+                <div class="code-block">
+请帮我优化以下PRD文档：
+
+优化目标：
+- 提升可读性（让开发更容易理解）
+- 补充缺失的边界情况
+- 检查逻辑完整性
+- 优化表达方式
+
+请标注：
+- [优化] 优化后的内容
+- [补充] 新增的内容
+- [建议] 可选的改进建议
+                </div>
+            </div>
+
+            <div class="tip">
+                <div class="tip-title">💡 PRD撰写最佳实践</div>
+                <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                    <li><strong>先框架后细节：</strong>先用AI生成PRD框架，确认后再填充细节</li>
+                    <li><strong>迭代而非一次性：</strong>第一轮生成草稿 → 自己补充业务逻辑 → AI优化表达 → 最终确认</li>
+                    <li><strong>保留人工审核：</strong>AI生成的技术实现方案必须经开发审核</li>
+                    <li><strong>版本化管理：</strong>用AI辅助生成修订记录，清晰追踪变更</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 第6章：数据分析与决策 -->
+        <section class="section" id="scenario-3">
+            <div class="section-header">
+                <span class="section-number">6</span>
+                <h2>数据分析与决策</h2>
+                <p class="section-desc">从埋点设计到效果评估的数据闭环</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">数据分析工作流</div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>埋点设计</h4>
+                            <p>定义需要追踪的事件、属性、指标，输出埋点文档</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>数据提取</h4>
+                            <p>编写SQL或使用工具提取所需数据</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>分析建模</h4>
+                            <p>数据清洗、统计分析、可视化呈现</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>洞察输出</h4>
+                            <p>解读数据、发现问题、提出建议</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>效果追踪</h4>
+                            <p>搭建监控看板，持续追踪核心指标</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">埋点设计模板</div>
+                <div class="code-block">
+<span class="comment"># 埋点文档模板（AI自动生成）</span>
+
+<span class="keyword">页面</span>: 商品详情页
+<span class="keyword">事件</span>: view_product
+<span class="keyword">触发时机</span>: 页面加载完成
+<span class="keyword">属性</span>:
+  - product_id: 商品ID
+  - category: 商品类目
+  - source: 来源页面
+  - user_type: 用户类型（新/老）
+
+<span class="keyword">页面</span>: 购物车
+<span class="keyword">事件</span>: add_to_cart
+<span class="keyword">触发时机</span>: 点击加入购物车按钮
+<span class="keyword">属性</span>:
+  - product_id: 商品ID
+  - quantity: 数量
+  - price: 单价
+  - from_page: 来源页面
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">常用分析场景与SQL模板</div>
+                <table class="data-table">
+                    <tr>
+                        <th>分析场景</th>
+                        <th>核心指标</th>
+                        <th>AI辅助方式</th>
+                    </tr>
+                    <tr>
+                        <td>漏斗分析</td>
+                        <td>转化率、流失率、转化时长</td>
+                        <td>自动生成漏斗SQL，识别流失节点</td>
+                    </tr>
+                    <tr>
+                        <td>留存分析</td>
+                        <td>次日/7日/30日留存率</td>
+                        <td>生成留存计算SQL，绘制留存曲线</td>
+                    </tr>
+                    <tr>
+                        <td>用户分群</td>
+                        <td>RFM、生命周期、价值分层</td>
+                        <td>自动分群，生成分群画像</td>
+                    </tr>
+                    <tr>
+                        <td>路径分析</td>
+                        <td>常见路径、转化路径、跳出页面</td>
+                        <td>生成桑基图，识别关键路径</td>
+                    </tr>
+                    <tr>
+                        <td>AB测试</td>
+                        <td>显著性检验、置信区间、样本量</td>
+                        <td>自动计算显著性，生成测试报告</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="case-study">
+                <div class="case-study-header">
+                    <div class="case-study-icon">📊</div>
+                    <h4>案例：功能上线效果评估</h4>
+                </div>
+                <div class="case-content">
+                    <h5>场景：</h5>
+                    <p>新功能"智能推荐"上线2周，需要评估效果。</p>
+                    
+                    <h5>WorkBuddy分析流程：</h5>
+                    <div class="code-block">
+# 用户指令
+"分析智能推荐功能上线效果，数据表：events(事件表)、users(用户表)
+
+分析维度：
+1. 功能使用率（DAU中点击推荐的比例）
+2. 推荐点击率（CTR）
+3. 推荐转化率（从推荐到下单）
+4. 对比实验组vs对照组的核心指标差异
+5. 不同用户群体的效果差异
+
+输出要求：
+1. SQL查询语句
+2. 核心指标数据表
+3. 可视化图表（趋势图、对比图）
+4. 结论和建议"
+                    </div>
+                    
+                    <h5>输出成果：</h5>
+                    <ul style="padding-left: 1.5rem; margin: 0.5rem 0;">
+                        <li>自动生成5个分析维度的SQL</li>
+                        <li>生成对比实验结果的统计检验</li>
+                        <li>可视化图表（CTR趋势、转化漏斗、人群对比）</li>
+                        <li>结论：推荐CTR 8.5%，转化率提升23%，建议全量上线</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第7章：竞品分析 -->
+        <section class="section" id="scenario-4">
+            <div class="section-header">
+                <span class="section-number">7</span>
+                <h2>竞品分析</h2>
+                <p class="section-desc">知己知彼的市场情报系统</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">竞品分析框架</div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>功能对标</h4>
+                        <p>核心功能对比、差异化分析、功能矩阵</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>用户体验</h4>
+                        <p>交互流程、视觉设计、易用性评估</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>商业模式</h4>
+                        <p>定价策略、变现模式、生态布局</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>市场表现</h4>
+                        <p>用户规模、增长速度、市场份额</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">AI自动化竞品监控</div>
+                <table class="data-table">
+                    <tr>
+                        <th>监控维度</th>
+                        <th>监控内容</th>
+                        <th>监控频率</th>
+                    </tr>
+                    <tr>
+                        <td>功能更新</td>
+                        <td>新功能上线、功能改版、功能下线</td>
+                        <td>每日</td>
+                    </tr>
+                    <tr>
+                        <td>价格变动</td>
+                        <td>定价调整、促销策略、套餐变化</td>
+                        <td>每日</td>
+                    </tr>
+                    <tr>
+                        <td>用户评价</td>
+                        <td>评分变化、差评热点、口碑趋势</td>
+                        <td>每周</td>
+                    </tr>
+                    <tr>
+                        <td>市场动态</td>
+                        <td>融资新闻、战略合作、重大发布</td>
+                        <td>实时</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">竞品分析Prompt模板</div>
+                
+                <h4 style="margin: 1rem 0 0.5rem;">功能对标分析</h4>
+                <div class="code-block">
+请对[竞品A]和[竞品B]进行功能对标分析：
+
+分析维度：
+1. 核心功能清单对比（表格形式）
+2. 差异化功能识别（我们缺少的、竞品独有的）
+3. 用户体验差异（注册流程、核心功能路径）
+4. 技术实现差异（如有明显感知）
+5. 优劣势总结
+
+输出要求：
+1. 功能对比矩阵表
+2. 差异化分析
+3. 对我们产品的建议
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">竞品用户评价分析</h4>
+                <div class="code-block">
+分析[竞品名称]近3个月的App Store/应用宝用户评价：
+
+分析维度：
+1. 评分趋势（近3个月变化）
+2. 好评关键词TOP10
+3. 差评关键词TOP10
+4. 用户提及频率最高的功能点
+5. 用户最大的3个痛点
+6. 用户最满意的3个点
+
+输出要求：
+1. 数据汇总表
+2. 词云图描述
+3. 洞察总结（对我们产品的启示）
+                </div>
+            </div>
+        </section>
+
+        <!-- 第8章：用户研究 -->
+        <section class="section" id="scenario-5">
+            <div class="section-header">
+                <span class="section-number">8</span>
+                <h2>用户研究</h2>
+                <p class="section-desc">深入理解用户的科学方法</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">用户研究工具箱</div>
+                <table class="data-table">
+                    <tr>
+                        <th>研究方法</th>
+                        <th>适用场景</th>
+                        <th>AI辅助点</th>
+                    </tr>
+                    <tr>
+                        <td>用户访谈</td>
+                        <td>探索性研究、深度需求挖掘</td>
+                        <td>访谈提纲生成、录音转录、观点提取</td>
+                    </tr>
+                    <tr>
+                        <td>问卷调查</td>
+                        <td>定量验证、大样本需求统计</td>
+                        <td>问卷设计、数据清洗、洞察生成</td>
+                    </tr>
+                    <tr>
+                        <td>可用性测试</td>
+                        <td>产品可用性评估、问题发现</td>
+                        <td>测试任务设计、行为分析、问题归类</td>
+                    </tr>
+                    <tr>
+                        <td>数据分析</td>
+                        <td>行为验证、趋势发现</td>
+                        <td>SQL生成、可视化、异常检测</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">用户画像生成模板</div>
+                <div class="code-block">
+<span class="comment"># 基于数据自动生成用户画像</span>
+
+输入数据：
+- 用户基础属性（年龄、性别、地域）
+- 行为数据（使用频率、功能偏好、消费习惯）
+- 反馈数据（评价、客服记录）
+
+输出模板：
+<span class="keyword">用户画像 [X号]</span>
+├── 基本信息
+│   ├── 年龄区间：
+│   ├── 性别分布：
+│   ├── 地域分布：
+│   └── 职业特征：
+├── 行为特征
+│   ├── 使用场景：
+│   ├── 使用频率：
+│   ├── 核心功能：
+│   └── 付费意愿：
+├── 痛点与需求
+│   ├── 最大痛点：
+│   ├── 核心需求：
+│   └── 期望改进：
+└── 产品策略建议
+    ├── 功能优化：
+    ├── 运营策略：
+    └── 增长机会：
+                </div>
+            </div>
+        </section>
+
+        <!-- 第9章：项目管理 -->
+        <section class="section" id="scenario-6">
+            <div class="section-header">
+                <span class="section-number">9</span>
+                <h2>项目管理</h2>
+                <p class="section-desc">高效推进产品落地的协作方法</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">AI辅助项目管理场景</div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>会议纪要</h4>
+                        <p>自动转录会议内容，提取待办事项和决策点</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>进度跟踪</h4>
+                        <p>自动生成项目周报，识别延期风险</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>排期估算</h4>
+                        <p>基于历史数据，辅助评估开发工作量</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>风险预警</h4>
+                        <p>自动识别项目风险，提前预警</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">项目周报自动生成</div>
+                <div class="code-block">
+<span class="comment"># 项目周报Prompt模板</span>
+
+请根据以下信息生成项目周报：
+
+项目信息：
+- 项目名称：
+- 汇报周期：
+- 项目负责人：
+
+本周进展：
+- 已完成：[任务列表]
+- 进行中：[任务列表及进度]
+- 待开始：[任务列表]
+
+风险与问题：
+- 延期风险：
+- 阻塞问题：
+- 需要支持：
+
+下周计划：
+- 计划完成：
+- 里程碑：
+
+输出格式：Markdown，可直接发送邮件
+                </div>
+            </div>
+        </section>
+
+        <!-- 第10章：实战案例1 -->
+        <section class="section" id="case-1">
+            <div class="section-header">
+                <span class="section-number">10</span>
+                <h2>实战案例：从0到1搭建CRM系统</h2>
+                <p class="section-desc">完整复现一个B端产品的设计过程</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📋 项目背景</div>
+                <p><strong>公司：</strong>某SaaS企业，客户规模5000+<br>
+                <strong>需求：</strong>搭建客户管理系统，提升销售效率和客户满意度<br>
+                <strong>周期：</strong>3个月<br>
+                <strong>团队：</strong>1个PM + 2个开发 + 1个UI</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">阶段一：需求调研（Week 1）</div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>利益相关者访谈</h4>
+                            <p>访谈销售总监、一线销售、客服主管，用AI整理访谈记录，提取核心痛点。</p>
+                            <div class="code-block" style="margin-top: 0.5rem;">
+<span class="comment"># AI输出：核心痛点TOP5</span>
+1. 客户信息分散在Excel和邮件中，查找困难
+2. 销售跟进没有提醒，经常漏跟进
+3. 管理层看不到销售过程数据
+4. 客户分类不清晰，无法精准营销
+5. 合同和回款管理混乱
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>竞品调研</h4>
+                            <p>分析Salesforce、HubSpot、纷享销客等竞品，生成功能对标矩阵。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>需求整理</h4>
+                            <p>用AI将100+条原始需求分类、去重、优先级排序。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">阶段二：方案设计（Week 2-3）</div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>产品架构设计</h4>
+                            <p>AI辅助绘制系统架构图、模块关系图、数据流转图。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>PRD撰写</h4>
+                            <p>使用AI生成PRD框架，包含：客户管理、商机管理、合同管理、报表分析四大模块。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>原型设计</h4>
+                            <p>AI生成低保真原型HTML，用于快速验证交互流程。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">阶段三：开发落地（Week 4-10）</div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>埋点设计</h4>
+                            <p>AI生成完整的埋点文档，包含50+事件定义。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>数据看板</h4>
+                            <p>AI生成管理层看板原型，定义核心指标和可视化方式。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>自动化周报</h4>
+                            <p>搭建项目进度自动追踪系统，每周自动生成项目周报。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">阶段四：上线运营（Week 11-12）</div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>上线检查清单</h4>
+                            <p>AI生成上线前检查清单，确保不遗漏关键环节。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>使用手册</h4>
+                            <p>AI生成用户操作手册和培训PPT。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>效果评估</h4>
+                            <p>上线后1个月，AI辅助分析使用数据，生成效果评估报告。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison">
+                <div class="comparison-item before">
+                    <div class="comparison-label">传统方式</div>
+                    <p>• 需求调研：2周</p>
+                    <p>• PRD撰写：1周</p>
+                    <p>• 原型设计：1周</p>
+                    <p>• 开发跟进：8周</p>
+                    <p>• 文档整理：持续</p>
+                    <p style="margin-top: 0.5rem; font-weight: 600;">总计：12周+</p>
+                </div>
+                <div class="comparison-item after">
+                    <div class="comparison-label">AI辅助方式</div>
+                    <p>• 需求调研：1周（AI加速分析）</p>
+                    <p>• PRD撰写：3天（AI生成框架）</p>
+                    <p>• 原型设计：3天（AI生成HTML）</p>
+                    <p>• 开发跟进：8周（自动化周报）</p>
+                    <p>• 文档整理：自动化</p>
+                    <p style="margin-top: 0.5rem; font-weight: 600;">总计：10周（效率提升20%）</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第11章：实战案例2 -->
+        <section class="section" id="case-2">
+            <div class="section-header">
+                <span class="section-number">11</span>
+                <h2>实战案例：数据驱动功能优化</h2>
+                <p class="section-desc">用数据说话，科学决策产品迭代</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📋 项目背景</div>
+                <p><strong>场景：</strong>电商App的搜索功能优化<br>
+                <strong>问题：</strong>搜索转化率低于行业平均，用户反馈搜索结果不精准<br>
+                <strong>目标：</strong>提升搜索转化率20%以上</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">数据分析过程</div>
+                
+                <h4 style="margin: 1rem 0 0.5rem;">Step 1：问题定位</h4>
+                <div class="code-block">
+<span class="comment"># AI生成的分析SQL和洞察</span>
+
+分析维度：
+1. 搜索漏斗：搜索 → 点击结果 → 加购 → 支付
+2. 无结果率：搜索无结果的关键词占比
+3. 长尾词分析：高频但低转化的搜索词
+4. 用户分群：新/老用户、高/低价值用户的搜索行为差异
+
+关键发现：
+- 搜索→点击转化率：35%（行业平均50%）
+- 无结果率：18%（主要问题）
+- 长尾词占比：60%，但转化率仅15%
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">Step 2：根因分析</h4>
+                <div class="code-block">
+<span class="comment"># AI深度分析</span>
+
+根因1：搜索无结果
+- 用户搜索"品牌名+型号"，但商品标题未包含型号
+- 用户输入错别字，没有纠错机制
+- 用户搜索新兴品类，商品库未覆盖
+
+根因2：搜索结果不相关
+- 排序算法未考虑用户画像
+- 热销商品不精准，不符合搜索意图
+
+根因3：结果展示问题
+- 商品图片不清晰
+- 价格展示不明显
+- 缺少关键属性（如尺寸、颜色）
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">Step 3：优化方案</h4>
+                <div class="code-block">
+<span class="comment"># AI生成的优化建议</span>
+
+短期优化（2周内）：
+1. 商品标题优化：补充型号、规格信息
+2. 搜索纠错：接入拼音纠错、相似词匹配
+3. 结果展示：放大价格字体，增加属性标签
+
+中期优化（1个月）：
+1. 搜索排序优化：引入用户画像权重
+2. 无结果推荐：展示相关商品/分类
+3. 搜索历史：个性化推荐历史搜索
+
+长期优化（3个月）：
+1. 智能搜索：NLP语义理解
+2. 图像搜索：支持拍照搜商品
+3. 语音搜索：支持语音输入
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">AB测试设计</div>
+                <div class="code-block">
+<span class="comment"># AI生成的AB测试方案</span>
+
+测试目标：验证搜索纠错功能的效果
+
+测试设计：
+- 对照组：现有搜索（无纠错）
+- 实验组：新搜索（带纠错）
+- 分流比例：50% : 50%
+- 样本量：每组至少10000次搜索
+- 测试周期：2周
+
+核心指标：
+- 主要指标：搜索转化率
+- 次要指标：无结果率、点击率、加购率
+
+成功标准：
+- 搜索转化率提升 ≥ 10%
+- 统计显著性 p < 0.05
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">效果验证</div>
+                <table class="data-table">
+                    <tr>
+                        <th>指标</th>
+                        <th>优化前</th>
+                        <th>优化后</th>
+                        <th>提升</th>
+                    </tr>
+                    <tr>
+                        <td>搜索转化率</td>
+                        <td>8.5%</td>
+                        <td>11.2%</td>
+                        <td>+31.8%</td>
+                    </tr>
+                    <tr>
+                        <td>无结果率</td>
+                        <td>18%</td>
+                        <td>9%</td>
+                        <td>-50%</td>
+                    </tr>
+                    <tr>
+                        <td>搜索→点击</td>
+                        <td>35%</td>
+                        <td>48%</td>
+                        <td>+37%</td>
+                    </tr>
+                    <tr>
+                        <td>用户满意度</td>
+                        <td>3.2/5</td>
+                        <td>4.1/5</td>
+                        <td>+28%</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- 第12章：实战案例3 -->
+        <section class="section" id="case-3">
+            <div class="section-header">
+                <span class="section-number">12</span>
+                <h2>实战案例：竞品功能对标分析</h2>
+                <p class="section-desc">知己知彼，制定差异化策略</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📋 项目背景</div>
+                <p><strong>场景：</strong>企业协作工具市场调研<br>
+                <strong>竞品：</strong>飞书、钉钉、企业微信<br>
+                <strong>目标：</strong>找出差异化机会点，指导产品路线图</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">分析框架</div>
+                <table class="data-table">
+                    <tr>
+                        <th>维度</th>
+                        <th>分析内容</th>
+                        <th>输出</th>
+                    </tr>
+                    <tr>
+                        <td>功能全景</td>
+                        <td>核心功能清单、特色功能</td>
+                        <td>功能矩阵表</td>
+                    </tr>
+                    <tr>
+                        <td>用户体验</td>
+                        <td>核心流程对比、交互差异</td>
+                        <td>流程对比图</td>
+                    </tr>
+                    <tr>
+                        <td>定价策略</td>
+                        <td>免费版限制、付费档位</td>
+                        <td>定价对比表</td>
+                    </tr>
+                    <tr>
+                        <td>用户评价</td>
+                        <td>好评点、差评点、满意度</td>
+                        <td>口碑分析报告</td>
+                    </tr>
+                    <tr>
+                        <td>市场定位</td>
+                        <td>目标用户、核心卖点</td>
+                        <td>定位对比图</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">核心发现</div>
+                <div class="code-block">
+<span class="comment"># AI生成的竞品分析摘要</span>
+
+市场格局：
+├── 钉钉：市场份额最大，侧重管理，中小企业为主
+├── 企业微信：依托微信生态，客户联系能力强
+└── 飞书：产品体验最好，互联网/科技公司为主
+
+差异化机会：
+1. 垂直行业深耕
+   - 现有产品通用性强，但缺乏行业定制
+   - 机会：针对特定行业（如餐饮、零售）的深度定制
+
+2. 数据智能
+   - 现有产品协作功能完善，但数据分析弱
+   - 机会：内置BI，提供团队效能分析
+
+3. 开放生态
+   - 现有产品各自为战，互通性差
+   - 机会：更开放的API和集成能力
+
+竞争策略建议：
+- 短期：聚焦特定垂直行业，做深不做广
+- 中期：强化数据智能能力，提供决策支持
+- 长期：构建开放生态，成为连接中枢
+                </div>
+            </div>
+        </section>
+
+        <!-- 第13章：Prompt工程 -->
+        <section class="section" id="prompt-engineering">
+            <div class="section-header">
+                <span class="section-number">13</span>
+                <h2>Prompt工程</h2>
+                <p class="section-desc">与AI高效沟通的艺术</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Prompt编写原则</div>
+                
+                <table class="data-table">
+                    <tr>
+                        <th>原则</th>
+                        <th>说明</th>
+                        <th>示例</th>
+                    </tr>
+                    <tr>
+                        <td>角色设定</td>
+                        <td>让AI扮演特定角色</td>
+                        <td>"你是一位资深产品经理"</td>
+                    </tr>
+                    <tr>
+                        <td>背景信息</td>
+                        <td>提供足够的上下文</td>
+                        <td>"我们是一个B2B SaaS公司，客户是中小企业"</td>
+                    </tr>
+                    <tr>
+                        <td>明确任务</td>
+                        <td>具体说明要做什么</td>
+                        <td>"请帮我撰写一份PRD，包含..."</td>
+                    </tr>
+                    <tr>
+                        <td>输出格式</td>
+                        <td>指定输出形式</td>
+                        <td>"输出Markdown格式，包含表格和列表"</td>
+                    </tr>
+                    <tr>
+                        <td>约束条件</td>
+                        <td>说明限制和要求</td>
+                        <td>"字数控制在1000字以内，语言简洁"</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">PM场景Prompt模板库</div>
+                
+                <h4 style="margin: 1rem 0 0.5rem;">用户访谈提纲生成</h4>
+                <div class="code-block">
+你是一位资深用户研究员，请为[产品名称]生成用户访谈提纲。
+
+产品背景：
+- 产品类型：
+- 目标用户：
+- 研究目标：
+
+要求：
+1. 包含开场、主体、结束三部分
+2. 主体部分至少10个开放式问题
+3. 问题从宏观到微观递进
+4. 包含追问提示
+
+输出格式：Markdown，可直接用于访谈
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">数据分析报告生成</h4>
+                <div class="code-block">
+请基于以下数据，生成一份数据分析报告。
+
+数据说明：
+[粘贴数据或描述数据结构]
+
+分析要求：
+1. 描述性统计（均值、中位数、分布）
+2. 趋势分析（时间序列）
+3. 异常检测
+4. 洞察总结（3-5点）
+5. 行动建议
+
+输出格式：
+- 摘要（3句话）
+- 详细分析（含表格和图表描述）
+- 结论和建议
+                </div>
+
+                <h4 style="margin: 1.5rem 0 0.5rem;">功能方案脑暴</h4>
+                <div class="code-block">
+我们面临以下产品问题，请帮我 brainstorm 解决方案。
+
+问题描述：
+[描述用户痛点或业务问题]
+
+约束条件：
+- 技术实现周期：
+- 预算限制：
+- 其他限制：
+
+要求：
+1. 至少提供5个不同的解决方案
+2. 每个方案包含：方案描述、优缺点、实现难度、预期效果
+3. 给出推荐方案及理由
+                </div>
+            </div>
+
+            <div class="tip">
+                <div class="tip-title">💡 Prompt优化技巧</div>
+                <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                    <li><strong>迭代优化：</strong>第一轮生成框架 → 补充细节 → 优化表达，分多轮完成</li>
+                    <li><strong>示例引导：</strong>给AI一个你期望的输出示例，它会更好地理解你的需求</li>
+                    <li><strong>角色切换：</strong>让AI先扮演用户提需求，再扮演PM设计方案，换位思考</li>
+                    <li><strong>保存模板：</strong>把好用的Prompt保存下来，形成个人模板库</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 第14章：自动化工作流 -->
+        <section class="section" id="automation">
+            <div class="section-header">
+                <span class="section-number">14</span>
+                <h2>自动化工作流</h2>
+                <p class="section-desc">让重复性工作自动运转</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">PM可自动化的工作场景</div>
+                <table class="data-table">
+                    <tr>
+                        <th>场景</th>
+                        <th>自动化内容</th>
+                        <th>频率</th>
+                    </tr>
+                    <tr>
+                        <td>数据日报</td>
+                        <td>自动提取核心指标，生成报告，发送邮件</td>
+                        <td>每日</td>
+                    </tr>
+                    <tr>
+                        <td>竞品监控</td>
+                        <td>自动抓取竞品更新，生成简报</td>
+                        <td>每日/每周</td>
+                    </tr>
+                    <tr>
+                        <td>用户反馈整理</td>
+                        <td>自动分类、聚类、提取关键信息</td>
+                        <td>每周</td>
+                    </tr>
+                    <tr>
+                        <td>项目周报</td>
+                        <td>自动汇总进度，生成周报</td>
+                        <td>每周</td>
+                    </tr>
+                    <tr>
+                        <td>异常预警</td>
+                        <td>监控核心指标，异常时自动告警</td>
+                        <td>实时</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">自动化周报脚本示例</div>
+                <div class="code-block">
+<span class="comment"># WorkBuddy生成的自动化周报脚本</span>
+
+<span class="keyword">import</span> schedule
+<span class="keyword">import</span> time
+<span class="keyword">from</span> datetime <span class="keyword">import</span> datetime
+
+<span class="keyword">def</span> generate_weekly_report():
+    <span class="comment"># 1. 从项目管理工具获取数据</span>
+    tasks = fetch_tasks_from_project_tool()
+    
+    <span class="comment"># 2. 分析任务状态</span>
+    completed = [t <span class="keyword">for</span> t <span class="keyword">in</span> tasks <span class="keyword">if</span> t.status == <span class="string">'done'</span>]
+    in_progress = [t <span class="keyword">for</span> t <span class="keyword">in</span> tasks <span class="keyword">if</span> t.status == <span class="string">'in_progress'</span>]
+    blocked = [t <span class="keyword">for</span> t <span class="keyword">in</span> tasks <span class="keyword">if</span> t.status == <span class="string">'blocked'</span>]
+    
+    <span class="comment"># 3. 生成报告</span>
+    report = create_report(completed, in_progress, blocked)
+    
+    <span class="comment"># 4. 发送邮件</span>
+    send_email(report, to=<span class="string">"team@company.com"</span>)
+
+<span class="comment"># 每周五下午5点执行</span>
+schedule.every().friday.at(<span class="string">"17:00"</span>).do(generate_weekly_report)
+
+<span class="keyword">while</span> True:
+    schedule.run_pending()
+    time.sleep(60)
+                </div>
+            </div>
+        </section>
+
+        <!-- 第15章：工具链集成 -->
+        <section class="section" id="integration">
+            <div class="section-header">
+                <span class="section-number">15</span>
+                <h2>工具链集成</h2>
+                <p class="section-desc">打通工作流的数据孤岛</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">PM常用工具集成方案</div>
+                <table class="data-table">
+                    <tr>
+                        <th>工具类型</th>
+                        <th>代表产品</th>
+                        <th>集成方式</th>
+                        <th>集成价值</th>
+                    </tr>
+                    <tr>
+                        <td>项目管理</td>
+                        <td>Jira、飞书项目、禅道</td>
+                        <td>API、Webhook</td>
+                        <td>自动同步进度、生成报告</td>
+                    </tr>
+                    <tr>
+                        <td>数据分析</td>
+                        <td>神策、GrowingIO、Tableau</td>
+                        <td>API、SQL</td>
+                        <td>自动提取数据、生成洞察</td>
+                    </tr>
+                    <tr>
+                        <td>文档协作</td>
+                        <td>飞书文档、Notion、Confluence</td>
+                        <td>API、导入导出</td>
+                        <td>自动生成文档、更新知识库</td>
+                    </tr>
+                    <tr>
+                        <td>设计协作</td>
+                        <td>Figma、蓝湖、墨刀</td>
+                        <td>API、插件</td>
+                        <td>自动生成设计说明、标注</td>
+                    </tr>
+                    <tr>
+                        <td>沟通工具</td>
+                        <td>飞书、钉钉、企业微信</td>
+                        <td>Webhook、Bot</td>
+                        <td>自动推送消息、告警通知</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">典型集成场景：数据看板自动更新</div>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <div class="flow-box">数据源</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">数据提取</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">数据处理</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">可视化</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">看板展示</div>
+                    </div>
+                </div>
+                
+                <div class="code-block">
+<span class="comment"># 数据看板自动更新流程</span>
+
+1. <span class="keyword">数据源连接</span>
+   - 神策/GrowingIO API
+   - 自有数据库 SQL
+   - Excel/CSV 文件
+
+2. <span class="keyword">定时任务</span>（Python + Airflow）
+   - 每小时同步一次数据
+   - 异常时自动告警
+
+3. <span class="keyword">数据处理</span>
+   - 清洗、聚合、计算指标
+   - 生成JSON格式数据
+
+4. <span class="keyword">可视化展示</span>
+   - ECharts/D3.js 动态图表
+   - 自动刷新看板
+
+5. <span class="keyword">通知推送</span>
+   - 指标异常时飞书/钉钉通知
+   - 日报/周报自动发送
+                </div>
+            </div>
+
+            <div class="tip">
+                <div class="tip-title">💡 集成建议</div>
+                <p>从小处着手，先解决最痛的点。比如先用Python脚本实现日报自动生成，验证价值后再扩大集成范围。WorkBuddy可以帮你设计和实现这些集成方案。</p>
+            </div>
+        </section>
+
+        <!-- 结语 -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">完</span>
+                <h2>成为AI时代的超级PM</h2>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📚 持续学习路径</div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Week 1-2：工具熟悉</h4>
+                            <p>从日常文档工作开始，用AI辅助写PRD、整理会议纪要、生成数据分析报告。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Week 3-4：场景实践</h4>
+                            <p>选择1-2个完整项目，全程使用AI辅助，积累Prompt模板和最佳实践。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Month 2：自动化升级</h4>
+                            <p>将重复性工作自动化，搭建个人/团队的AI工作流。</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Month 3+：方法论沉淀</h4>
+                            <p>形成自己的AI辅助产品工作方法论，分享赋能团队。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="background: linear-gradient(135deg, #f3e8ff 0%, #e0f2fe 100%); border-color: var(--primary);">
+                <div class="card-title" style="color: var(--primary);">🎯 核心心法</div>
+                <p>AI不会替代产品经理，但会用AI的产品经理会替代不会用的。</p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>保持好奇心：</strong>持续探索AI的新能力和应用场景</li>
+                    <li><strong>强化判断力：</strong>AI提供选项，你做最终决策</li>
+                    <li><strong>注重业务深度：</strong>技术可以被替代，业务洞察永远是核心竞争力</li>
+                    <li><strong>建立方法论：</strong>形成可复制、可推广的AI辅助工作方式</li>
+                </ul>
+                <p style="margin-top: 1rem;"><strong>现在，开始你的第一个AI辅助项目吧！</strong> 🚀</p>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 3rem 0; color: var(--text-light); border-top: 1px solid var(--border); margin-top: 2rem;">
+            <p>WorkBuddy 数字化产品经理培训手册</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">AI驱动的产品管理新范式 · 2026</p>
+        </footer>
+    </main>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // 侧边栏高亮
+        const sections = document.querySelectorAll('.section');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
